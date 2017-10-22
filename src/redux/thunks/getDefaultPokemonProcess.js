@@ -15,7 +15,7 @@ export default function getDefaultPokemonProcess() {
         return defaultPokemon;
       })
       .catch(err => {
-        console.log('getDefaultPokemon: Couldnt fecth defaultDecks ', err);
+        //console.log('getDefaultPokemon: Couldnt fecth defaultDecks ', err);
       });
   };
 }

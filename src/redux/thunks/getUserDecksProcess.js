@@ -1,6 +1,6 @@
 import getUserDecks from '../../api/getUserDecks';
 import getPokemonObj from '../../api/getPokemonObj';
-import envObj from '../../env';
+import envObj from '../../env.js';
 
 export default function getUserDecksProcess() {
   return (dispatch, getState, env) => {
@@ -11,31 +11,32 @@ export default function getUserDecksProcess() {
     })
       .then(userDecks => {
         console.log('getUserDecksProcess thunk:', userDecks);
-        scope.userDecks = userDecks;
-
-        const promises = [];
-        userDecks.forEach(userDeck => {
-          const ids = userDeck.fields.cards
-            ? userDeck.fields.cards.split(',').map(id => parseInt(id, 10))
-            : [];
-          userDeck.fields.cards = ids;
-          ids.forEach(id => {
-            promises.push(getPokemonObj(id));
-          });
-        });
-
-        return Promise.all(promises);
-      })
-      .then(characters => {
-        //console.log(characters, '<<<<<<<');
-
-        scope.userDecks.forEach(userDeck => {
-          userDeck.fields.cards = userDeck.fields.cards.map(id =>
-            characters.find(character => character.id === id)
-          );
-        });
+        //   scope.userDecks = userDecks;
+        //
+        //   const promises = [];
+        //   userDecks.forEach(userDeck => {
+        //     const ids = userDeck.fields.cards
+        //       ? userDeck.fields.cards.split(',').map(id => parseInt(id, 10))
+        //       : [];
+        //     userDeck.fields.cards = ids;
+        //     ids.forEach(id => {
+        //       promises.push(getPokemonObj(id));
+        //     });
+        //   });
+        //
+        //   return Promise.all(promises);
+        // })
+        // .then(characters => {
+        //   //console.log(characters, '<<<<<<<');
+        //
+        //   scope.userDecks.forEach(userDeck => {
+        //     userDeck.fields.cards = userDeck.fields.cards.map(id =>
+        //       characters.find(character => character.id === id)
+        //     );
+        //   });
 
         dispatch({ type: 'FETCHED_USER_DECKS', userDecks: scope.userDecks });
+        //dispatch({ type: 'FETCHED_USER_DECKS', userDecks: scope.userDecks });
       })
       .catch(error => {
         console.error('getUserDecksProcess: Couldnt fetch userDecks: ', error);

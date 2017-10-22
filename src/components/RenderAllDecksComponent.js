@@ -24,8 +24,10 @@ export default class RenderAllDecksComponent extends Component {
   }
 
   handle_defaultPokemonArray = event => {
-    event.preventDefault();
-    console.log(this.props.defaultPokemonArray);
+    //event.preventDefault();
+    // console.log('this props: ', this.props);
+    // console.log('Rental userDecks-----', this.props.userDecks);
+    console.log('Rental Component page-----', this.props.get_userDecks());
   };
 
   render() {

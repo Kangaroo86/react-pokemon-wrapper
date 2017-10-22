@@ -1,20 +1,21 @@
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import RenderAllDecksPage from '../../components/RenderAllDecksPage';
-import getDefaultPokemonProcess from '../thunks/getDefaultPokemonProcess';
+import getUserDecksProcess from '../thunks/getUserDecksProcess';
 
 function mapStateToProps(state, ownProps) {
-  console.log('render page-----', state.defaultPokemonArray);
+  console.log('render container-----', state.userDecks);
   return {
     pokemonObj: state.pokemonObj,
     pokemonArray: state.pokemonArray,
-    defaultPokemonArray: state.defaultPokemonArray
+    defaultPokemonArray: state.defaultPokemonArray,
+    userDecks: state.userDecks
   };
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    get_default_pokemon: () => dispatch(getDefaultPokemonProcess())
+    get_userDecks: () => dispatch(getUserDecksProcess())
   };
 }
 

@@ -7,7 +7,7 @@ export default function rootReducer(
   },
   action
 ) {
-  // console.log('currentState-----', currentState.defaultPokemonArray);
+  console.log('ROOOOOOOOOOT-----', currentState.userDecks);
   switch (action.type) {
     case 'FETCHED_POKEMON_OBJ':
       let updatedPokeArray = [...currentState.pokemonArray];

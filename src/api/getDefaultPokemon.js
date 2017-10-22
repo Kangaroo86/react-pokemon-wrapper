@@ -10,7 +10,7 @@ export default function getDefaultPokemon({ databaseId, token }) {
       return response.json();
     })
     .then(data => {
-      // console.log('defaultpokemon FROM API: ', data);
+      //console.log('defaultpokemon FROM API: ', data);
       return data.records.map(recordToPokemon);
     });
 }
