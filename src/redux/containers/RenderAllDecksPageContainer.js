@@ -4,6 +4,7 @@ import RenderAllDecksPage from '../../components/RenderAllDecksPage';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import deleteDecksProcess from '../thunks/deleteDecksProcess';
+import updateDecksProcess from '../thunks/updateDecksProcess';
 
 function mapStateToProps(state, ownProps) {
   //console.log('render state.userDecks containerXXXXX-----', state.userDecks);
@@ -23,6 +24,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     get_userDecks: () => dispatch(getUserDecksProcess()),
     delete_decks: id => {
       dispatch(deleteDecksProcess(id));
+    },
+    update_Decks: id => {
+      dispatch(updateDecksProcess(id));
     }
   };
 }

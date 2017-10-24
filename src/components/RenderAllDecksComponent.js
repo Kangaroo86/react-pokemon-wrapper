@@ -23,39 +23,64 @@ export default class RenderAllDecksComponent extends Component {
     };
   }
 
-  handle_defaultPokemonArray = event => {
+  handle_deleteDecks = (event, id) => {
     event.preventDefault();
-    //console.log('this props: ', this.props);
-    // console.log('Rental userDecks state-----', this.props.userDecks);
-    // console.log('Rental Component page-----', this.props.get_userDecks());
-    //console.log('Rental userDecks state-----', this.props.userDecks);
+    this.props.delete_decks(id);
+  };
+
+  handle_updateDecks = (event, id) => {
+    event.preventDefault();
+    this.props.update_Decks(id);
   };
 
   render() {
     return (
       <div>
         {/* {console.log('User deck obj-------:', this.props.userDecks)} */}
-        {this.props.userDecks.map((decksObj, i) => {
-          //console.log('decksObj ++++++', decksObj);
-          return decksObj.cards.map(pokemonObj => {
-            //console.log('pokemonObj----', pokemonObj);
-            return (
-              <Grid columns={3} divided>
-                <Grid.Row stretched>
+        <Grid columns={3} divided>
+          <Grid.Row stretched>
+            {this.props.userDecks.map((deck, i) => {
+              return deck.cards.map(pokemonObj => {
+                return (
                   <Grid.Column>
                     <Card.Group>
                       <Card>
                         <Icon floated="left" name="delete" />
                         <Card.Content>
-                          <Image floated="right" size="mini" src={jenny} />
+                          <Image
+                            floated="right"
+                            size="mini"
+                            src={jenny}
+                            onClick={this.handle_deleteDecks}
+                          />
                           <Card.Header>
-                            {decksObj.name}
+                            {deck.name}
                           </Card.Header>
                           <Card.Meta>User Name</Card.Meta>
                           <List size="massive" horizontal>
                             <Label size="small" image>
-                              <Image src={pokemonObj.sprites.front_default} />
-                              {pokemonObj.name}
+                              <Image src={eevee} />
+                              eevee
+                            </Label>
+                            <Label size="small" image>
+                              <Image src={eevee} />
+                              eevee
+                            </Label>
+                            <Label size="small" image>
+                              <Image src={eevee} />
+                              eevee
+                            </Label>
+                            <Label size="small" image>
+                              <Image src={eevee} />
+                              eevee
+                            </Label>
+                            <Label size="small" image>
+                              <Image src={eevee} />
+                              eevee
+                            </Label>
+                            <Label size="small" image>
+                              <Image src={eevee} />
+                              eevee
                             </Label>
                           </List>
                         </Card.Content>
@@ -64,7 +89,10 @@ export default class RenderAllDecksComponent extends Component {
                             <Button basic color="green">
                               Ready
                             </Button>
-                            <Button basic color="red">
+                            <Button
+                              basic
+                              color="red"
+                              onClick={this.handle_updateDecks}>
                               Edit
                             </Button>
                           </div>
@@ -73,9 +101,7 @@ export default class RenderAllDecksComponent extends Component {
                           <Progress
                             percent={parseInt(
                               Math.round(
-                                decksObj.wins /
-                                  (decksObj.wins + decksObj.losses) *
-                                  100
+                                deck.wins / (deck.wins + deck.losses) * 100
                               )
                             )}
                             inverted
@@ -86,9 +112,7 @@ export default class RenderAllDecksComponent extends Component {
                           <Progress
                             percent={parseInt(
                               Math.round(
-                                decksObj.losses /
-                                  (decksObj.wins + decksObj.losses) *
-                                  100
+                                deck.losses / (deck.wins + deck.losses) * 100
                               )
                             )}
                             inverted
@@ -98,31 +122,13 @@ export default class RenderAllDecksComponent extends Component {
                           </Progress>
                         </Segment>
                       </Card>
-                      <Button primary onClick={this.handle_defaultPokemonArray}>
-                        Primary
-                      </Button>
-                      <Button secondary>Secondary</Button>
                     </Card.Group>
                   </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            );
-          });
-        })}
-        {/* <p>
-          {this.props.userDecks.map((decksObj, i) => {
-            return decksObj.cards.map(pokemonObj => {
-              console.log('pokeObj is this: ', pokemonObj);
-              return (
-                <img
-                  key={i}
-                  src={pokemonObj.sprites.front_default}
-                  alt={pokemonObj.name}
-                />
-              );
-            });
-          })}
-        </p> */}
+                );
+              });
+            })}
+          </Grid.Row>
+        </Grid>;
       </div>
     );
   }
