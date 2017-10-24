@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import professorOak from '../images/professorOak.png';
+import palletTown from '../images/palletTown.png';
+
 import {
   Button,
   Form,
@@ -8,83 +11,10 @@ import {
   Card,
   Header,
   Divider,
-  Grid
+  Grid,
+  Image,
+  Popup
 } from 'semantic-ui-react';
-
-const default_list_of_Pokemon = [
-  {
-    id: 1,
-    name: 'Bulbasaur'
-  },
-  {
-    id: 4,
-    name: 'Charmander'
-  },
-  {
-    id: 7,
-    name: 'Squirtle'
-  },
-  {
-    id: 152,
-    name: 'Chikorita'
-  },
-  {
-    id: 155,
-    name: 'Cyndaquil'
-  },
-  {
-    id: 158,
-    name: 'Totodile'
-  },
-  {
-    id: 252,
-    name: 'Treecko'
-  },
-  {
-    id: 255,
-    name: 'Torchic'
-  },
-  {
-    id: 258,
-    name: 'Mudkip'
-  },
-  {
-    id: 150,
-    name: 'Mewtwo'
-  },
-  {
-    id: 151,
-    name: 'Mew'
-  },
-  {
-    id: 25,
-    name: 'Pikachu'
-  },
-  {
-    id: 144,
-    name: 'Articuno'
-  },
-  {
-    id: 145,
-    name: 'Zapdo'
-  },
-  {
-    id: 146,
-    name: 'Moltres'
-  },
-  {
-    id: 243,
-    name: 'Raikou'
-  },
-  {
-    id: 244,
-    name: 'Entei'
-  },
-  {
-    id: 245,
-    name: 'Suicune'
-  }
-];
 
 export default class CreateDeckComponent extends Component {
   constructor(props) {
@@ -92,7 +22,9 @@ export default class CreateDeckComponent extends Component {
 
     this.state = {
       selectedPokemon: [],
-      selectedDeckName: ''
+      selectedDeckName: '',
+      redirect: false
+      //selectedUserName: ''
     };
   }
 
@@ -116,7 +48,7 @@ export default class CreateDeckComponent extends Component {
     }
   };
 
-  //**handle_deletePokemon**//
+  //**delete Deck**// TODO WIP
   handle_deletePokemon = (event, data) => {
     event.preventDefault();
 
@@ -132,9 +64,8 @@ export default class CreateDeckComponent extends Component {
     });
   };
 
-  //**handle_selectedPokemon**//
+  //**call Pokemon API**//
   handle_onPokemonObj = () => {
-    //console.log('default pokemon', this.props.defaultPokemonArray);
     if (this.props.pokemonArray.length < 18) {
       this.props.defaultPokemonArray.map(pokemon => {
         return this.props.onPokemonObj(pokemon.pokemonId);
@@ -142,21 +73,29 @@ export default class CreateDeckComponent extends Component {
     }
   };
 
-  //**handle_selectedDeckName**//
-  handle_selectedDeckName = event => {
-    this.setState({ selectedDeckName: event.target.value });
-    console.log('deck name', this.state.selectedDeckName);
+  //**setState Deck Name**//
+  handle_selectedDeckName = data => {
+    this.setState(this.setState({ selectedDeckName: data.target.value }));
   };
 
-  //**handle_selectedDeckName**// TODO WIP
-  handle_submitDeck = event => {
-    let deckName = this.state.selectedDeckName.trim();
+  //**setState User Name**//
+  handle_selectedUserName = data => {
+    this.setState(this.setState({ selectedUserName: data.target.value }));
+  };
+
+  //**Create Deck**//
+  handle_createDeck = event => {
+    const deckName = this.state.selectedDeckName.trim();
+    const pickedPokemonId = this.state.selectedPokemon.map(
+      character => character.id
+    );
+    this.props.create_decks(deckName, pickedPokemonId);
+    this.setState({ redirect: true });
   };
 
   render() {
     return (
       <div>
-        {/* {console.log('Prop passed in: ', this.props)}; */}
         {/* {console.log('defaultPokemon', this.props.defaultPokemonArray)}; */}
         <br />
         <Grid textAlign="center">
@@ -189,34 +128,49 @@ export default class CreateDeckComponent extends Component {
             )}
         </Card.Group>
         <Divider section />
-        <Segment style={{ padding: '1em 0em' }} vertical>
+        <Segment style={{ padding: '5em 0em' }} vertical>
           <Grid container stackable verticalAlign="middle">
-            <Grid.Row>
-              <Grid.Column width={10}>
-                <Form>
-                  <Form.Group unstackable widths={2}>
-                    <Form.Input
-                      label="Deck Name"
-                      placeholder="Deck Name"
-                      onChange={this.handle_selectedDeckName}
-                    />
-                    <Form.Input label="User Name" placeholder="User Name" />
-                  </Form.Group>
-                  <Button
-                    type="submit"
-                    size="huge"
-                    positive
-                    fluid
-                    onClick={this.handle_onPokemonObj}>
-                    Create Deck
-                  </Button>
-                  <br />
-                  <Link to="/decks/render">
-                    <Button type="submit" size="huge" positive fluid>
-                      Go to RenderPage
-                    </Button>
-                  </Link>
-                </Form>
+            <Grid.Row right>
+              <Popup trigger={<Image src={professorOak} size="medium" />}>
+                {this.state.selectedPokemon.length < 6
+                  ? <Popup.Header>- Select at least 6 pokemon</Popup.Header>
+                  : 'got your pokemon!!'}
+
+                {this.state.selectedDeckName === ''
+                  ? <Popup.Header>- Provide a deck name</Popup.Header>
+                  : 'Good job!!'}
+
+                {/* {this.state.selectedUserName === ''
+                  ? <Popup.Header>- Missing UserName</Popup.Header>
+                  : 'Nice user name'} */}
+              </Popup>
+              <Grid.Column width={5} floated="right">
+                <Segment inverted width={2}>
+                  <Form inverted>
+                    <Form.Group widths="equal">
+                      <Form.Input
+                        label="Deck Name"
+                        onChange={this.handle_selectedDeckName}
+                        placeholder="Deck Name"
+                        width={2}
+                      />
+                    </Form.Group>
+                    {/* <Form.Group widths="equal">
+                      <Form.Input
+                        label="User Name"
+                        onChange={this.handle_selectedUserName}
+                        placeholder="User Name"
+                        width={2}
+                      />
+                    </Form.Group> */}
+                    <Form.Checkbox label="I agree to use pokemon for good, not evil" />
+                    <Link to="/decks/render">
+                      <Button type="submit" onClick={this.handle_createDeck}>
+                        CREATE
+                      </Button>
+                    </Link>
+                  </Form>
+                </Segment>
               </Grid.Column>
               <Grid.Column floated="right" width={6}>
                 <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>

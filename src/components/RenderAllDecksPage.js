@@ -8,9 +8,10 @@ export default function IndexPage({
   defaultPokemonArray,
   onPokemonObj,
   userDecks,
-  get_userDecks
+  get_userDecks,
+  delete_decks
 }) {
-  console.log('called from components', defaultPokemonArray);
+  //console.log('called from components', defaultPokemonArray);
   return (
     <RenderAllDecksPageLayout>
       <RenderAllDecksComponent
@@ -19,6 +20,7 @@ export default function IndexPage({
         defaultPokemonArray={defaultPokemonArray}
         userDecks={userDecks}
         get_userDecks={get_userDecks}
+        delete_decks={delete_decks}
       />
     </RenderAllDecksPageLayout>
   );

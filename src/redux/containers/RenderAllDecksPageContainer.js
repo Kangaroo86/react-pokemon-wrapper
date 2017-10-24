@@ -2,9 +2,11 @@ import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import RenderAllDecksPage from '../../components/RenderAllDecksPage';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
+import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
+import deleteDecksProcess from '../thunks/deleteDecksProcess';
 
 function mapStateToProps(state, ownProps) {
-  console.log('render container-----', state.userDecks);
+  //console.log('render state.userDecks containerXXXXX-----', state.userDecks);
   return {
     pokemonObj: state.pokemonObj,
     pokemonArray: state.pokemonArray,
@@ -15,14 +17,22 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    get_userDecks: () => dispatch(getUserDecksProcess())
+    onPokemonObj: pokemonId => {
+      dispatch(getPokemonObjProcess(pokemonId));
+    },
+    get_userDecks: () => dispatch(getUserDecksProcess()),
+    delete_decks: id => {
+      dispatch(deleteDecksProcess(id));
+    }
   };
 }
 
 const connectToStore = connect(mapStateToProps, mapDispatchToProps);
 
 const withlifecycle = lifecycle({
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.get_userDecks();
+  }
 });
 
 export default compose(connectToStore, withlifecycle)(RenderAllDecksPage);

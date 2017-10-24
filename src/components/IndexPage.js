@@ -6,7 +6,8 @@ export default function IndexPage({
   pokemonObj,
   pokemonArray,
   defaultPokemonArray,
-  onPokemonObj
+  onPokemonObj,
+  create_decks
 }) {
   //console.log('defaultPokemonArray from IndexPage : ', defaultPokemonArray);
   return (
@@ -16,6 +17,7 @@ export default function IndexPage({
         onPokemonObj={onPokemonObj}
         pokemonArray={pokemonArray}
         defaultPokemonArray={defaultPokemonArray}
+        create_decks={create_decks}
       />
     </IndexPageLayout>
   );

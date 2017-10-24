@@ -7,7 +7,6 @@ export default function rootReducer(
   },
   action
 ) {
-  console.log('ROOOOOOOOOOT-----', currentState.userDecks);
   switch (action.type) {
     case 'FETCHED_POKEMON_OBJ':
       let updatedPokeArray = [...currentState.pokemonArray];
@@ -30,6 +29,18 @@ export default function rootReducer(
         ...currentState,
         userDecks: action.userDecks
       };
+
+    case 'DELETE_USER_DECK':
+      let deleteDeck = currentState.userDecks.filter(deckObj => {
+        return deckObj.id !== action.id;
+      });
+      return {
+        ...currentState,
+        userDecks: deleteDeck
+      };
+
+    case 'UPDATE_DECK': // TODO: WIP
+      return { ...currentState, userDecks: action.userDecks };
 
     default:
       console.log('rootReducer: default with action ', action);

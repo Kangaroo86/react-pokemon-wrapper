@@ -11,7 +11,10 @@ export default function getUserDecks({ databaseId, token }) {
       return response.json();
     })
     .then(data => {
-      // console.log('called from API:---- ', data);
-      return data.records.map(recordToUserDeck); //'records' is an object from List records in Airtable
+      //console.log('called from API:---- ', data);
+      let newresult = data.records.map(recordToUserDeck); //'records' is an object from List records in Airtable
+
+      console.log('getUserDeack Final response: ', newresult);
+      return newresult;
     });
 }

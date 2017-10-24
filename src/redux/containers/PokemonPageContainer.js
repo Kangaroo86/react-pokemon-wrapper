@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import IndexPage from '../../components/IndexPage';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import getDefaultPokemonProcess from '../thunks/getDefaultPokemonProcess';
+import createDecksProcess from '../thunks/createDecksProcess';
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -17,7 +18,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     onPokemonObj: pokemonId => {
       dispatch(getPokemonObjProcess(pokemonId));
     },
-    get_default_pokemon: () => dispatch(getDefaultPokemonProcess())
+    get_default_pokemon: () => dispatch(getDefaultPokemonProcess()),
+    create_decks: (deckName, pokemonIds) => {
+      dispatch(createDecksProcess(deckName, pokemonIds));
+    }
   };
 }
 
