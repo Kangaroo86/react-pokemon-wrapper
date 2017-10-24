@@ -41,6 +41,12 @@ export default class RenderAllDecksComponent extends Component {
           <Grid.Row stretched>
             {this.props.userDecks.map((deck, i) => {
               console.log('this deck is ', deck);
+              let numWin = parseInt(
+                Math.round(deck.wins / (deck.wins + deck.losses) * 100)
+              );
+              let numLose = parseInt(
+                Math.round(deck.losses / (deck.wins + deck.losses) * 100)
+              );
               return (
                 <Grid.Column>
                   <Card.Group>
@@ -95,22 +101,14 @@ export default class RenderAllDecksComponent extends Component {
                       </Card.Content>
                       <Segment inverted>
                         <Progress
-                          percent={parseInt(
-                            Math.round(
-                              deck.wins / (deck.wins + deck.losses) * 100
-                            )
-                          )}
+                          percent={numWin ? numWin : 0}
                           inverted
                           progress
                           success>
                           WINS
                         </Progress>
                         <Progress
-                          percent={parseInt(
-                            Math.round(
-                              deck.losses / (deck.wins + deck.losses) * 100
-                            )
-                          )}
+                          percent={numLose ? numLose : 0}
                           inverted
                           progress
                           warning>
