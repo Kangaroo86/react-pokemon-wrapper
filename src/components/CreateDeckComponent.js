@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import professorOak from '../images/professorOak.png';
-import palletTown from '../images/palletTown.png';
 
 import {
   Button,
@@ -28,7 +27,16 @@ export default class CreateDeckComponent extends Component {
     };
   }
 
-  // TODO: WIP: currently selected pokemon ID is incorrect, as it is one behind
+  //**call Pokemon API**//
+  handle_onPokemonObj = () => {
+    if (this.props.pokemonArray.length < 18) {
+      this.props.defaultPokemonArray.map(pokemon => {
+        return this.props.onPokemonObj(pokemon.pokemonId);
+      });
+    }
+  };
+
+  //**setState select pokemon**//
   handle_selectedPokemon = (event, data) => {
     event.preventDefault();
     if (this.state.selectedPokemon.length < 6) {
@@ -48,10 +56,8 @@ export default class CreateDeckComponent extends Component {
     }
   };
 
-  //**delete Deck**// TODO WIP
+  //**delete state Pokemon**//
   handle_deletePokemon = (event, data) => {
-    event.preventDefault();
-
     let result = this.state.selectedPokemon
       .slice()
       .filter(pokemonObj => pokemonObj.id !== data.id);
@@ -62,15 +68,6 @@ export default class CreateDeckComponent extends Component {
     this.setState({
       selectedPokemon: result
     });
-  };
-
-  //**call Pokemon API**//
-  handle_onPokemonObj = () => {
-    if (this.props.pokemonArray.length < 18) {
-      this.props.defaultPokemonArray.map(pokemon => {
-        return this.props.onPokemonObj(pokemon.pokemonId);
-      });
-    }
   };
 
   //**setState Deck Name**//
@@ -96,8 +93,6 @@ export default class CreateDeckComponent extends Component {
   render() {
     return (
       <div>
-        {/* {console.log('defaultPokemon', this.props.defaultPokemonArray)}; */}
-        <br />
         <Grid textAlign="center">
           <Header as="h3" style={{ fontSize: '2em' }}>
             Choose your Pokemon
@@ -105,7 +100,6 @@ export default class CreateDeckComponent extends Component {
         </Grid>
         <br />
         <Card.Group ref="pokemonDisplayed" itemsPerRow={9}>
-          {/* {this.handle_onPokemonObj} */}
           {this.props.pokemonArray &&
             this.props.pokemonArray.map(character =>
               <Card
@@ -155,14 +149,6 @@ export default class CreateDeckComponent extends Component {
                         width={2}
                       />
                     </Form.Group>
-                    {/* <Form.Group widths="equal">
-                      <Form.Input
-                        label="User Name"
-                        onChange={this.handle_selectedUserName}
-                        placeholder="User Name"
-                        width={2}
-                      />
-                    </Form.Group> */}
                     <Form.Checkbox label="I agree to use pokemon for good, not evil" />
                     <Link to="/decks/render">
                       <Button type="submit" onClick={this.handle_createDeck}>

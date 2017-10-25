@@ -9,7 +9,6 @@ export default function IndexPage({
   onPokemonObj,
   create_decks
 }) {
-  //console.log('defaultPokemonArray from IndexPage : ', defaultPokemonArray);
   return (
     <IndexPageLayout>
       <CreateDeckComponent

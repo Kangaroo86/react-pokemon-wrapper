@@ -12,14 +12,15 @@ import {
   Grid
 } from 'semantic-ui-react';
 import jenny from '../images/jenny.jpg';
-import eevee from '../images/eevee.png';
 
 export default class RenderAllDecksComponent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      activeIndex: 0
+      selectedPokemon: [],
+      selectedDeckName: '',
+      selectedDeckId: []
     };
   }
 
@@ -28,9 +29,26 @@ export default class RenderAllDecksComponent extends Component {
     this.props.delete_decks(data.target.id);
   };
 
-  handle_updateDecks = (event, id) => {
-    event.preventDefault();
-    this.props.update_Decks(id);
+  onChange_selectedPokemon = data => {
+    this.setState({ selectedPokemon: data.target.value });
+  };
+
+  onChange_selectedDeckName = data => {
+    this.setState({ selectedDeckName: data.target.value });
+  };
+
+  onChange_selectedDeckId = data => {
+    this.setState({ selectedDeckId: data.target.id });
+  };
+
+  handle_updateDecks = (data, id, deckName, pokemonIds) => {
+    let $target = data.target;
+    //let deck_id = $target.deckId.id;
+    //let deck_name = $target.deckName.value;
+    //console.log('deck_id---', deck_id);
+    console.log('deck_name---', $target);
+    //let poke_name = $target.
+    //this.props.update_Decks(deck_id, deck_name, deck_id);
   };
 
   render() {
@@ -40,7 +58,7 @@ export default class RenderAllDecksComponent extends Component {
         <Grid columns={3} divided>
           <Grid.Row stretched>
             {this.props.userDecks.map((deck, i) => {
-              console.log('this deck is ', deck);
+              console.log('this deck is: ', deck);
               let numWin = parseInt(
                 Math.round(deck.wins / (deck.wins + deck.losses) * 100)
               );
@@ -50,7 +68,7 @@ export default class RenderAllDecksComponent extends Component {
               return (
                 <Grid.Column>
                   <Card.Group>
-                    <Card>
+                    <Card id={deck.id} name="deckId">
                       <Icon
                         id={deck.id}
                         floated="left"
@@ -59,7 +77,7 @@ export default class RenderAllDecksComponent extends Component {
                       />
                       <Card.Content>
                         <Image floated="right" size="mini" src={jenny} />
-                        <Card.Header>
+                        <Card.Header name="deckName" value={deck.name}>
                           {deck.name}
                         </Card.Header>
                         <Card.Meta>User Name</Card.Meta>
@@ -72,32 +90,20 @@ export default class RenderAllDecksComponent extends Component {
                               </Label>
                             );
                           })}
-                          {/* <Label size="small" image>
-                            <Image src={eevee} />
-                            eevee
-                          </Label>
-                          <Label size="small" image>
-                            <Image src={eevee} />
-                            eevee
-                          </Label>
-                          <Label size="small" image>
-                            <Image src={eevee} />
-                            eevee
-                          </Label> */}
                         </List>
                       </Card.Content>
                       <Card.Content extra>
-                        <div className="ui two buttons">
-                          <Button basic color="green">
-                            Ready
-                          </Button>
-                          <Button
-                            basic
-                            color="red"
-                            onClick={this.handle_updateDecks}>
-                            Edit
-                          </Button>
-                        </div>
+                        <Button basic color="green">
+                          Ready
+                        </Button>
+                        {/* <Link to="/"> */}
+                        <Button
+                          basic
+                          color="red"
+                          onClick={this.handle_updateDecks}>
+                          Edit
+                        </Button>
+                        {/* </Link> */}
                       </Card.Content>
                       <Segment inverted>
                         <Progress
