@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ReactAudioPlayer from 'react-audio-player';
+
 import {
   Button,
   Card,
@@ -44,7 +46,7 @@ export default class RenderAllDecksComponent extends Component {
   handle_updateDecks = (data, id, deckName, pokemonIds) => {
     let $target = data.target;
     //let deck_id = $target.deckId.id;
-    //let deck_name = $target.deckName.value;
+    let deck_name = $target.deckName.value;
     //console.log('deck_id---', deck_id);
     console.log('deck_name---', $target);
     //let poke_name = $target.

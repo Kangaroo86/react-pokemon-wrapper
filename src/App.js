@@ -7,6 +7,7 @@ import IndexPage from './components/IndexPage';
 import PokemonPageContainer from './redux/containers/PokemonPageContainer';
 import RenderAllDecksPageContainer from './redux/containers/RenderAllDecksPageContainer';
 import BattlePageContainer from './redux/containers/BattlePageContainer';
+import UpdateDeckPageContainer from './redux/containers/UpdateDeckPageContainer';
 
 const store = setupStore();
 
@@ -30,8 +31,8 @@ export default class App extends Component {
               />
               <Route
                 exact
-                path="/decks/:deckId"
-                render={props => <IndexPage {...props} />}
+                path="/decks/:deckId/update"
+                component={UpdateDeckPageContainer}
               />
             </Switch>
           </Router>

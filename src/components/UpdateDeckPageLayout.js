@@ -1,7 +1,6 @@
 import React from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
-import ReactAudioPlayer from 'react-audio-player';
 
 import {
   Segment,
@@ -13,7 +12,6 @@ import {
 } from 'semantic-ui-react';
 
 export default function InboxPageLayout(props) {
-  // console.log('this prossss', props);
   return (
     <div>
       <Menu inverted>
@@ -26,7 +24,7 @@ export default function InboxPageLayout(props) {
                 style={{ marginRight: '1.5em' }}
               />
             </Link>
-            Pokemon Decks
+            Update Deck
           </Menu.Item>
         </Container>
       </Menu>
@@ -43,11 +41,6 @@ export default function InboxPageLayout(props) {
             <List.Item as="a" href="#">
               gotta catch em all
             </List.Item>
-            <ReactAudioPlayer
-              src="http://files.simey.me/pokonami/battle.mp3"
-              autoPlay
-              // loop="true"
-            />
           </List>
         </Container>
       </Segment>

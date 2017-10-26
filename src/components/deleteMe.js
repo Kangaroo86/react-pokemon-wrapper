@@ -229,3 +229,22 @@ const default_list_of_Pokemon = [
     });
   });
 }
+
+function choose() {
+  return arguments[Math.floor(Math.random() * arguments.length)];
+}
+
+$('<div id="black"/>').appendTo('body');
+
+var tab = $('<table/>').appendTo('body');
+for (var i = 0; i < 6; i++) {
+  var tr = $('<tr/>').appendTo(tab);
+  for (var j = 0; j < 6; j++) {
+    $('<td/>').appendTo(tr);
+  }
+}
+
+function pad(num, size) {
+  var s = '000000000' + num;
+  return s.substr(s.length - size);
+}
