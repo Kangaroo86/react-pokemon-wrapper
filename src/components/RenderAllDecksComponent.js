@@ -46,9 +46,10 @@ export default class RenderAllDecksComponent extends Component {
   handle_updateDecks = (data, id, deckName, pokemonIds) => {
     let $target = data.target;
     //let deck_id = $target.deckId.id;
-    let deck_name = $target.deckName.value;
+    //let deck_name = $target.deckName.value;
     //console.log('deck_id---', deck_id);
     console.log('deck_name---', $target);
+    this.props.history.push('/decks/1/update');
     //let poke_name = $target.
     //this.props.update_Decks(deck_id, deck_name, deck_id);
   };
@@ -56,7 +57,7 @@ export default class RenderAllDecksComponent extends Component {
   render() {
     return (
       <div>
-        {/* {console.log('User deck obj-------:', this.props.userDecks)} */}
+        {/* {console.log('User deck obj-------:', this.props)} */}
         <Grid columns={3} divided>
           <Grid.Row stretched>
             {this.props.userDecks.map((deck, i) => {
@@ -98,14 +99,14 @@ export default class RenderAllDecksComponent extends Component {
                         <Button basic color="green">
                           Ready
                         </Button>
-                        {/* <Link to="/"> */}
-                        <Button
-                          basic
-                          color="red"
-                          onClick={this.handle_updateDecks}>
-                          Edit
-                        </Button>
-                        {/* </Link> */}
+                        <Link to="/">
+                          <Button
+                            basic
+                            color="red"
+                            onClick={this.handle_updateDecks}>
+                            Edit
+                          </Button>
+                        </Link>
                       </Card.Content>
                       <Segment inverted>
                         <Progress

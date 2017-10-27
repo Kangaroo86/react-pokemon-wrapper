@@ -1,5 +1,6 @@
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import RenderAllDecksPage from '../../components/RenderAllDecksPage';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
@@ -31,7 +32,7 @@ function mapDispatchToProps(dispatch, ownProps) {
   };
 }
 
-const connectToStore = connect(mapStateToProps, mapDispatchToProps);
+const connectToStore = connect(mapStateToProps, mapDispatchToProps); //include withRouter to link to updatePage
 
 const withlifecycle = lifecycle({
   componentDidMount() {

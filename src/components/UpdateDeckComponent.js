@@ -16,7 +16,8 @@ import {
   Popup,
   List,
   Icon,
-  Label
+  Label,
+  Progress
 } from 'semantic-ui-react';
 
 export default class CreateDeckComponent extends Component {
@@ -113,6 +114,65 @@ export default class CreateDeckComponent extends Component {
               />
             )}
         </Card.Group>
+
+        {/* <Grid columns={3} divided>
+          <Grid.Row stretched>
+            {this.props.userDecks.map((deck, i) => {
+              return (
+                <Grid.Column>
+                  <Card.Group>
+                    <Card id={deck[0].id} name="deckId">
+                      <Icon
+                        id={deck[0].id}
+                        floated="left"
+                        name="delete"
+                        onClick={this.handle_deleteDecks}
+                      />
+                      <Card.Content>
+                        <Image floated="right" size="mini" src={jenny} />
+                        <Card.Header name="deckName" value={deck[0].name}>
+                          {deck[0].name}
+                        </Card.Header>
+                        <Card.Meta>User Name</Card.Meta>
+                        <List size="massive" horizontal>
+                          {deck[0].cards.map(character => {
+                            return (
+                              <Label size="small" image>
+                                <Image src={character.sprites.front_default} />
+                                {character.name}
+                              </Label>
+                            );
+                          })}
+                        </List>
+                      </Card.Content>
+                      <Card.Content extra>
+                        <Button basic color="green">
+                          Ready
+                        </Button>
+
+                        <Button
+                          basic
+                          color="red"
+                          onClick={this.handle_updateDecks}>
+                          Edit
+                        </Button>
+                      </Card.Content>
+                      <Segment inverted>
+                        <Progress percent={50} inverted progress success>
+                          WINS
+                        </Progress>
+                        <Progress percent={50} inverted progress warning>
+                          LOSSES
+                        </Progress>
+                      </Segment>
+                    </Card>
+                  </Card.Group>
+                </Grid.Column>
+              );
+            })}
+          </Grid.Row>
+        </Grid> */}
+
         <Divider section />
         <Segment style={{ padding: '5em 0em' }} vertical>
           <Grid container stackable verticalAlign="middle">
