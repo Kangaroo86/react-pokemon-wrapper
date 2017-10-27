@@ -43,18 +43,19 @@ export default class RenderAllDecksComponent extends Component {
     this.setState({ selectedDeckId: data.target.id });
   };
 
-  handle_updateDecks = (data, id, deckName, pokemonIds) => {
-    let $target = data.target;
+  handle_updateDecks = (event, data, deckName, pokemonIds) => {
+    // let $target = data.target;
     //let deck_id = $target.deckId.id;
     //let deck_name = $target.deckName.value;
     //console.log('deck_id---', deck_id);
-    console.log('deck_name---', $target);
-    this.props.history.push('/decks/1/update');
+    console.log('deck_name---', data.value.id);
+    this.props.history.push(`/decks/${data.value.id}/update`);
     //let poke_name = $target.
     //this.props.update_Decks(deck_id, deck_name, deck_id);
   };
 
   render() {
+    console.log('these  are the props,>>>>>>>>>>>>>>>>>', this.props);
     return (
       <div>
         {/* {console.log('User deck obj-------:', this.props)} */}
@@ -99,14 +100,13 @@ export default class RenderAllDecksComponent extends Component {
                         <Button basic color="green">
                           Ready
                         </Button>
-                        <Link to="/">
-                          <Button
-                            basic
-                            color="red"
-                            onClick={this.handle_updateDecks}>
-                            Edit
-                          </Button>
-                        </Link>
+                        <Button
+                          value={deck}
+                          basic
+                          color="red"
+                          onClick={this.handle_updateDecks}>
+                          Edit
+                        </Button>
                       </Card.Content>
                       <Segment inverted>
                         <Progress

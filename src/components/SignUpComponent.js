@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, Segment, Grid, Header, Image } from 'semantic-ui-react';
 import pokeball2 from '../images/pokeball2.png';
 import ReactAudioPlayer from 'react-audio-player';
+import pokego from '../images/pokego.png';
 
 export default class SignUpComponent extends Component {
   constructor(props) {

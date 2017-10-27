@@ -11,7 +11,10 @@ export default function IndexPage({
   get_userDecks,
   delete_decks,
   update_Decks,
-  get_default_pokemon
+  get_default_pokemon,
+  history,
+  match,
+  location
 }) {
   return (
     <UpdateDeckPageLayout>
@@ -25,6 +28,9 @@ export default function IndexPage({
         delete_decks={delete_decks}
         update_Decks={update_Decks}
         get_default_pokemon={get_default_pokemon}
+        history={history}
+        match={match}
+        location={location}
       />
     </UpdateDeckPageLayout>
   );

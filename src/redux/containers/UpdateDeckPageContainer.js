@@ -1,5 +1,6 @@
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import UpdateDeckPage from '../../components/UpdateDeckPage';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
@@ -44,4 +45,6 @@ const withlifecycle = lifecycle({
   }
 });
 
-export default compose(connectToStore, withlifecycle)(UpdateDeckPage);
+export default compose(connectToStore, withlifecycle)(
+  withRouter(UpdateDeckPage)
+);

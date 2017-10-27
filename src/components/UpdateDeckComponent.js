@@ -4,21 +4,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import misty from '../images/misty.png';
 import jenny from '../images/jenny.jpg';
 
-import {
-  Button,
-  Form,
-  Segment,
-  Card,
-  Header,
-  Divider,
-  Grid,
-  Image,
-  Popup,
-  List,
-  Icon,
-  Label,
-  Progress
-} from 'semantic-ui-react';
+import { Segment, Card, Header, Divider, Grid } from 'semantic-ui-react';
 
 export default class CreateDeckComponent extends Component {
   constructor(props) {
@@ -84,6 +70,7 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
+    console.log('this is update>>>>>>>>>>>', this.props);
     return (
       <div>
         <Grid textAlign="center">

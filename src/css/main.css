@@ -490,9 +490,7 @@ h1 + h1 {
 
 /*signup page*/
 body {
-  background: linear-gradient(
-    45deg,
-    rgba(0, 41, 144, 1) 0%,
-    rgba(0, 217, 255, 1) 100%
-  );
+  background-image: url("../images/pokego.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
