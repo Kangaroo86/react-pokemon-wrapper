@@ -43,7 +43,7 @@ export default class RenderAllDecksComponent extends Component {
     this.setState({ selectedDeckId: data.target.id });
   };
 
-  handle_updateDecks = (event, data, deckName, pokemonIds) => {
+  handle_updateDecks = (event, data) => {
     // let $target = data.target;
     //let deck_id = $target.deckId.id;
     //let deck_name = $target.deckName.value;
