@@ -15,7 +15,7 @@ export default function getUserDecks() {
     .then(data => {
       //let newresult = data.map(recordToUserDeck); //'records' is an object from List records in Airtable
       //console.log('response FROM API', newresult);
-      console.log('response FROM API', data);
+      //console.log('response FROM API', data);
       return data;
     });
 }

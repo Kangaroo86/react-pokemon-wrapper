@@ -55,14 +55,14 @@ export default class RenderAllDecksComponent extends Component {
   };
 
   render() {
-    console.log('these  are the props,>>>>>>>>>>>>>>>>>', this.props);
+    console.log('these  are the props,>>>>>>>>>>>>>>>>>', this.props.userDecks);
     return (
       <div>
         {/* {console.log('User deck obj-------:', this.props)} */}
         <Grid columns={3} divided>
           <Grid.Row stretched>
             {this.props.userDecks.map((deck, i) => {
-              console.log('this deck is: ', deck);
+              //console.log('this deck is: ----', deck);
               let numWin = parseInt(
                 Math.round(deck.wins / (deck.wins + deck.losses) * 100),
                 10
@@ -83,12 +83,14 @@ export default class RenderAllDecksComponent extends Component {
                       />
                       <Card.Content>
                         <Image floated="right" size="mini" src={jenny} />
-                        <Card.Header name="deckName" value={deck.name}>
-                          {deck.name}
+                        <Card.Header name="deckName" value={deck.deckname}>
+                          {deck.deckname}
                         </Card.Header>
                         <Card.Meta>User Name</Card.Meta>
                         <List size="massive" horizontal>
                           {deck.cards.map(character => {
+                            //let image = this.pros.onPokemonObj(1);
+
                             return (
                               <Label size="small" image>
                                 <Image src={character.sprites.front_default} />
