@@ -35,10 +35,4 @@ const withlifecycle = lifecycle({
   }
 });
 
-// const withlifecycle = lifecycle({
-//   componentDidMount() {
-//     this.props.get_default_pokemon();
-//   }
-// });
-
 export default compose(connectToStore, withlifecycle)(IndexPage);

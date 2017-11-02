@@ -1,9 +1,9 @@
 export default function recordToPokemon(record) {
   return {
-    id: record.id,
-    name: record.fields.name,
-    wins: record.fields.wins,
-    losses: record.fields.losses,
-    cards: record.fields.cards
+    deckId: record.deckId,
+    deckName: record.deckName,
+    wins: record.wins,
+    losses: record.losses,
+    pokeObj: record.pokeObj
   };
 }

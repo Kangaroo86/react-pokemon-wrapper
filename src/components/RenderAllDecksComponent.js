@@ -64,10 +64,12 @@ export default class RenderAllDecksComponent extends Component {
             {this.props.userDecks.map((deck, i) => {
               console.log('this deck is: ', deck);
               let numWin = parseInt(
-                Math.round(deck.wins / (deck.wins + deck.losses) * 100)
+                Math.round(deck.wins / (deck.wins + deck.losses) * 100),
+                10
               );
               let numLose = parseInt(
-                Math.round(deck.losses / (deck.wins + deck.losses) * 100)
+                Math.round(deck.losses / (deck.wins + deck.losses) * 100),
+                10
               );
               return (
                 <Grid.Column>

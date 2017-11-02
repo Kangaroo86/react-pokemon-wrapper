@@ -7,12 +7,7 @@ export default function getPokemon(pokemonId) {
   var P = new Pokedex.Pokedex(options);
   return P.getPokemonByName(pokemonId) // with Promise
     .then(response => {
-      // console.log(
-      //   'getPokemonOBJ by name response: ',
-      //   response,
-      //   'pokemonId: ',
-      //   pokemonId
-      // );
+      //console.log('getPokemonOBJ by name response: ', response);
       return response;
     });
 }

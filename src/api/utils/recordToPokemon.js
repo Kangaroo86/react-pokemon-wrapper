@@ -1,7 +1,7 @@
 export default function recordToPokemon(record) {
   return {
     id: record.id,
-    pokemonName: record.fields.pokemonName,
-    pokemonId: record.fields.pokemonId
+    name: record.name,
+    pokemonId: record.pokemonId
   };
 }
