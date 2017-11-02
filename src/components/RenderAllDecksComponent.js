@@ -55,19 +55,20 @@ export default class RenderAllDecksComponent extends Component {
   };
 
   render() {
-    console.log('these  are the props,>>>>>>>>>>>>>>>>>', this.props);
+    //console.log('these  are the props,>>>>>>>>>>>>>>>>>', this.props);
     return (
       <div>
-        {/* {console.log('User deck obj-------:', this.props)} */}
         <Grid columns={3} divided>
           <Grid.Row stretched>
             {this.props.userDecks.map((deck, i) => {
               console.log('this deck is: ', deck);
               let numWin = parseInt(
-                Math.round(deck.wins / (deck.wins + deck.losses) * 100)
+                Math.round(deck.wins / (deck.wins + deck.losses) * 100),
+                10
               );
               let numLose = parseInt(
-                Math.round(deck.losses / (deck.wins + deck.losses) * 100)
+                Math.round(deck.losses / (deck.wins + deck.losses) * 100),
+                10
               );
               return (
                 <Grid.Column>
