@@ -90,6 +90,7 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
+    console.log('createdeck------', this.props.pokemonArray);
     return (
       <div>
         <Grid textAlign="center">
@@ -132,10 +133,6 @@ export default class CreateDeckComponent extends Component {
                 {this.state.selectedDeckName === ''
                   ? <Popup.Header>- Provide a deck name</Popup.Header>
                   : 'Good job!!'}
-
-                {/* {this.state.selectedUserName === ''
-                  ? <Popup.Header>- Missing UserName</Popup.Header>
-                  : 'Nice user name'} */}
               </Popup>
               <Grid.Column width={5} floated="right">
                 <Segment inverted width={2}>

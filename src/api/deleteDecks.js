@@ -1,10 +1,13 @@
-export default function deleteUserDeck(id, { databaseId, token }) {
-  return fetch(`https://api.airtable.com/v0/${databaseId}/decks/${id}`, {
+import env from '../env';
+
+export default function deleteUserDeck(id) {
+  return fetch(`${env.API_BASE_URL}/decks/${id}`, {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${token}`
+      'Content-Type': 'application/json'
     }
   })
     .then(response => response.json())
-    .then(result => result.deleted);
+    .then(result => result.deleted)
+    .catch(err => console.log('delete deck api call failed: ', err));
 }
