@@ -31,23 +31,23 @@ export default class RenderAllDecksComponent extends Component {
     this.props.delete_decks(data.target.id);
   };
 
-  onChange_selected_pokemon = data => {
+  onChange_selectedPokemon = data => {
     this.setState({ selectedPokemon: data.target.value });
   };
 
-  onChange_selected_deckName = data => {
+  onChange_selectedDeckName = data => {
     this.setState({ selectedDeckName: data.target.value });
   };
 
-  onChange_selected_deckId = data => {
+  onChange_selectedDeckId = data => {
     this.setState({ selectedDeckId: data.target.id });
   };
 
-  handle_updateDecks = (event, data) => {
+  handle_updateDecks = (event, data, deckName, pokemonIds) => {
     // let $target = data.target;
     //let deck_id = $target.deckId.id;
     //let deck_name = $target.deckName.value;
-    //console.log('deck_id---', deck_id);
+    console.log('data---------', data);
     console.log('deck_name---', data.value.id);
     this.props.history.push(`/decks/${data.value.id}/update`);
     //let poke_name = $target.
@@ -55,14 +55,12 @@ export default class RenderAllDecksComponent extends Component {
   };
 
   render() {
-    console.log('these  are the props,>>>>>>>>>>>>>>>>>', this.props.userDecks);
+    //console.log('these  are the props,>>>>>>>>>>>>>>>>>', this.props);
     return (
       <div>
-        {/* {console.log('User deck obj-------:', this.props)} */}
         <Grid columns={3} divided>
           <Grid.Row stretched>
             {this.props.userDecks.map((deck, i) => {
-              //console.log('this deck is: ----', deck);
               let numWin = parseInt(
                 Math.round(deck.wins / (deck.wins + deck.losses) * 100),
                 10
@@ -83,14 +81,12 @@ export default class RenderAllDecksComponent extends Component {
                       />
                       <Card.Content>
                         <Image floated="right" size="mini" src={jenny} />
-                        <Card.Header name="deckName" value={deck.deckname}>
-                          {deck.deckname}
+                        <Card.Header name="deckName" value={deck.name}>
+                          {deck.name}
                         </Card.Header>
                         <Card.Meta>User Name</Card.Meta>
                         <List size="massive" horizontal>
                           {deck.cards.map(character => {
-                            //let image = this.pros.onPokemonObj(1);
-
                             return (
                               <Label size="small" image>
                                 <Image src={character.sprites.front_default} />
