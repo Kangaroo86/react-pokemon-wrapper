@@ -9,7 +9,6 @@ export default class SignUpComponent extends Component {
 
     this.state = {
       name: '',
-      email: '',
       password: ''
     };
   }
@@ -18,24 +17,16 @@ export default class SignUpComponent extends Component {
     this.setState(this.setState({ name: data.target.value }));
   };
 
-  handle_selectedEmail = data => {
-    this.setState(this.setState({ email: data.target.value }));
-  };
-
   handle_selectedPassword = data => {
     this.setState(this.setState({ password: data.target.value }));
   };
 
-  handle_signup = (event, data) => {
+  handle_signin = (event, data) => {
     event.preventDefault();
-    // const $target = event.target;
-    // const userName = $target.userId.value.trim();
-    // const email = $target.emailId.value.trim();
-    // const password = $target.passwordId.value.trim();
     const name = this.state.name.trim();
-    const email = this.state.email.trim();
+
     const password = this.state.password.trim();
-    this.props.get_user({ name: name, email: email, password: password });
+    this.props.get_user({ name: name, password: password });
     this.props.history.push(`/`);
   };
 
@@ -61,7 +52,7 @@ export default class SignUpComponent extends Component {
           verticalAlign="middle">
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as="h2" color="teal" textAlign="center">
-              <Image src={pokeball2} /> Set-Up your account
+              <Image src={pokeball2} /> Sign-In to your account
             </Header>
             <Form size="large">
               <Segment stacked>
@@ -72,14 +63,6 @@ export default class SignUpComponent extends Component {
                   iconPosition="left"
                   placeholder="Name"
                   onChange={this.handle_selectedName}
-                />
-                <Form.Input
-                  fluid
-                  icon="mail outline"
-                  id="emailId"
-                  iconPosition="left"
-                  placeholder="E-mail address"
-                  onChange={this.handle_selectedEmail}
                 />
                 <Form.Input
                   fluid
@@ -94,8 +77,8 @@ export default class SignUpComponent extends Component {
                   color="teal"
                   fluid
                   size="large"
-                  onClick={this.handle_signup}>
-                  Sign-up
+                  onClick={this.handle_signin}>
+                  Sign-In
                 </Button>
               </Segment>
             </Form>

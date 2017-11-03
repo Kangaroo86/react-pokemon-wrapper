@@ -4,13 +4,17 @@ export default function rootReducer(
     pokemonArray: [],
     defaultPokemonArray: [],
     userDecks: [],
-    userSignup: []
+    userSignup: [],
+    userSignIn: []
   },
   action
 ) {
   switch (action.type) {
     case 'USER_SIGNUP':
       return { ...currentState, userSignup: action.userSignup };
+
+    case 'USER_SIGNIN':
+      return { ...currentState, userSignIn: action.userSignIn };
 
     case 'FETCHED_POKEMON_OBJ':
       let updatedPokeArray = [...currentState.pokemonArray];
