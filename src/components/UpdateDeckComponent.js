@@ -82,25 +82,14 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
-    // console.log(
-    //   'this is update>>>>>>>>>>>',
-    //   this.props.userDecks.filter(
-    //     deck => deck.id === this.props.match.params.deckId
-    //   )
-    // );
     let userObj = this.props.userDecks.filter(result => {
-      console.log('user id---', result.userId);
-      console.log('match.params.id---', this.props.match.params.deckId);
-      return result.userId === this.props.match.params.deckId;
+      return result.userId === parseInt(this.props.match.params.deckId, 10);
     });
-    console.log('this is userOBj', userObj);
-    //console.log('deckId-----', this.props.match.params.deckId);
-    //console.log('this is userDecks', this.props.userDecks);
     return (
       <div>
         <Grid textAlign="center">
           <Header as="h3" style={{ fontSize: '2em' }}>
-            Choose your Pokemon
+            Update your Pokemon
           </Header>
         </Grid>
         <br />
@@ -140,10 +129,10 @@ export default class CreateDeckComponent extends Component {
                   />
                   <Card.Content>
                     <Image floated="right" size="mini" src={jenny} />
-                    <Card.Header name="deckName" value={userObj[0].name}>
-                      {userObj[0].name}
+                    <Card.Header name="deckName" value={userObj[0].deckname}>
+                      {userObj[0].deckname}
                     </Card.Header>
-                    <Card.Meta>User Name</Card.Meta>
+                    {/* <Card.Meta>User Name</Card.Meta> */}
                     <List size="massive" horizontal>
                       {userObj[0].cards.map(character => {
                         return (
@@ -157,11 +146,11 @@ export default class CreateDeckComponent extends Component {
                   </Card.Content>
                   <Card.Content extra>
                     <Button basic color="green">
-                      Ready
+                      READY
                     </Button>
 
                     <Button basic color="red" onClick={this.handle_updateDecks}>
-                      Edit
+                      UPDATE
                     </Button>
                   </Card.Content>
                   <Segment inverted>
