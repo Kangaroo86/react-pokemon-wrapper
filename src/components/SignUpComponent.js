@@ -4,7 +4,7 @@ import pokeball2 from '../images/pokeball2.png';
 import ReactAudioPlayer from 'react-audio-player';
 import pokego from '../images/pokego.png';
 
-export default class SignInComponent extends Component {
+export default class SignUpComponent extends Component {
   constructor(props) {
     super(props);
 
@@ -68,7 +68,7 @@ export default class SignInComponent extends Component {
           verticalAlign="middle">
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as="h2" color="teal" textAlign="center">
-              <Image src={pokeball2} /> Log-in to your account
+              <Image src={pokeball2} /> Set-Up your account
             </Header>
             <Form size="large">
               <Segment stacked>
@@ -102,7 +102,7 @@ export default class SignInComponent extends Component {
                   fluid
                   size="large"
                   onClick={this.handle_signin}>
-                  Login
+                  Sign-up
                 </Button>
               </Segment>
             </Form>

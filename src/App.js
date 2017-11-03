@@ -7,7 +7,7 @@ import PokemonPageContainer from './redux/containers/PokemonPageContainer';
 import RenderAllDecksPageContainer from './redux/containers/RenderAllDecksPageContainer';
 import BattlePageContainer from './redux/containers/BattlePageContainer';
 import UpdateDeckPageContainer from './redux/containers/UpdateDeckPageContainer';
-import SignInContainer from './redux/containers/SignInContainer';
+import SignUpContainer from './redux/containers/SignUpContainer';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory();
@@ -43,7 +43,7 @@ export default class App extends Component {
                 path="/decks/:deckId/update"
                 component={UpdateDeckPageContainer}
               />
-              <Route exact path="/signup" component={SignInContainer} />
+              <Route exact path="/signup" component={SignUpContainer} />
             </Switch>
           </Router>
         </Provider>
