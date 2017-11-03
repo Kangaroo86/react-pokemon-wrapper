@@ -21,7 +21,12 @@ export default class App extends Component {
         <Provider store={store}>
           <Router>
             <Switch>
-              <Route exact path="/" component={PokemonPageContainer} />
+              <Route
+                exact
+                path="/"
+                component={PokemonPageContainer}
+                history={history}
+              />
               <Route
                 exact
                 path="/decks/battle"

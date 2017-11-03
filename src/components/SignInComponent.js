@@ -37,13 +37,14 @@ export default class SignInComponent extends Component {
     const email = this.state.email.trim();
     const password = this.state.password.trim();
     this.props.get_user({ name: name, email: email, password: password });
+    this.props.history.push(`/`);
   };
 
-  handle_test = (event, data) => {
-    //const find = data.value.trim();
-    //console.log('found it---', data.target.value);
-    this.setState({ password: event.target.userId.value });
-  };
+  // handle_test = (event, data) => {
+  //   //const find = data.value.trim();
+  //   //console.log('found it---', data.target.value);
+  //   this.setState({ password: event.target.userId.value });
+  // };
 
   render() {
     console.log('props passed in: ----', this.props);
