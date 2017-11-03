@@ -82,15 +82,30 @@ export default class CreateDeckComponent extends Component {
   //**Create Deck**//
   handle_createDeck = event => {
     const deckName = this.state.selectedDeckName.trim();
-    const pickedPokemonId = this.state.selectedPokemon.map(
-      character => character.id
-    );
-    this.props.create_decks(deckName, pickedPokemonId);
+    console.log(this.state.selectedPokemon);
+    const pokemonIds = this.state.selectedPokemon.map(pokemon => pokemon.id);
+    //console.log('what type is this:----', request.body);
+
+    this.props.create_decks({
+      deckName,
+      pokemonIds,
+      userId: 1
+    });
     this.setState({ redirect: true });
   };
 
+  // handle_createDeck = event => {
+  //   const deckName = this.state.selectedDeckName.trim();
+  //   const pickedPokemonId = this.state.selectedPokemon.map(
+  //     character => character.id
+  //   );
+  //   this.props.create_decks(deckName, pickedPokemonId);
+  //   this.setState({ redirect: true });
+  // };
+
   render() {
-    console.log('createdeck------', this.state.selectedDeckName);
+    //console.log('createdeck------', this.state.selectedDeckName);
+
     return (
       <div>
         <Grid textAlign="center">
@@ -156,14 +171,17 @@ export default class CreateDeckComponent extends Component {
               </Grid.Column>
               <Grid.Column floated="right" width={6}>
                 <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>
-                  {this.state.selectedPokemon.map(character =>
-                    <Card
-                      color="blue"
-                      image={character.image}
-                      id={character.id}
-                      onClick={this.handle_deletePokemon}
-                    />
-                  )}
+                  {this.state.selectedPokemon.map(character => {
+                    console.log('character-------', character);
+                    return (
+                      <Card
+                        color="blue"
+                        image={character.image}
+                        id={character.id}
+                        onClick={this.handle_deletePokemon}
+                      />
+                    );
+                  })}
                 </Card.Group>
               </Grid.Column>
             </Grid.Row>

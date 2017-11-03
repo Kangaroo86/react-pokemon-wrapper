@@ -4,7 +4,7 @@ import BattlePage from '../../components/BattlePage';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 
 function mapStateToProps(state, ownProps) {
-  console.log('defaultPokemon FROM CONTAINER', state);
+  //console.log('defaultPokemon FROM CONTAINER', state);
   return {
     pokemonObj: state.pokemonObj,
     pokemonArray: state.pokemonArray,

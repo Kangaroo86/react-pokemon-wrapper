@@ -7,6 +7,7 @@ export default function getUserDecks() {
       return response.json();
     })
     .then(data => {
+      //console.log('get user deck------', data);
       return data;
     });
 }
