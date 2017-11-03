@@ -1,13 +1,20 @@
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import SignInPage from '../../components/SignInPage';
+import getUserProcess from '../thunks/getUserProcess';
 
 function mapStateToProps(state, ownProps) {
-  return {};
+  return {
+    userLogin: state.userLogin
+  };
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
-  return {};
+  return {
+    get_user: attribute => {
+      dispatch(getUserProcess(attribute));
+    }
+  };
 }
 
 const connectToStore = connect(mapStateToProps, mapDispatchToProps);

@@ -13,7 +13,22 @@ export default class SignInComponent extends Component {
     };
   }
 
+  handle_signin = (event, data) => {
+    event.preventDefault();
+    const $target = event.target;
+    const userName = $target.userId.value.trim();
+    const email = $target.emailId.value.trim();
+    const password = $target.passwordId.value.trim();
+    this.props.get_user({ userName, email, password });
+  };
+
+  handle_test = (event, data) => {
+    //const find = data.value.trim();
+    console.log('found it---', data);
+  };
+
   render() {
+    console.log('singIn Page propsss----', this.props);
     return (
       <div className="login-form">
         <ReactAudioPlayer
@@ -41,23 +56,30 @@ export default class SignInComponent extends Component {
                 <Form.Input
                   fluid
                   icon="user"
+                  id="userId"
                   iconPosition="left"
                   placeholder="Name"
                 />
                 <Form.Input
                   fluid
                   icon="mail outline"
+                  id="emailId"
                   iconPosition="left"
                   placeholder="E-mail address"
                 />
                 <Form.Input
                   fluid
                   icon="lock"
+                  id="passwordId"
                   iconPosition="left"
                   placeholder="Password"
                   type="password"
                 />
-                <Button color="teal" fluid size="large">
+                <Button
+                  color="teal"
+                  fluid
+                  size="large"
+                  onClick={this.handle_test}>
                   Login
                 </Button>
               </Segment>
