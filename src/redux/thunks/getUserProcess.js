@@ -4,8 +4,8 @@ export default function getUserProcess(attribute) {
   return (dispatch, getState) => {
     return getUser(attribute).then(result => {
       dispatch({
-        type: 'USER_LOGIN',
-        userLogin: result
+        type: 'USER_SIGNUP',
+        userSignup: result
       });
       return result;
     });
