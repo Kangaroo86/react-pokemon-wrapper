@@ -1,7 +1,7 @@
 import React from 'react';
-import SignUpComponent from './SignUpComponent';
+import SignInComponent from './SignInComponent';
 
-export default function SignUpPage({
+export default function SignInPage({
   pokemonObj,
   pokemonArray,
   defaultPokemonArray,
@@ -14,7 +14,7 @@ export default function SignUpPage({
 }) {
   return (
     <div>
-      <SignUpComponent>
+      <SignInComponent>
         pokemonObj={pokemonObj}
         onPokemonObj={onPokemonObj}
         pokemonArray={pokemonArray}
@@ -24,7 +24,7 @@ export default function SignUpPage({
         delete_decks={delete_decks}
         update_Decks={update_Decks}
         get_default_pokemon={get_default_pokemon}
-      </SignUpComponent>
+      </SignInComponent>
     </div>
   );
 }

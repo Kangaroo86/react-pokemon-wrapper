@@ -4,7 +4,7 @@ import pokeball2 from '../images/pokeball2.png';
 import ReactAudioPlayer from 'react-audio-player';
 import pokego from '../images/pokego.png';
 
-export default class SignUpComponent extends Component {
+export default class SignInComponent extends Component {
   constructor(props) {
     super(props);
 

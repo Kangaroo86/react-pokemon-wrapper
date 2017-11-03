@@ -1,6 +1,6 @@
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
-import SignUpPage from '../../components/SignUpPage';
+import SignInPage from '../../components/SignInPage';
 
 function mapStateToProps(state, ownProps) {
   return {};
@@ -16,4 +16,4 @@ const withlifecycle = lifecycle({
   componentDidMount() {}
 });
 
-export default compose(connectToStore, withlifecycle)(SignUpPage);
+export default compose(connectToStore, withlifecycle)(SignInPage);
