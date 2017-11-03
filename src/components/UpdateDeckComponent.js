@@ -88,10 +88,14 @@ export default class CreateDeckComponent extends Component {
     //     deck => deck.id === this.props.match.params.deckId
     //   )
     // );
-    let userObj = this.props.userDecks.filter(
-      result => result.id === this.props.match.params.deckId
-    );
-    console.log('found-----', this.props.userDecks);
+    let userObj = this.props.userDecks.filter(result => {
+      console.log('user id---', result.userId);
+      console.log('match.params.id---', this.props.match.params.deckId);
+      return result.userId === this.props.match.params.deckId;
+    });
+    console.log('this is userOBj', userObj);
+    //console.log('deckId-----', this.props.match.params.deckId);
+    //console.log('this is userDecks', this.props.userDecks);
     return (
       <div>
         <Grid textAlign="center">

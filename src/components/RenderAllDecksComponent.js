@@ -47,8 +47,8 @@ export default class RenderAllDecksComponent extends Component {
     // let $target = data.target;
     //let deck_id = $target.deckId.id;
     //let deck_name = $target.deckName.value;
-    console.log('data---------', data);
-    console.log('deck_name---', data.value.id);
+    //console.log('data---------', data);
+    //console.log('deck_id---', data.value.id);
     this.props.history.push(`/decks/${data.value.id}/update`);
     //let poke_name = $target.
     //this.props.update_Decks(deck_id, deck_name, deck_id);
