@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import misty from '../images/misty.png';
 import jenny from '../images/jenny.jpg';
 
 import {

@@ -44,8 +44,18 @@ export default class App extends Component {
                 path="/decks/:deckId/update"
                 component={UpdateDeckPageContainer}
               />
-              <Route exact path="/signup" component={SignUpContainer} />
-              <Route exact path="/signin" component={SignInContainer} />
+              <Route
+                exact
+                path="/signup"
+                component={SignUpContainer}
+                history={history}
+              />
+              <Route
+                exact
+                path="/signin"
+                component={SignInContainer}
+                history={history}
+              />
             </Switch>
           </Router>
         </Provider>
