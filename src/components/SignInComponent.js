@@ -9,26 +9,44 @@ export default class SignInComponent extends Component {
     super(props);
 
     this.state = {
+      name: '',
+      email: '',
       password: ''
     };
   }
 
+  handle_selectedName = data => {
+    this.setState(this.setState({ name: data.target.value }));
+  };
+
+  handle_selectedEmail = data => {
+    this.setState(this.setState({ email: data.target.value }));
+  };
+
+  handle_selectedPassword = data => {
+    this.setState(this.setState({ password: data.target.value }));
+  };
+
   handle_signin = (event, data) => {
     event.preventDefault();
-    const $target = event.target;
-    const userName = $target.userId.value.trim();
-    const email = $target.emailId.value.trim();
-    const password = $target.passwordId.value.trim();
-    this.props.get_user({ userName, email, password });
+    // const $target = event.target;
+    // const userName = $target.userId.value.trim();
+    // const email = $target.emailId.value.trim();
+    // const password = $target.passwordId.value.trim();
+    const name = this.state.name.trim();
+    const email = this.state.email.trim();
+    const password = this.state.password.trim();
+    this.props.get_user({ name: name, email: email, password: password });
   };
 
   handle_test = (event, data) => {
     //const find = data.value.trim();
-    console.log('found it---', data);
+    //console.log('found it---', data.target.value);
+    this.setState({ password: event.target.userId.value });
   };
 
   render() {
-    console.log('singIn Page propsss----', this.props);
+    console.log('props passed in: ----', this.props);
     return (
       <div className="login-form">
         <ReactAudioPlayer
@@ -59,6 +77,7 @@ export default class SignInComponent extends Component {
                   id="userId"
                   iconPosition="left"
                   placeholder="Name"
+                  onChange={this.handle_selectedName}
                 />
                 <Form.Input
                   fluid
@@ -66,6 +85,7 @@ export default class SignInComponent extends Component {
                   id="emailId"
                   iconPosition="left"
                   placeholder="E-mail address"
+                  onChange={this.handle_selectedEmail}
                 />
                 <Form.Input
                   fluid
@@ -74,12 +94,13 @@ export default class SignInComponent extends Component {
                   iconPosition="left"
                   placeholder="Password"
                   type="password"
+                  onChange={this.handle_selectedPassword}
                 />
                 <Button
                   color="teal"
                   fluid
                   size="large"
-                  onClick={this.handle_test}>
+                  onClick={this.handle_signin}>
                   Login
                 </Button>
               </Segment>

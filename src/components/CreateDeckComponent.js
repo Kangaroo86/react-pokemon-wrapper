@@ -90,7 +90,7 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
-    console.log('createdeck------', this.props.pokemonArray);
+    console.log('createdeck------', this.state.selectedDeckName);
     return (
       <div>
         <Grid textAlign="center">

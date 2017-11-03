@@ -31,15 +31,15 @@ export default class RenderAllDecksComponent extends Component {
     this.props.delete_decks(data.target.id);
   };
 
-  onChange_selectedPokemon = data => {
+  onChange_selected_pokemon = data => {
     this.setState({ selectedPokemon: data.target.value });
   };
 
-  onChange_selectedDeckName = data => {
+  onChange_selected_deckName = data => {
     this.setState({ selectedDeckName: data.target.value });
   };
 
-  onChange_selectedDeckId = data => {
+  onChange_selected_deckId = data => {
     this.setState({ selectedDeckId: data.target.id });
   };
 

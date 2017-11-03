@@ -70,7 +70,7 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
-    console.log('this is update>>>>>>>>>>>', this.props);
+    //console.log('this is update>>>>>>>>>>>', this.props);
     return (
       <div>
         <Grid textAlign="center">
