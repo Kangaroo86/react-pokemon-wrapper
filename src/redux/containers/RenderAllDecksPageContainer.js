@@ -8,8 +8,7 @@ import deleteDecksProcess from '../thunks/deleteDecksProcess';
 import updateDecksProcess from '../thunks/updateDecksProcess';
 
 function mapStateToProps(state, ownProps) {
-  console.log('these should be router props', ownProps);
-  //console.log('render state.userDecks containerXXXXX-----', state.userDecks);
+  //console.log('these should be router props', ownProps);
   return {
     pokemonObj: state.pokemonObj,
     pokemonArray: state.pokemonArray,

@@ -10,7 +10,6 @@ export default function getUserDecksProcess() {
       token: envObj.AIRTABLE_TOKEN
     })
       .then(userDecks => {
-        console.log('getUserDecksProcess thunk:', userDecks);
         scope.userDecks = userDecks;
         const promises = [];
         userDecks.forEach(userDeck => {

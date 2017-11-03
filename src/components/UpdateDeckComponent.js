@@ -91,7 +91,7 @@ export default class CreateDeckComponent extends Component {
     let userObj = this.props.userDecks.filter(
       result => result.id === this.props.match.params.deckId
     );
-    console.log('found-----', this.props.userDecks);
+    //console.log('found-----', this.props.userDecks);
     return (
       <div>
         <Grid textAlign="center">
