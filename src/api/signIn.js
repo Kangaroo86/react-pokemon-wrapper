@@ -1,6 +1,7 @@
 import env from '../env';
 
 export default function doctorLogin(attribute) {
+  console.log('what are my attribute: --', attribute);
   return fetch(`${env.API_BASE_URL}/token`, {
     method: 'POST',
     headers: {
@@ -12,11 +13,11 @@ export default function doctorLogin(attribute) {
     })
   })
     .then(response => {
-      console.log(response);
+      console.log('API respoonse SIGN In------', response);
       return response.json();
     })
     .then(record => {
-      console.log('sign in record-------', record);
+      console.log('API sign in record-------', record);
       return {
         id: record.id,
         name: record.name,

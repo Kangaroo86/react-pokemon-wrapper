@@ -1,4 +1,4 @@
-import { compose, lifecycle } from 'recompose';
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SignInPage from '../../components/SignInPage';

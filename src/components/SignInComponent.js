@@ -31,8 +31,8 @@ export default class SignUpComponent extends Component {
   };
 
   render() {
-    console.log('this state name: ----', this.state.name);
-    console.log('this state password: ----', this.state.password);
+    //console.log('this state name: ----', this.state.name);
+    //console.log('this state password: ----', this.state.password);
     return (
       <div className="login-form">
         <ReactAudioPlayer
