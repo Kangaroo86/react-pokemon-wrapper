@@ -165,7 +165,7 @@ export default class CreateDeckComponent extends Component {
           </Grid.Row>
         </Grid>
 
-        <Divider section />
+        {/* <Divider section /> */}
         <Segment style={{ padding: '5em 0em' }} vertical>
           <Grid container stackable verticalAlign="middle">
             <Grid.Row right>

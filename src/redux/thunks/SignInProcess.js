@@ -1,4 +1,4 @@
-import signIn from '../../api/signIn.js';
+import signIn from '../../api/signIn';
 
 export default function signInProcess(attribute) {
   return (dispatch, getState) => {

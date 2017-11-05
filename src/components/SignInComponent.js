@@ -24,14 +24,15 @@ export default class SignUpComponent extends Component {
   handle_signin = (event, data) => {
     event.preventDefault();
     const name = this.state.name.trim();
-
     const password = this.state.password.trim();
-    this.props.get_user({ name: name, password: password });
+
+    this.props.signIn_user({ name, password, userId: 1 });
     this.props.history.push(`/`);
   };
 
   render() {
-    console.log('props passed in: ----', this.props);
+    console.log('this state name: ----', this.state.name);
+    console.log('this state password: ----', this.state.password);
     return (
       <div className="login-form">
         <ReactAudioPlayer
