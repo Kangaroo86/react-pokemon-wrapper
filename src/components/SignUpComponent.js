@@ -35,7 +35,7 @@ export default class SignUpComponent extends Component {
     const name = this.state.name.trim();
     const email = this.state.email.trim();
     const password = this.state.password.trim();
-    this.props.get_user({ name: name, email: email, password: password });
+    this.props.user_signup({ name: name, email: email, password: password });
     this.props.history.push(`/`);
   };
 

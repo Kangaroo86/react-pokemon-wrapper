@@ -1,6 +1,6 @@
 import env from '../env';
 
-export default function getUser(attribute) {
+export default function signUp(attribute) {
   return fetch(`${env.API_BASE_URL}/users`, {
     method: 'POST',
     headers: {

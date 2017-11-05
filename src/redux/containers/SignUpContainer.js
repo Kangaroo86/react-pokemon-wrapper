@@ -2,7 +2,7 @@ import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SignUpPage from '../../components/SignUpPage';
-import getUserProcess from '../thunks/getUserProcess';
+import signUpProcess from '../thunks/signUpProcess';
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -12,8 +12,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    get_user: attribute => {
-      dispatch(getUserProcess(attribute));
+    user_signup: attribute => {
+      dispatch(signUpProcess(attribute));
     }
   };
 }

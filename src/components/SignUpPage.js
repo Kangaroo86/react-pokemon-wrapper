@@ -1,12 +1,12 @@
 import React from 'react';
 import SignUpComponent from './SignUpComponent';
 
-export default function SignUpPage({ userSignup, get_user, history }) {
+export default function SignUpPage({ userSignup, user_signup, history }) {
   return (
     <div>
       <SignUpComponent
         userSignup={userSignup}
-        get_user={get_user}
+        user_signup={user_signup}
         history={history}
       />
     </div>

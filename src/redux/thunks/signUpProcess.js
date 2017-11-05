@@ -1,8 +1,8 @@
-import getUser from '../../api/getUser.js';
+import signUp from '../../api/signUp';
 
 export default function getUserProcess(attribute) {
   return (dispatch, getState) => {
-    return getUser(attribute).then(result => {
+    return signUp(attribute).then(result => {
       dispatch({
         type: 'USER_SIGNUP',
         userSignup: result
