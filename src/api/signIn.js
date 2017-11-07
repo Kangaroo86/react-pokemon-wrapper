@@ -13,7 +13,7 @@ export default function doctorLogin(attribute) {
     })
   })
     .then(response => {
-      console.log('API respoonse SIGN In------', response);
+      //console.log('API respoonse SIGN In------', response);
       return response.json();
     })
     .then(record => {
