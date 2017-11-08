@@ -22,7 +22,6 @@ export default class CreateDeckComponent extends Component {
       selectedPokemon: [],
       selectedDeckName: '',
       redirect: false
-      //selectedUserName: ''
     };
   }
 
@@ -82,30 +81,18 @@ export default class CreateDeckComponent extends Component {
   //**Create Deck**//
   handle_createDeck = event => {
     const deckName = this.state.selectedDeckName.trim();
-    console.log(this.state.selectedPokemon);
     const pokemonIds = this.state.selectedPokemon.map(pokemon => pokemon.id);
-    //console.log('what type is this:----', request.body);
-
+    const userId = this.props.userSignIn.id;
     this.props.create_decks({
       deckName,
       pokemonIds,
-      userId: 1
+      userId
     });
     this.setState({ redirect: true });
   };
 
-  // handle_createDeck = event => {
-  //   const deckName = this.state.selectedDeckName.trim();
-  //   const pickedPokemonId = this.state.selectedPokemon.map(
-  //     character => character.id
-  //   );
-  //   this.props.create_decks(deckName, pickedPokemonId);
-  //   this.setState({ redirect: true });
-  // };
-
   render() {
-    //console.log('createdeck------', this.state.selectedDeckName);
-
+    console.log('Create deck props------', this.props);
     return (
       <div>
         <Grid textAlign="center">

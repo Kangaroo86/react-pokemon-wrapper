@@ -7,8 +7,9 @@ export default function signUp(attribute) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(attribute)
-  }).then(response => {
-    console.log('RESPONSE FROM API------', response);
-    return response.json();
-  });
+  })
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log('API CALL::SIGNUP ERROR::', err));
 }

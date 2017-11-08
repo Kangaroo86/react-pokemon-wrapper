@@ -5,11 +5,15 @@ export default function rootReducer(
     defaultPokemonArray: [],
     userDecks: [],
     userSignup: [],
-    userSignIn: []
+    userSignIn: [],
+    users: []
   },
   action
 ) {
   switch (action.type) {
+    case 'FETCHED_USERS':
+      return { ...currentState, users: action.users };
+
     case 'USER_SIGNUP':
       return { ...currentState, userSignup: action.userSignup };
 

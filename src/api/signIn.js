@@ -1,7 +1,7 @@
 import env from '../env';
 
 export default function doctorLogin(attribute) {
-  console.log('what are my attribute: --', attribute);
+  //console.log('what are my attribute: --', attribute);
   return fetch(`${env.API_BASE_URL}/token`, {
     method: 'POST',
     headers: {
