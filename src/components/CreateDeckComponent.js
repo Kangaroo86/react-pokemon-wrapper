@@ -92,7 +92,7 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
-    console.log('Create deck props------', this.props);
+    //console.log('Create deck props------', this.props);
     return (
       <div>
         <Grid textAlign="center">
