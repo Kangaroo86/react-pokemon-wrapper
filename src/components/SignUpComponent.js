@@ -34,14 +34,28 @@ export default class SignUpComponent extends Component {
       errorPassword: ''
     };
 
+    let duplicateName = '';
+    this.props.users.map(userObj => {
+      if (userObj.name === name) {
+        duplicateName = true;
+      }
+    });
+
     if (name === '') {
       isError = true;
       errors.errorName = 'Name could not be blank';
     }
+
+    if (duplicateName === true) {
+      isError = true;
+      errors.errorName = 'Name has already existed';
+    }
+
     if (email === '') {
       isError = true;
       errors.errorEmail = 'Email could not be blank';
     }
+
     if (password === '') {
       isError = true;
       errors.errorPassword = 'Password could not be blank';
@@ -64,17 +78,10 @@ export default class SignUpComponent extends Component {
       this.props.user_signup({ name: name, email: email, password: password });
       this.props.history.push(`/`);
     }
-
-    // if (!this.state.email || !this.state.name || !this.state.password) {
-    //   this.props.history.push(`/signup`);
-    // } else {
-    //   this.props.user_signup({ name: name, email: email, password: password });
-    //   this.props.history.push(`/`);
-    // }
   };
 
   render() {
-    console.log('props passed in: ----', this.props.users);
+    console.log('props passed in: ----', this.state.errorEmail);
     return (
       <div className="login-form">
         <ReactAudioPlayer

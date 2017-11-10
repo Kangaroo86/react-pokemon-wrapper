@@ -21,16 +21,69 @@ export default class SignUpComponent extends Component {
     this.setState(this.setState({ password: data.target.value }));
   };
 
+  validate = (name, password) => {
+    let isError = false;
+
+    let errors = {
+      errorName: '',
+      errorPassword: ''
+    };
+
+    let identifyUser = '';
+    let validatePassword = '';
+
+    this.props.users.map(usersObj => {
+      if (usersObj.name === name) {
+        identifyUser = true;
+      }
+    });
+
+    this.props.users.map(usersObj => {
+      if (usersObj.hashedPassword === password) {
+        validatePassword = true;
+      }
+    });
+
+    if (name === '') {
+      isError = true;
+      errors.errorName = 'Please enter your name';
+    }
+
+    if (identifyUser !== true) {
+      isError = true;
+      errors.errorName = 'Your name was not found in the system';
+    }
+
+    if (password === '') {
+      isError = true;
+      errors.errorPassword = 'Please enter your password';
+    }
+
+    if (validatePassword !== true) {
+      isError = true;
+      errors.errorPassword = 'Your password was incorrectly inputted';
+    }
+
+    return isError ? errors : true;
+  };
+
   handle_signin = (event, data) => {
     event.preventDefault();
     const name = this.state.name.trim();
     const password = this.state.password.trim();
 
-    this.props.signIn_user({ name, password, userId: 1 });
+    // let errors = this.validate(name, password);
+    //
+    // if (errors !== true) {
+    //   this.setState(errors);
+    // } else {
+    // }
+    this.props.signIn_user({ name, password });
     this.props.history.push(`/`);
   };
 
   render() {
+    console.log('this is all user: ', this.props.users);
     return (
       <div className="login-form">
         <ReactAudioPlayer
@@ -63,6 +116,7 @@ export default class SignUpComponent extends Component {
                   placeholder="Name"
                   onChange={this.handle_selectedName}
                 />
+                {}
                 <Form.Input
                   fluid
                   icon="lock"

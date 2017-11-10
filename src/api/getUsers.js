@@ -11,7 +11,6 @@ export default function getUsers() {
       return response.json();
     })
     .then(data => {
-      console.log('get user------', data);
       return data;
     })
     .catch(err => {
