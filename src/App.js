@@ -24,6 +24,18 @@ export default class App extends Component {
             <Switch>
               <Route
                 exact
+                path="/signup"
+                component={SignUpContainer}
+                history={history}
+              />
+              <Route
+                exact
+                path="/signin"
+                component={SignInContainer}
+                history={history}
+              />
+              <Route
+                exact
                 path="/"
                 component={PokemonPageContainer}
                 history={history}
@@ -43,18 +55,6 @@ export default class App extends Component {
                 exact
                 path="/decks/:deckId/update"
                 component={UpdateDeckPageContainer}
-              />
-              <Route
-                exact
-                path="/signup"
-                component={SignUpContainer}
-                history={history}
-              />
-              <Route
-                exact
-                path="/signin"
-                component={SignInContainer}
-                history={history}
               />
             </Switch>
           </Router>
