@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import jenny from '../images/jenny.jpg';
 
 import {
   Segment,
   Card,
   Header,
-  Divider,
   Grid,
   Icon,
   List,
@@ -24,7 +22,6 @@ export default class CreateDeckComponent extends Component {
       selectedPokemon: [],
       selectedDeckName: '',
       redirect: false
-      //selectedUserName: ''
     };
   }
 
@@ -81,7 +78,7 @@ export default class CreateDeckComponent extends Component {
 
   render() {
     let userObj = this.props.userDecks.filter(result => {
-      return result.userId === parseInt(this.props.match.params.deckId, 10);
+      return result.id === parseInt(this.props.match.params.deckId, 10);
     });
     return (
       <div>

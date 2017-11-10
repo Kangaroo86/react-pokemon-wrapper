@@ -72,12 +72,12 @@ export default class SignUpComponent extends Component {
     const name = this.state.name.trim();
     const password = this.state.password.trim();
 
-    // let errors = this.validate(name, password);
-    //
-    // if (errors !== true) {
-    //   this.setState(errors);
-    // } else {
-    // }
+    let errors = this.validate(name, password);
+
+    if (errors !== true) {
+      this.setState(errors);
+    } else {
+    }
     this.props.signIn_user({ name, password });
     this.props.history.push(`/`);
   };

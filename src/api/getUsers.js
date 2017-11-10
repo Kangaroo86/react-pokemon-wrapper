@@ -11,6 +11,7 @@ export default function getUsers() {
       return response.json();
     })
     .then(data => {
+      console.log('user from api ', data);
       return data;
     })
     .catch(err => {
