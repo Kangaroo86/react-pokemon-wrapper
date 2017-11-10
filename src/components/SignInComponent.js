@@ -116,7 +116,11 @@ export default class SignUpComponent extends Component {
                   placeholder="Name"
                   onChange={this.handle_selectedName}
                 />
-                {}
+                {this.state.errorName !== ''
+                  ? <p style={{ color: 'Red' }}>
+                      {this.state.errorName}
+                    </p>
+                  : null}
                 <Form.Input
                   fluid
                   icon="lock"
@@ -126,6 +130,11 @@ export default class SignUpComponent extends Component {
                   type="password"
                   onChange={this.handle_selectedPassword}
                 />
+                {this.state.errorPassword !== ''
+                  ? <p style={{ color: 'Red' }}>
+                      {this.state.errorPassword}
+                    </p>
+                  : null}
                 <Button
                   color="teal"
                   fluid
