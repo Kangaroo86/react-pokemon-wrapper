@@ -2,13 +2,9 @@ import recordToUserDeck from './utils/recordToUserDeck';
 import env from '../env';
 
 export default function getUserDecks() {
-  const storedToken = localStorage.getItem('token');
   const storedUserId = localStorage.getItem('userId');
-  console.log('storedToken------', storedUserId);
-  console.log('storedUserId------', storedUserId);
-  console.log('whatis is localStorage--------', localStorage);
-  //return fetch(`${env.API_BASE_URL}/users/${deckId}/decks/`, {
-  return fetch(`${env.API_BASE_URL}/decks/${11}`, {
+  const storedToken = localStorage.getItem('token');
+  return fetch(`${env.API_BASE_URL}/decks/${storedUserId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -26,3 +22,6 @@ export default function getUserDecks() {
       console.log('API CALL::GETUSERDECKS ERROR::', err);
     });
 }
+
+/**how localstorage.getItem work is that we set it with localStorage.setItem().
+Look at SiginInProcess file **/

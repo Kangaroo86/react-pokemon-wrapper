@@ -26,21 +26,55 @@ export default class SignUpComponent extends Component {
     this.setState(this.setState({ password: data.target.value }));
   };
 
+  validate = (name, email, password) => {
+    let isError = false;
+    const errors = {
+      errorName: '',
+      errorEmail: '',
+      errorPassword: ''
+    };
+
+    if (name === '') {
+      isError = true;
+      errors.errorName = 'Name could not be blank';
+    }
+    if (email === '') {
+      isError = true;
+      errors.errorEmail = 'Email could not be blank';
+    }
+    if (password === '') {
+      isError = true;
+      errors.errorPassword = 'Password could not be blank';
+    }
+    return isError ? errors : true;
+  };
+
   handle_signup = (event, data) => {
     event.preventDefault();
-    // const $target = event.target;
-    // const userName = $target.userId.value.trim();
-    // const email = $target.emailId.value.trim();
-    // const password = $target.passwordId.value.trim();
     const name = this.state.name.trim();
     const email = this.state.email.trim();
     const password = this.state.password.trim();
-    this.props.user_signup({ name: name, email: email, password: password });
-    this.props.history.push(`/`);
+
+    const error = this.validate(name, email, password);
+
+    if (error !== true) {
+      this.setState(error);
+      return;
+    } else {
+      this.props.user_signup({ name: name, email: email, password: password });
+      this.props.history.push(`/`);
+    }
+
+    // if (!this.state.email || !this.state.name || !this.state.password) {
+    //   this.props.history.push(`/signup`);
+    // } else {
+    //   this.props.user_signup({ name: name, email: email, password: password });
+    //   this.props.history.push(`/`);
+    // }
   };
 
   render() {
-    console.log('props passed in: ----', this.props);
+    console.log('props passed in: ----', this.props.users);
     return (
       <div className="login-form">
         <ReactAudioPlayer
@@ -73,6 +107,11 @@ export default class SignUpComponent extends Component {
                   placeholder="Name"
                   onChange={this.handle_selectedName}
                 />
+                {this.state.errorName !== ''
+                  ? <p style={{ color: 'Red' }}>
+                      {this.state.errorName}
+                    </p>
+                  : null}
                 <Form.Input
                   fluid
                   icon="mail outline"
@@ -81,6 +120,11 @@ export default class SignUpComponent extends Component {
                   placeholder="E-mail address"
                   onChange={this.handle_selectedEmail}
                 />
+                {this.state.errorEmail !== ''
+                  ? <p style={{ color: 'Red' }}>
+                      {this.state.errorEmail}
+                    </p>
+                  : null}
                 <Form.Input
                   fluid
                   icon="lock"
@@ -90,6 +134,11 @@ export default class SignUpComponent extends Component {
                   type="password"
                   onChange={this.handle_selectedPassword}
                 />
+                {this.state.errorPassword !== ''
+                  ? <p style={{ color: 'Red' }}>
+                      {this.state.errorPassword}
+                    </p>
+                  : null}
                 <Button
                   color="teal"
                   fluid
