@@ -26,6 +26,7 @@ export default class SignUpComponent extends Component {
     this.setState(this.setState({ password: data.target.value }));
   };
 
+  //Validate user sign in
   validate = (name, email, password) => {
     let isError = false;
     const errors = {
