@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import ReactAudioPlayer from 'react-audio-player';
 
 import {
   Button,
@@ -61,6 +59,7 @@ export default class RenderAllDecksComponent extends Component {
         <Grid columns={3} divided>
           <Grid.Row stretched>
             {this.props.userDecks.map((deck, i) => {
+              console.log('this deck------', deck);
               let numWin = parseInt(
                 Math.round(deck.wins / (deck.wins + deck.losses) * 100),
                 10
