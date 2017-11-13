@@ -26,6 +26,10 @@ const connectToStore = connect(mapStateToProps, mapDispatchToProps);
 const withlifecycle = lifecycle({
   componentDidMount() {
     this.props.get_user();
+    // if (this.props.userSignup) {
+    //   console.log('SignUpComponent.componentWillMount');
+    //   this.props.history.push(`/`);
+    // }
   }
 });
 

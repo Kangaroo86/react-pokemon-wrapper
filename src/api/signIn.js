@@ -1,7 +1,6 @@
 import env from '../env';
 
 export default function doctorLogin(attribute) {
-  //console.log('what are my attribute: --', attribute);
   return fetch(`${env.API_BASE_URL}/token`, {
     method: 'POST',
     headers: {
@@ -13,16 +12,20 @@ export default function doctorLogin(attribute) {
     })
   })
     .then(response => {
-      //console.log('API respoonse SIGN In------', response);
-      return response.json();
+      //console.log('SignIn API: Response----', response);
+      if (response.status === 400) {
+        return { error: 'Invalid request' };
+      } else {
+        return response.json();
+      }
     })
     .then(record => {
-      console.log('API sign in record-------', record);
       return {
         id: record.id,
         name: record.name,
-        token: record.token
+        token: record.token,
+        error: record.error
       };
     })
-    .catch(err => console.log('SIGNIN API CALL:::', err));
+    .catch(err => err);
 }

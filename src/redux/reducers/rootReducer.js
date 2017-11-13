@@ -4,8 +4,8 @@ export default function rootReducer(
     pokemonArray: [],
     defaultPokemonArray: [],
     userDecks: [],
-    userSignup: [],
-    userSignIn: [],
+    userSignup: {},
+    userSignIn: {},
     users: []
   },
   action
@@ -18,6 +18,7 @@ export default function rootReducer(
       return { ...currentState, userSignup: action.userSignup };
 
     case 'USER_SIGNIN':
+      console.log('rootReducer USER_SIGNIN userSignIn=', action.userSignIn);
       return { ...currentState, userSignIn: action.userSignIn };
 
     case 'FETCHED_POKEMON_OBJ':

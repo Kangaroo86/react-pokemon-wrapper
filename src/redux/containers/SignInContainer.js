@@ -8,7 +8,8 @@ import getUsersProcess from '../thunks/getUsersProcess';
 function mapStateToProps(state, ownProps) {
   return {
     userSignup: state.userSignup,
-    users: state.users
+    users: state.users,
+    userSignIn: state.userSignIn
   };
 }
 
@@ -24,6 +25,12 @@ function mapDispatchToProps(dispatch, ownProps) {
 const withlifecycle = lifecycle({
   componentDidMount() {
     this.props.get_user();
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.userSignIn.token) {
+      this.props.history.push(`/`);
+    }
   }
 });
 

@@ -29,39 +29,20 @@ export default class SignUpComponent extends Component {
       errorPassword: ''
     };
 
-    let identifyUser = '';
-    let validatePassword = '';
-
-    this.props.users.map(usersObj => {
-      if (usersObj.name === name) {
-        identifyUser = true;
-      }
-    });
-
-    this.props.users.map(usersObj => {
-      if (usersObj.hashedPassword === password) {
-        validatePassword = true;
-      }
-    });
+    //why doesnt this work?
+    if (this.props.userSignIn.error) {
+      isError = true;
+      errors.errorPassword = this.props.userSignIn.error;
+    }
 
     if (name === '') {
       isError = true;
       errors.errorName = 'Please enter your name';
     }
 
-    if (identifyUser !== true) {
-      isError = true;
-      errors.errorName = 'Your name was not found in the system';
-    }
-
     if (password === '') {
       isError = true;
-      errors.errorPassword = 'Please enter your password';
-    }
-
-    if (validatePassword !== true) {
-      isError = true;
-      errors.errorPassword = 'Your password was incorrectly inputted';
+      errors.errorPassword = 'Password entered is blank';
     }
 
     return isError ? errors : true;
@@ -76,14 +57,17 @@ export default class SignUpComponent extends Component {
 
     if (errors !== true) {
       this.setState(errors);
+      return;
     } else {
     }
     this.props.signIn_user({ name, password });
-    this.props.history.push(`/`);
   };
 
   render() {
-    console.log('this is all user: ', this.props.users);
+    // console.log(
+    //   'SignInComponent.render: this.props.userSignIn=',
+    //   this.props.userSignIn.error
+    // );
     return (
       <div className="login-form">
         <ReactAudioPlayer

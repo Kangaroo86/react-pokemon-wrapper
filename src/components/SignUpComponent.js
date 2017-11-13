@@ -81,7 +81,7 @@ export default class SignUpComponent extends Component {
   };
 
   render() {
-    console.log('props passed in: ----', this.state.errorEmail);
+    // console.log('props passed in: ----', this.state.errorEmail);
     return (
       <div className="login-form">
         <ReactAudioPlayer
