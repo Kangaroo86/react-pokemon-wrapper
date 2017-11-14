@@ -1,23 +1,22 @@
 import rootReducer from '../redux/reducers/rootReducer';
 import deepFreeze from 'deep-freeze';
-import mockData from '../mock-data/index';
+import mockData from '../mock-data/defaultPokemon';
 
 describe('rootReducer', () => {
-  xit('action.type FETCHED_POKEMON_OBJ', () => {
+  xit('action.type FETCHED_DEFAULT_POKEMON', () => {
     const action = {
-      type: 'FETCHED_POKEMON_OBJ',
-      pokemonArray: [...mockData.records]
+      type: 'FETCHED_DEFAULT_POKEMON',
+      defaultPokemonArray: mockData
     };
 
     const currentState = {
-      pokemonArray: [],
-      pokemonObj: undefined
+      defaultPokemonArray: []
     };
+
     deepFreeze(currentState);
 
     const nextState = {
-      pokemonArray: action.pokemonArray,
-      pokemonObj: undefined
+      defaultPokemonArray: action.defaultPokemonArray
     };
 
     expect(rootReducer(currentState, action)).toEqual(nextState);

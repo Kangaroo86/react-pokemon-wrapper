@@ -4,7 +4,7 @@ import mockData from '../mock-data/defaultPokemon';
 import getDefaultPokemon from '../api/getDefaultPokemon';
 jest.mock('../api/getDefaultPokemon');
 
-describe('getUserDecksProcess', () => {
+describe('getDefaultPokemonProcess', () => {
   xit(
     'returns array of obj pokemon, and dispatches FETCHED_DEFAULT_POKEMON',
     () => {
@@ -16,12 +16,12 @@ describe('getUserDecksProcess', () => {
       const dispatch = jest.fn();
       const getState = () => ({});
 
-      return thunk(dispatch, getState, {}).then(pokemonObj => {
+      return thunk(dispatch, getState, {}).then(defaultPokemonArray => {
         expect(getDefaultPokemon).toBeCalled();
-        expect(pokemonObj).toEqual(mockData);
+        expect(defaultPokemonArray).toEqual(mockData);
         expect(dispatch).toBeCalledWith({
           type: 'FETCHED_DEFAULT_POKEMON',
-          pokemonObj
+          defaultPokemonArray
         });
       });
     }

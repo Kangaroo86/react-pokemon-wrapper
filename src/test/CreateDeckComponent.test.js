@@ -1,6 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import CreateDeckComponent from '../components/CreateDeckComponent';
+import { Card, Grid } from 'semantic-ui-react';
+import { expect } from 'chai';
 
 describe('pokemonArray', () => {
   const pokemonArray = [
@@ -17,12 +19,19 @@ describe('pokemonArray', () => {
     }
   ];
 
-  it('Render pokemonArray', () => {
+  xit('checks for Card, Grid, Div exist & should Render PokemonArray', () => {
     const wrapper = shallow(
       <CreateDeckComponent pokemonArray={pokemonArray} />
     );
-    expect(wrapper.find('#character.id')).toBe(
-      pokemonArray.map(character => character.id)
-    );
+    //console.log('this is my wrapper-----', wrapper);
+    pokemonArray.forEach(character => {
+      // expect(wrapper.find(`#${character.id}`)).to.have.length(1);
+      expect(
+        wrapper.find({ id: character.id, name: character.name })
+      ).to.have.length(1);
+    });
+    expect(wrapper.find(Card)).to.have.length(pokemonArray.length);
+    expect(wrapper.find(Grid)).to.have.length(2);
+    //expect(wrapper.contains(<div />)).to.equal(true);
   });
 });

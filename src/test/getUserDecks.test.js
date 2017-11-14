@@ -4,7 +4,7 @@ import recordToUserDeck from '../api/utils/recordToUserDeck';
 fetch = require('jest-fetch-mock');
 
 describe('getUserDecks', () => {
-  xit('fetch user decks', () => {
+  it('fetch user decks', () => {
     fetch.mockResponse(JSON.stringify(mockData));
 
     return getUserDecks({
