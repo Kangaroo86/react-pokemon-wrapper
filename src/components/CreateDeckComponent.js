@@ -99,9 +99,11 @@ export default class CreateDeckComponent extends Component {
         </Grid>
         <br />
         <Card.Group ref="pokemonDisplayed" itemsPerRow={9}>
+          {console.log('pokemonArray----', this.props.pokemonArray)}
           {this.props.pokemonArray &&
             this.props.pokemonArray.map(character =>
               <Card
+                key={character.id}
                 color="red"
                 name={character.name}
                 id={character.id}
@@ -123,7 +125,7 @@ export default class CreateDeckComponent extends Component {
         <Divider section />
         <Segment style={{ padding: '5em 0em' }} vertical>
           <Grid container stackable verticalAlign="middle">
-            <Grid.Row right>
+            <Grid.Row floated="right">
               <Popup trigger={<Image src={professorOak} size="medium" />}>
                 {this.state.selectedPokemon.length < 6
                   ? <Popup.Header>- Select at least 6 pokemon</Popup.Header>
@@ -161,6 +163,7 @@ export default class CreateDeckComponent extends Component {
                 <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>
                   {this.state.selectedPokemon.map(character =>
                     <Card
+                      key={character.id}
                       color="blue"
                       image={character.image}
                       id={character.id}
