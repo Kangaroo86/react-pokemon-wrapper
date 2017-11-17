@@ -1,8 +1,11 @@
 import createDecks from '../../api/createDecks';
 
-export default function createUserDeckProcess(deckName, pokemonIds) {
+export default function createUserDeckProcess(deckObj) {
+  console.log('deckName-----', deckObj);
+  //console.log('id-----', id);
+  //console.log('pokemonIdd-----', pokemonIds);
   return (dispatch, getState, env) => {
-    return createDecks(deckName, pokemonIds)
+    return createDecks(deckObj, deckObj.userId)
       .then(createdUserDeck => {
         return createdUserDeck;
       })
