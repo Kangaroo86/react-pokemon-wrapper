@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import pokemonTitle from '../images/pokemonTitle.png';
 import pokeball2 from '../images/pokeball2.png';
 
@@ -15,6 +16,7 @@ import {
 
 export default function InboxPageLayout(props) {
   // console.log('this prossss', props);
+
   return (
     <div>
       <Segment
@@ -24,10 +26,14 @@ export default function InboxPageLayout(props) {
         vertical>
         <Container>
           <Menu inverted pointing secondary size="large">
-            <Menu.Item as="a" active>
-              Home
-            </Menu.Item>
-            <Menu.Item as="a">Instruction</Menu.Item>
+            <Link to="/signin">
+              <Menu.Item as="a" active>
+                SignIn
+              </Menu.Item>
+            </Link>
+            <Link to="/signup">
+              <Menu.Item as="a">SignUp</Menu.Item>
+            </Link>
           </Menu>
         </Container>
 

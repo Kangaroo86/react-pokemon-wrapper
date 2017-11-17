@@ -92,7 +92,7 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
-    console.log('Create deck props------', this.props.userSignIn);
+    //console.log('Create deck props------', this.props.userSignIn);
     return (
       <div>
         <Grid textAlign="center">
@@ -159,7 +159,7 @@ export default class CreateDeckComponent extends Component {
               <Grid.Column floated="right" width={6}>
                 <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>
                   {this.state.selectedPokemon.map(character => {
-                    console.log('character-------', character);
+                    // console.log('character-------', character);
                     return (
                       <Card
                         color="blue"
