@@ -1,5 +1,6 @@
 export default function getPokemon(pokemonId) {
-  var Pokedex = require('pokeapi-js-wrapper');
+  //var Pokedex = require('pokeapi-js-wrapper');
+  var Pokedex = require('../pokeapi-js-wrapper');
   let options = {
     protocol: 'https',
     cache: true
