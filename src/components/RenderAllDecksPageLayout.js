@@ -43,11 +43,11 @@ export default function InboxPageLayout(props) {
             <List.Item as="a" href="#">
               gotta catch em all
             </List.Item>
-            <ReactAudioPlayer
+            {/* <ReactAudioPlayer
               src="http://files.simey.me/pokonami/battle.mp3"
               autoPlay
               // loop="true"
-            />
+            /> */}
           </List>
         </Container>
       </Segment>

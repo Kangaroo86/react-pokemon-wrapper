@@ -85,11 +85,11 @@ export default class SignUpComponent extends Component {
     // console.log('props passed in: ----', this.state.errorEmail);
     return (
       <div className="login-form">
-        <ReactAudioPlayer
+        {/* <ReactAudioPlayer
           src="http://files.simey.me/pokonami/pallet.mp3"
           autoPlay
           loop="true"
-        />
+        /> */}
         <style>{`
           body > div,
           body > div > div,

@@ -43,6 +43,10 @@ export default class RenderAllDecksComponent extends Component {
     this.setState({ selectedDeckId: data.target.id });
   };
 
+  refreshPage = () => {
+    window.parent.location = window.parent.location.href;
+  };
+
   handle_updateDecks = (event, data, deckName, pokemonIds) => {
     // let $target = data.target;
     //let deck_id = $target.deckId.id;
@@ -58,6 +62,7 @@ export default class RenderAllDecksComponent extends Component {
     //console.log('these  are the props,>>>>>>>>>>>>>>>>>', this.props);
     return (
       <div>
+        {/* {this.refreshPage()} */}
         <Grid columns={3} divided>
           <Grid.Row stretched>
             {this.props.userDecks.map((deck, i) => {

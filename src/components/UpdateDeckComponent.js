@@ -67,17 +67,27 @@ export default class CreateDeckComponent extends Component {
   };
 
   //**Create Deck**//
-  handle_createDeck = event => {
-    const deckName = this.state.selectedDeckName.trim();
-    const pickedPokemonId = this.state.selectedPokemon.map(
-      character => character.id
+  handle_updateDeck = event => {
+    const pokemonIds = this.state.selectedPokemon.map(pokemon => pokemon.id);
+    const deckId = this.props.match.params.deckId;
+    console.log('deckId------', typeof deckId, deckId);
+    this.props.update_decks(
+      {
+        pokemonIds
+      },
+      deckId
     );
-    this.props.create_decks(deckName, pickedPokemonId);
     this.setState({ redirect: true });
   };
 
   render() {
     let userObj = this.props.userDecks.filter(result => {
+      console.log('userDecks-------', this.props.userDecks);
+      console.log('history-------', this.props.history);
+      console.log(
+        'this.props.match.params.deckId-------',
+        this.props.match.params.deckId
+      );
       return result.id === parseInt(this.props.match.params.deckId, 10);
     });
     return (
@@ -144,7 +154,7 @@ export default class CreateDeckComponent extends Component {
                       READY
                     </Button>
 
-                    <Button basic color="red" onClick={this.handle_updateDecks}>
+                    <Button basic color="red" onClick={this.handle_updateDeck}>
                       UPDATE
                     </Button>
                   </Card.Content>

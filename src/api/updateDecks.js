@@ -1,24 +1,21 @@
-import recordToUserDeck from './utils/recordToUserDeck';
+//import recordToUserDeck from './utils/recordToUserDeck';
+import env from '../env';
 
-export default function updateUserDeck(
-  id,
-  deckName,
-  pokemonIds,
-  { databaseId, token }
-) {
-  return fetch(`https://api.airtable.com/v0/${databaseId}/decks/${id}`, {
-    method: 'PATCH',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      fields: {
-        name: deckName,
-        cards: pokemonIds.join(',')
-      }
+export default function updateUserDeck(deckObj, deckId) {
+  console.log('deckObj------', deckObj);
+  console.log('deckId------', deckId);
+  const storedToken = localStorage.getItem('token');
+  return (
+    fetch(`${env.API_BASE_URL}/decks/${deckId}`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(deckObj)
     })
-  })
-    .then(response => response.json())
-    .then(record => recordToUserDeck(record));
+      .then(response => response.json())
+      // .then(record => recordToUserDeck(record)) //take this out?
+      .catch(err => console.log('API CALL::UPDATE DECK ERROR::', err))
+  );
 }

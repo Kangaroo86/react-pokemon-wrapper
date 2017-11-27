@@ -28,8 +28,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     delete_decks: id => {
       dispatch(deleteDecksProcess(id));
     },
-    update_Decks: (id, deckName, pokemonIds) => {
-      dispatch(updateDecksProcess(id, deckName, pokemonIds));
+    update_decks: (deckObj, id) => {
+      dispatch(updateDecksProcess(deckObj, id));
     }
   };
 }

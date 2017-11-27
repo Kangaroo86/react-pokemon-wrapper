@@ -10,7 +10,7 @@ export default function IndexPage({
   userDecks,
   get_userDecks,
   delete_decks,
-  update_Decks,
+  update_decks,
   get_default_pokemon,
   history,
   match,
@@ -26,7 +26,7 @@ export default function IndexPage({
         userDecks={userDecks}
         get_userDecks={get_userDecks}
         delete_decks={delete_decks}
-        update_Decks={update_Decks}
+        update_decks={update_decks}
         get_default_pokemon={get_default_pokemon}
         history={history}
         match={match}

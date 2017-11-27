@@ -11,7 +11,7 @@ export default function signInProcess(attribute) {
             userSignIn: result
           });
         } else {
-          //console.log('SignInProcess THUNK SUCESSFULL---:', result);
+          console.log('SignInProcess THUNK SUCESSFULL---:', result);
           localStorage.setItem('token', result.token);
           localStorage.setItem('userId', result.id);
           dispatch({
