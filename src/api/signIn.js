@@ -12,7 +12,6 @@ export default function doctorLogin(attribute) {
     })
   })
     .then(response => {
-      //console.log('SignIn API: Response----', response);
       if (response.status === 400) {
         return { error: 'Invalid request' };
       } else {
@@ -27,5 +26,5 @@ export default function doctorLogin(attribute) {
         error: record.error
       };
     })
-    .catch(err => err);
+    .catch(err => console.log('API call signIn failed: ', err));
 }

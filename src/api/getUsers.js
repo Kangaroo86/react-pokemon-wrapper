@@ -14,7 +14,5 @@ export default function getUsers() {
       console.log('user from api ', data);
       return data;
     })
-    .catch(err => {
-      console.log('getUsers API FAILED:', err);
-    });
+    .catch(err => console.log('API call getUsers failed: ', err));
 }

@@ -17,9 +17,7 @@ export default function getUserDecks() {
     .then(data => {
       return data;
     })
-    .catch(err => {
-      console.log('API CALL::GETUSERDECKS ERROR::', err);
-    });
+    .catch(err => console.log('API call getUserDecks failed:', err));
 }
 
 /**how localstorage.getItem work is that we set it with localStorage.setItem().

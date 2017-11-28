@@ -12,12 +12,10 @@ export default function createUserDeck(deckObj, id) {
     body: JSON.stringify(deckObj)
   })
     .then(response => {
-      console.log('API call----', response);
       return response.json();
     })
     .then(response => {
-      console.log('API call----', response);
       return response;
     })
-    .catch(err => console.log('API CALL::CREATE DECK ERROR:: ', err));
+    .catch(err => console.log('API call createDeck failed: ', err));
 }

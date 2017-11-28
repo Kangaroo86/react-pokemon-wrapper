@@ -8,5 +8,6 @@ export default function getDefaultPokemon() {
     })
     .then(data => {
       return data.map(recordToPokemon);
-    });
+    })
+    .catch(err => console.log('API call createDeck failed: ', err));
 }

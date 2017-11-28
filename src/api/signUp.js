@@ -11,5 +11,5 @@ export default function signUp(attribute) {
     .then(response => {
       return response.json();
     })
-    .catch(err => console.log('API CALL::SIGNUP ERROR::', err));
+    .catch(err => console.log('API call signUp failed: ', err));
 }

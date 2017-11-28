@@ -9,5 +9,6 @@ export default function getPokemon(pokemonId) {
   return P.getPokemonByName(pokemonId) // with Promise
     .then(response => {
       return response;
-    });
+    })
+    .catch(err => console.log('API call getPokemonObj failed: ', err));
 }

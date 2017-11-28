@@ -16,6 +16,6 @@ export default function updateUserDeck(deckObj, deckId) {
     })
       .then(response => response.json())
       // .then(record => recordToUserDeck(record)) //take this out?
-      .catch(err => console.log('API CALL::UPDATE DECK ERROR::', err))
+      .catch(err => console.log('API call getUsers failed: ', err))
   );
 }
