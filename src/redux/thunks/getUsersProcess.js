@@ -1,6 +1,6 @@
 import getUsers from '../../api/getUsers';
 
-export default function getPokemonObjProcess(pokemonId) {
+export default function getUsersProcess(pokemonId) {
   return (dispatch, getState) => {
     return getUsers().then(result => {
       dispatch({

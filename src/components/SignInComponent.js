@@ -30,10 +30,10 @@ export default class SignUpComponent extends Component {
     };
 
     //why doesnt this work?
-    if (this.props.userSignIn.error) {
-      isError = true;
-      errors.errorPassword = this.props.userSignIn.error;
-    }
+    // if (this.props.userSignIn.error === undefined) {
+    //   isError = true;
+    //   errors.errorPassword = 'Wrong Password';
+    // }
 
     if (name === '') {
       isError = true;
@@ -64,10 +64,10 @@ export default class SignUpComponent extends Component {
   };
 
   render() {
-    // console.log(
-    //   'SignInComponent.render: this.props.userSignIn=',
-    //   this.props.userSignIn.error
-    // );
+    console.log(
+      'SignInComponent.render: this.props.userSignIn====',
+      this.props.userSignIn
+    );
     return (
       <div className="login-form">
         {/* <ReactAudioPlayer

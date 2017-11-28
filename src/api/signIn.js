@@ -12,6 +12,7 @@ export default function doctorLogin(attribute) {
     })
   })
     .then(response => {
+      console.log('singIn response-------', response);
       if (response.status === 400) {
         return { error: 'Invalid request' };
       } else {
@@ -19,6 +20,7 @@ export default function doctorLogin(attribute) {
       }
     })
     .then(record => {
+      console.log('singIn record-------', record);
       return {
         id: record.id,
         name: record.name,
