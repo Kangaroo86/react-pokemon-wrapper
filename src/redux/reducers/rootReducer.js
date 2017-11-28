@@ -6,6 +6,7 @@ export default function rootReducer(
     userDecks: [],
     userSignup: {},
     userSignIn: {},
+    errorUserSignIn: {},
     users: []
   },
   action
@@ -16,6 +17,9 @@ export default function rootReducer(
 
     case 'USER_SIGNUP':
       return { ...currentState, userSignup: action.userSignup };
+
+    case 'ERROR_USERIN_MESSAGE':
+      return { ...currentState, errorUserSignIn: action.errorUserSignIn };
 
     case 'USER_SIGNIN':
       console.log('rootReducer USER_SIGNIN userSignIn=', action.userSignIn);

@@ -9,16 +9,18 @@ export default class SignUpComponent extends Component {
 
     this.state = {
       name: '',
-      password: ''
+      password: '',
+      errorName: ''
     };
   }
 
   handle_selectedName = data => {
-    this.setState(this.setState({ name: data.target.value }));
+    // this.setState(this.setState({ name: data.target.value }));
+    this.setState({ name: data.target.value });
   };
 
   handle_selectedPassword = data => {
-    this.setState(this.setState({ password: data.target.value }));
+    this.setState({ password: data.target.value });
   };
 
   validate = (name, password) => {
@@ -28,12 +30,6 @@ export default class SignUpComponent extends Component {
       errorName: '',
       errorPassword: ''
     };
-
-    //why doesnt this work?
-    // if (this.props.userSignIn.error === undefined) {
-    //   isError = true;
-    //   errors.errorPassword = 'Wrong Password';
-    // }
 
     if (name === '') {
       isError = true;
@@ -57,17 +53,13 @@ export default class SignUpComponent extends Component {
 
     if (errors !== true) {
       this.setState(errors);
-      return;
+      // return;
     } else {
+      this.props.signIn_user({ name, password });
     }
-    this.props.signIn_user({ name, password });
   };
 
   render() {
-    console.log(
-      'SignInComponent.render: this.props.userSignIn====',
-      this.props.userSignIn
-    );
     return (
       <div className="login-form">
         {/* <ReactAudioPlayer
@@ -105,6 +97,7 @@ export default class SignUpComponent extends Component {
                       {this.state.errorName}
                     </p>
                   : null}
+
                 <Form.Input
                   fluid
                   icon="lock"
@@ -116,7 +109,12 @@ export default class SignUpComponent extends Component {
                 />
                 {this.state.errorPassword !== ''
                   ? <p style={{ color: 'Red' }}>
-                      {this.state.errorPassword}
+                      {this.state.errorName}
+                    </p>
+                  : null}
+                {this.props.errorUserSignIn === 'Invalid request'
+                  ? <p style={{ color: 'Red' }}>
+                      {'Invalid request'}
                     </p>
                   : null}
                 <Button

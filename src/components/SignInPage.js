@@ -5,9 +5,10 @@ export default function SignInPage({
   signIn_user,
   users,
   userSignIn,
+  errorUserSignIn,
   history
 }) {
-  console.log('SignInPage userSignIn=', userSignIn);
+  console.log('SignInPage errorUserSignIn-------', errorUserSignIn);
   return (
     <div>
       <SignInComponent
@@ -15,6 +16,7 @@ export default function SignInPage({
         users={users}
         history={history}
         userSignIn={userSignIn}
+        errorUserSignIn={errorUserSignIn}
       />
     </div>
   );

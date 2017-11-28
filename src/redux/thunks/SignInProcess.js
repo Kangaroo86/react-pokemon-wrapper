@@ -4,11 +4,12 @@ export default function signInProcess(attribute) {
   return (dispatch, getState) => {
     return signIn(attribute)
       .then(result => {
-        //console.log('SignInProcess THUNK Failed---:', result);
-        if (result.id === undefined) {
+        console.log('SignInProcess THUNK Failed---:', result);
+        if (result.error === 'Invalid request') {
+          // Send
           dispatch({
-            type: 'USER_SIGNIN',
-            userSignIn: result
+            type: 'ERROR_USERIN_MESSAGE',
+            errorUserSignIn: result.error
           });
         } else {
           console.log('SignInProcess THUNK SUCESSFULL---:', result);
