@@ -37,11 +37,11 @@ export default class SignUpComponent extends Component {
 
     let duplicateName = '';
     let duplicateEmail = '';
-    this.props.users.map(userObj => {
-      if (userObj.name === name) {
+    this.props.users.usersObj.map(listOfUsers => {
+      if (listOfUsers.name === name) {
         duplicateName = true;
       }
-      if (userObj.email === email) {
+      if (listOfUsers.email === email) {
         duplicateEmail = true;
       }
     });
@@ -91,14 +91,13 @@ export default class SignUpComponent extends Component {
   };
 
   render() {
-    console.log('this.props.users: ----', this.props.users);
     return (
       <div className="login-form">
-        {/* <ReactAudioPlayer
+        <ReactAudioPlayer
           src="http://files.simey.me/pokonami/pallet.mp3"
           autoPlay
           loop="true"
-        /> */}
+        />
         <style>{`
           body > div,
           body > div > div,

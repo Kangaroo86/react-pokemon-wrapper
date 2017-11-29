@@ -5,7 +5,7 @@ import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import getDefaultPokemonProcess from '../thunks/getDefaultPokemonProcess';
 import createDecksProcess from '../thunks/createDecksProcess';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
-import getUsersProcess from '../thunks/getUsersProcess';
+import getRegisteredUsersObjProcess from '../thunks/getRegisteredUsersObjProcess';
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -28,7 +28,7 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch(createDecksProcess(deckName, pokemonIds, id));
     },
     get_user_decks: () => dispatch(getUserDecksProcess()),
-    get_user: () => dispatch(getUsersProcess())
+    get_user: () => dispatch(getRegisteredUsersObjProcess())
   };
 }
 

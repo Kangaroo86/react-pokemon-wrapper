@@ -1,6 +1,6 @@
 import env from '../env';
 
-export default function getUsers() {
+export default function getRegisteredUsersObj() {
   return fetch(`${env.API_BASE_URL}/users`, {
     method: 'GET',
     headers: {
@@ -11,7 +11,6 @@ export default function getUsers() {
       return response.json();
     })
     .then(data => {
-      console.log('user from api ', data);
       return data;
     })
     .catch(err => console.log('API call getUsers failed: ', err));
