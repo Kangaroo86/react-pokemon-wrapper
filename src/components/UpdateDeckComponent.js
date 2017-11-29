@@ -69,9 +69,11 @@ export default class CreateDeckComponent extends Component {
 
   //**Update Deck**//
   handle_updateDeck = event => {
-    const pokemonIds = this.state.selectedPokemon.map(pokemon => pokemon.id);
+    const pokemonIds = this.state.selectedPokemon.map(pokemon => {
+      console.log('pokemonId--------', pokemon);
+      pokemon.id;
+    });
     const deckId = this.props.match.params.deckId;
-    console.log('deckId------', typeof deckId, deckId);
     this.props.update_decks(
       {
         pokemonIds

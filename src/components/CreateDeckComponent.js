@@ -24,7 +24,7 @@ export default class CreateDeckComponent extends Component {
     };
   }
 
-  //**call Pokemon API**//
+  //**call Pokemon API by passing pokemonId through default pokemon list**//
   handle_onPokemonObj = () => {
     if (this.props.pokemonArray.length < 18) {
       this.props.defaultPokemonArray.map(pokemon => {
@@ -91,7 +91,8 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
-    //console.log('Create deck props------', this.props.userSignIn);
+    //console.log('pokemonObj------', this.props.pokemonObj);
+    //console.log('pokemonArray------', this.props.pokemonArray);
     return (
       <div>
         <Grid textAlign="center">

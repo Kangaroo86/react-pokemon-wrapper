@@ -37,7 +37,9 @@ const connectToStore = connect(mapStateToProps, mapDispatchToProps);
 const withlifecycle = lifecycle({
   componentDidMount() {
     this.props.get_default_pokemon().then(result => {
-      result.map(column => this.props.onPokemonObj(column.pokemonId));
+      result.map(column => {
+        this.props.onPokemonObj(column.pokemonId);
+      });
     });
     this.props.get_user_decks();
     this.props.get_user();
