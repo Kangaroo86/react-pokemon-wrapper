@@ -15,15 +15,15 @@ export default class SignUpComponent extends Component {
   }
 
   handle_selectedName = data => {
-    this.setState(this.setState({ name: data.target.value }));
+    this.setState({ name: data.target.value });
   };
 
   handle_selectedEmail = data => {
-    this.setState(this.setState({ email: data.target.value }));
+    this.setState({ email: data.target.value });
   };
 
   handle_selectedPassword = data => {
-    this.setState(this.setState({ password: data.target.value }));
+    this.setState({ password: data.target.value });
   };
 
   //Validate user sign in
@@ -36,9 +36,13 @@ export default class SignUpComponent extends Component {
     };
 
     let duplicateName = '';
+    let duplicateEmail = '';
     this.props.users.map(userObj => {
       if (userObj.name === name) {
         duplicateName = true;
+      }
+      if (userObj.email === email) {
+        duplicateEmail = true;
       }
     });
 
@@ -50,6 +54,11 @@ export default class SignUpComponent extends Component {
     if (duplicateName === true) {
       isError = true;
       errors.errorName = 'Name has already existed';
+    }
+
+    if (duplicateEmail === true) {
+      isError = true;
+      errors.errorEmail = 'Email has already existed';
     }
 
     if (email === '') {
@@ -82,7 +91,7 @@ export default class SignUpComponent extends Component {
   };
 
   render() {
-    // console.log('props passed in: ----', this.state.errorEmail);
+    console.log('this.props.users: ----', this.props.users);
     return (
       <div className="login-form">
         {/* <ReactAudioPlayer
@@ -98,6 +107,7 @@ export default class SignUpComponent extends Component {
           }
         `}</style>
         <Grid
+          padded
           textAlign="center"
           style={{ height: '100%' }}
           verticalAlign="middle">

@@ -15,7 +15,6 @@ export default class SignUpComponent extends Component {
   }
 
   handle_selectedName = data => {
-    // this.setState(this.setState({ name: data.target.value }));
     this.setState({ name: data.target.value });
   };
 
@@ -53,7 +52,6 @@ export default class SignUpComponent extends Component {
 
     if (errors !== true) {
       this.setState(errors);
-      // return;
     } else {
       this.props.signIn_user({ name, password });
     }
@@ -75,6 +73,7 @@ export default class SignUpComponent extends Component {
           }
         `}</style>
         <Grid
+          padded
           textAlign="center"
           style={{ height: '100%' }}
           verticalAlign="middle">
@@ -114,7 +113,7 @@ export default class SignUpComponent extends Component {
                   : null}
                 {this.props.errorUserSignIn === 'Invalid request'
                   ? <p style={{ color: 'Red' }}>
-                      {'Invalid request'}
+                      {'Invalid password'}
                     </p>
                   : null}
                 <Button
