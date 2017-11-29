@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import professorOak from '../images/professorOak.png';
-
 import {
   Button,
   Form,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import jenny from '../images/jenny.jpg';
+import { Link } from 'react-router-dom';
 
 import {
   Segment,
@@ -66,7 +67,7 @@ export default class CreateDeckComponent extends Component {
     this.setState(this.setState({ selectedUserName: data.target.value }));
   };
 
-  //**Create Deck**//
+  //**Update Deck**//
   handle_updateDeck = event => {
     const pokemonIds = this.state.selectedPokemon.map(pokemon => pokemon.id);
     const deckId = this.props.match.params.deckId;
@@ -153,10 +154,14 @@ export default class CreateDeckComponent extends Component {
                     <Button basic color="green">
                       READY
                     </Button>
-
-                    <Button basic color="red" onClick={this.handle_updateDeck}>
-                      UPDATE
-                    </Button>
+                    <Link to="/decks/render">
+                      <Button
+                        basic
+                        color="red"
+                        onClick={this.handle_updateDeck}>
+                        UPDATE
+                      </Button>
+                    </Link>
                   </Card.Content>
                   <Segment inverted>
                     <Progress percent={50} inverted progress success>

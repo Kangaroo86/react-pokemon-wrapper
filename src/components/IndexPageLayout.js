@@ -15,8 +15,6 @@ import {
 } from 'semantic-ui-react';
 
 export default function InboxPageLayout(props) {
-  // console.log('this prossss', props);
-
   return (
     <div>
       <Segment
