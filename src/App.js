@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import setupStore from './redux/setupStore';
 
-import PokemonPageContainer from './redux/containers/PokemonPageContainer';
+import CreateDeckContainer from './redux/containers/CreateDeckContainer';
 import RenderAllDecksPageContainer from './redux/containers/RenderAllDecksPageContainer';
 import BattlePageContainer from './redux/containers/BattlePageContainer';
 import UpdateDeckPageContainer from './redux/containers/UpdateDeckPageContainer';
@@ -30,14 +30,14 @@ export default class App extends Component {
               />
               <Route
                 exact
-                path="/signin"
+                path="/"
                 component={SignInContainer}
                 history={history}
               />
               <Route
                 exact
-                path="/"
-                component={PokemonPageContainer}
+                path="/decks/createDeck"
+                component={CreateDeckContainer}
                 history={history}
               />
               <Route

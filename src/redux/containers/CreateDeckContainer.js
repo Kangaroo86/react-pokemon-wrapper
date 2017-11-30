@@ -1,6 +1,6 @@
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
-import IndexPage from '../../components/IndexPage';
+import CreateDeckPage from '../../components/CreateDeckPage';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import getDefaultPokemonProcess from '../thunks/getDefaultPokemonProcess';
 import createDecksProcess from '../thunks/createDecksProcess';
@@ -42,4 +42,4 @@ const withlifecycle = lifecycle({
   }
 });
 
-export default compose(connectToStore, withlifecycle)(IndexPage);
+export default compose(connectToStore, withlifecycle)(CreateDeckPage);

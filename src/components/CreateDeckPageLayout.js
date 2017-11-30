@@ -14,7 +14,7 @@ import {
   Divider
 } from 'semantic-ui-react';
 
-export default function InboxPageLayout(props) {
+export default function CreateDeckPageLayout(props) {
   return (
     <div>
       <Segment
@@ -24,11 +24,11 @@ export default function InboxPageLayout(props) {
         vertical>
         <Container>
           <Menu inverted pointing secondary size="large">
-            <Link to="/signin">
-              <Menu.Item as="a" active>
-                SignOut
-              </Menu.Item>
-            </Link>
+            {/* <Link to="/signin"> */}
+            <Menu.Item as="a" active>
+              SignOut
+            </Menu.Item>
+            {/* </Link> */}
             <Link to="/decks/render">
               <Menu.Item as="a">Deck Management</Menu.Item>
             </Link>

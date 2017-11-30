@@ -1,8 +1,7 @@
 import React from 'react';
-import pokeball04 from '../images/pokeball04.png';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
-import ReactAudioPlayer from 'react-audio-player';
+//import ReactAudioPlayer from 'react-audio-player';
 
 import {
   Segment,
@@ -13,32 +12,29 @@ import {
   Divider
 } from 'semantic-ui-react';
 
-export default function InboxPageLayout(props) {
-  // console.log('this prossss', props);
+export default function RenderAllDecksPageLayout(props) {
   return (
     <div>
       <Menu inverted>
         <Container>
-          <Menu.Item as="a" heade>
-            <Link to="/">
-              <Image
-                size="mini"
-                src={pokeball2}
-                style={{ marginRight: '1.5em' }}
-              />
-            </Link>
+          <Menu.Item>
+            <Image
+              size="mini"
+              src={pokeball2}
+              style={{ marginRight: '1.5em' }}
+            />
             Pokemon Decks
           </Menu.Item>
-          <Menu.Item as="a" heade>
-            <Link to="/">
+          <Link to="/decks/createDeck">
+            <Menu.Item>
               <Image
                 size="mini"
                 src={pokeball2}
                 style={{ marginRight: '1.5em' }}
               />
-            </Link>
-            Build Decks
-          </Menu.Item>
+              Create New Deck
+            </Menu.Item>
+          </Link>
         </Container>
       </Menu>
 

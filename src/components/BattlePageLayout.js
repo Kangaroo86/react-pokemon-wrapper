@@ -2,17 +2,9 @@ import React from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
 
-import {
-  Segment,
-  Header,
-  Image,
-  List,
-  Container,
-  Menu,
-  Grid
-} from 'semantic-ui-react';
+import { Image, Container, Menu } from 'semantic-ui-react';
 
-export default function InboxPageLayout(props) {
+export default function BattlePageLayout(props) {
   // console.log('this prossss', props);
   return (
     <div>

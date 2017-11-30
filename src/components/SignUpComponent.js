@@ -28,7 +28,7 @@ export default class SignUpComponent extends Component {
 
   //Validate user sign in
   validate = (name, email, password) => {
-    let isError = false;
+    let isThereError = false;
     const errors = {
       errorName: '',
       errorEmail: '',
@@ -47,30 +47,30 @@ export default class SignUpComponent extends Component {
     });
 
     if (name === '') {
-      isError = true;
+      isThereError = true;
       errors.errorName = 'Name could not be blank';
     }
 
     if (duplicateName === true) {
-      isError = true;
+      isThereError = true;
       errors.errorName = 'Name has already existed';
     }
 
     if (duplicateEmail === true) {
-      isError = true;
+      isThereError = true;
       errors.errorEmail = 'Email has already existed';
     }
 
     if (email === '') {
-      isError = true;
+      isThereError = true;
       errors.errorEmail = 'Email could not be blank';
     }
 
     if (password === '') {
-      isError = true;
+      isThereError = true;
       errors.errorPassword = 'Password could not be blank';
     }
-    return isError ? errors : true;
+    return isThereError ? errors : true;
   };
 
   handle_signup = (event, data) => {
@@ -79,10 +79,10 @@ export default class SignUpComponent extends Component {
     const email = this.state.email.trim();
     const password = this.state.password.trim();
 
-    const error = this.validate(name, email, password);
+    const errorPass = this.validate(name, email, password);
 
-    if (error !== true) {
-      this.setState(error);
+    if (errorPass !== true) {
+      this.setState(errorPass);
       return;
     } else {
       this.props.user_signup({ name: name, email: email, password: password });

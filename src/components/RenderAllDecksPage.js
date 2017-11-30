@@ -2,7 +2,7 @@ import React from 'react';
 import RenderAllDecksComponent from './RenderAllDecksComponent';
 import RenderAllDecksPageLayout from './RenderAllDecksPageLayout';
 
-export default function IndexPage({
+export default function RenderAllDecksPage({
   pokemonObj,
   pokemonArray,
   defaultPokemonArray,

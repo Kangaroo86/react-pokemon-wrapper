@@ -11,7 +11,7 @@ import {
   Divider
 } from 'semantic-ui-react';
 
-export default function InboxPageLayout(props) {
+export default function UpdateDeckPageLayout(props) {
   return (
     <div>
       <Menu inverted>

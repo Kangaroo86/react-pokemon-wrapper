@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import ReactAudioPlayer from 'react-audio-player';
+//import ReactAudioPlayer from 'react-audio-player';
 
 import {
   Button,

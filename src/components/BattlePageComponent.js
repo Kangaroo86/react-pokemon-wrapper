@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Card, Image, Icon, Grid, Segment } from 'semantic-ui-react';
-import jenny from '../images/jenny.jpg';
+import { Card, Grid } from 'semantic-ui-react';
 import eevee from '../images/eevee.png';
-import whiteimage from '../images/white-image.png';
 
 export default class RenderAllDecksComponent extends Component {
   constructor(props) {
