@@ -1,6 +1,6 @@
 export default function rootReducer(
   currentState = {
-    pokemonObj: null,
+    //pokemonObj: null,
     pokemonArray: [],
     defaultPokemonArray: [],
     userDecks: [],
@@ -22,18 +22,20 @@ export default function rootReducer(
       return { ...currentState, errorUserSignIn: action.errorUserSignIn };
 
     case 'USER_SIGNIN':
-      console.log('rootReducer USER_SIGNIN userSignIn=', action.userSignIn);
       return { ...currentState, userSignIn: action.userSignIn };
 
-    case 'FETCHED_POKEMON_OBJ':
-      let updatedPokeArray = [...currentState.pokemonArray];
-      updatedPokeArray.push(action.pokemonObj);
+    case 'FETCHED_POKEMON_OBJ_LIST':
+      return { ...currentState, pokemonArray: action.pokemonObjList };
 
-      return {
-        ...currentState,
-        pokemonObj: action.pokemonObj,
-        pokemonArray: updatedPokeArray
-      };
+    // case 'FETCHED_POKEMON_OBJ_LIST':
+    //   let updatedPokeArray = [...currentState.pokemonArray];
+    //   updatedPokeArray.push(action.pokemonObj);
+    //
+    //   return {
+    //     ...currentState,
+    //     pokemonObj: action.pokemonObj,
+    //     pokemonArray: updatedPokeArray
+    //   };
 
     case 'FETCHED_DEFAULT_POKEMON':
       return {

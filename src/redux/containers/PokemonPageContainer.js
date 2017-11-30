@@ -9,7 +9,7 @@ import getRegisteredUsersObjProcess from '../thunks/getRegisteredUsersObjProcess
 
 function mapStateToProps(state, ownProps) {
   return {
-    pokemonObj: state.pokemonObj,
+    //pokemonObj: state.pokemonObj,
     pokemonArray: state.pokemonArray,
     defaultPokemonArray: state.defaultPokemonArray,
     userDecks: state.userDecks,
@@ -20,8 +20,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onPokemonObj: pokemonId => {
-      dispatch(getPokemonObjProcess(pokemonId));
+    onPokemonObj: () => {
+      dispatch(getPokemonObjProcess());
     },
     get_default_pokemon: () => dispatch(getDefaultPokemonProcess()),
     create_decks: (deckName, pokemonIds, id) => {
@@ -36,11 +36,7 @@ const connectToStore = connect(mapStateToProps, mapDispatchToProps);
 
 const withlifecycle = lifecycle({
   componentDidMount() {
-    this.props.get_default_pokemon().then(result => {
-      result.map(column => {
-        this.props.onPokemonObj(column.pokemonId);
-      });
-    });
+    this.props.onPokemonObj();
     this.props.get_user_decks();
     this.props.get_user();
   }

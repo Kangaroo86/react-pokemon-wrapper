@@ -24,15 +24,6 @@ export default class CreateDeckComponent extends Component {
     };
   }
 
-  //**call Pokemon API by passing pokemonId through default pokemon list**//
-  handle_onPokemonObj = () => {
-    if (this.props.pokemonArray.length < 18) {
-      this.props.defaultPokemonArray.map(pokemon => {
-        return this.props.onPokemonObj(pokemon.pokemonId);
-      });
-    }
-  };
-
   //**setState select pokemon**//
   handle_selectedPokemon = (event, data) => {
     event.preventDefault();
@@ -70,11 +61,6 @@ export default class CreateDeckComponent extends Component {
   //**setState Deck Name**//
   handle_selectedDeckName = data => {
     this.setState(this.setState({ selectedDeckName: data.target.value }));
-  };
-
-  //**setState User Name**//
-  handle_selectedUserName = data => {
-    this.setState(this.setState({ selectedUserName: data.target.value }));
   };
 
   //**Create Deck**//
