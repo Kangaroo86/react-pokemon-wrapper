@@ -59,12 +59,12 @@ export default class CreateDeckComponent extends Component {
 
   //**setState Deck Name**//
   handle_selectedDeckName = data => {
-    this.setState(this.setState({ selectedDeckName: data.target.value }));
+    this.setState({ selectedDeckName: data.target.value });
   };
 
   //**setState User Name**//
   handle_selectedUserName = data => {
-    this.setState(this.setState({ selectedUserName: data.target.value }));
+    this.setState({ selectedUserName: data.target.value });
   };
 
   //**Update Deck**//
