@@ -4,34 +4,43 @@ import getDefaultPokemon from '../../api/getDefaultPokemon';
 export default function getPokemonObjProcess(pokemonId) {
   return (dispatch, getState) => {
     const scope = {};
-    return getPokemonObj(pokemonId).then(pokemonObj => {
-      return getDefaultPokemon()
-        .then(defaultPokemon => {
-          //const promiseAll = [];
-          console.log('default-----', defaultPokemon);
-          console.log('pokemonObj thunks------', pokemonObj);
-          let defaultList = defaultPokemon.map(result => {
-            scope.pokemonObj = result;
-            //promiseAll.push(result);
-            return result;
-          });
+    const promiseAll = [];
+    return getDefaultPokemon()
+      .then(defaultList => {
+        //console.log('defaultList------', defaultList);
+        scope.defaultPokemon = defaultList;
 
-          console.log('defaultlist----', defaultList);
+        const promises = [];
 
-          scope.pokemonObj = defaultList;
-          //return Promise.all(promiseAll);
-          return defaultList;
-        })
-        .then(defaultPokemon => {
-          console.log('my scope---', scope);
-          console.log('defaultPokemon-----', defaultPokemon);
+        let eachId = defaultList.map(pokeObj => {
+          return pokeObj.pokemonId;
+          //console.log('mypokeObj----', pokeObj);
         });
-      // console.log('pokemonObj thunks------', result);
-      // dispatch({
-      //   type: 'FETCHED_POKEMON_OBJ',
-      //   pokemonObj: result
-      // });
-    });
+
+        eachId.forEach(id => {
+          promises.push(getPokemonObj(id));
+        });
+
+        console.log('eachId------', eachId);
+        return Promise.all(promises);
+      })
+      .then(pokemonObj => {
+        scope.defaultPokemon.forEach(obj => {
+          console.log('obj*********', obj.pokemonId);
+          pokemonObj.find(character => {
+            console.log('character*********', character.id);
+            character.id === obj.pokemonId;
+          });
+        });
+        console.log('pokemonObj--------', pokemonObj);
+        console.log('scope----', scope);
+        //console.log('pokemonObj-----', pokemonObj);
+      });
+    // console.log('pokemonObj thunks------', result);
+    // dispatch({
+    //   type: 'FETCHED_POKEMON_OBJ',
+    //   pokemonObj: result
+    // });
   };
 }
 
