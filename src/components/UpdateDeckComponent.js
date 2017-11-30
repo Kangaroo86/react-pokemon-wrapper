@@ -69,14 +69,13 @@ export default class CreateDeckComponent extends Component {
 
   //**Update Deck**//
   handle_updateDeck = event => {
-    const pokemonIds = this.state.selectedPokemon.map(pokemon => {
-      console.log('pokemonId--------', pokemon);
-      pokemon.id;
+    const characterIdArray = this.state.selectedPokemon.map(pokemon => {
+      return pokemon.characterId;
     });
     const deckId = this.props.match.params.deckId;
     this.props.update_decks(
       {
-        pokemonIds
+        characterIdArray
       },
       deckId
     );
@@ -84,15 +83,9 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
-    let userObj = this.props.userDecks.filter(result => {
-      console.log('userDecks-------', this.props.userDecks);
-      console.log('history-------', this.props.history);
-      console.log(
-        'this.props.match.params.deckId-------',
-        this.props.match.params.deckId
-      );
-      return result.id === parseInt(this.props.match.params.deckId, 10);
-    });
+    let userObj = this.props.userDecks.filter(
+      result => result.id === parseInt(this.props.match.params.deckId, 10)
+    );
     return (
       <div>
         <Grid textAlign="center">
@@ -103,25 +96,28 @@ export default class CreateDeckComponent extends Component {
         <br />
         <Card.Group ref="pokemonDisplayed" itemsPerRow={9}>
           {this.props.pokemonArray &&
-            this.props.pokemonArray.map(character =>
-              <Card
-                color="red"
-                name={character.name}
-                id={character.id}
-                moves={character.moves
-                  .slice(0, 2)
-                  .map(result => result.move.name)}
-                stats={character.stats.map(result => {
-                  let newState = {};
-                  newState.base_stat = result.base_stat;
-                  newState.name = result.stat.name;
-                  return newState;
-                })}
-                types={character.types.map(result => result.type.name)}
-                image={character.sprites.front_default}
-                onClick={this.handle_selectedPokemon}
-              />
-            )}
+            this.props.pokemonArray.map(pokemonObj => {
+              return (
+                <Card
+                  color="red"
+                  name={pokemonObj.name}
+                  characterId={pokemonObj.characterId}
+                  id={pokemonObj.id}
+                  moves={pokemonObj.moves
+                    .slice(0, 2)
+                    .map(result => result.move.name)}
+                  stats={pokemonObj.stats.map(result => {
+                    let newState = {};
+                    newState.base_stat = result.base_stat;
+                    newState.name = result.stat.name;
+                    return newState;
+                  })}
+                  types={pokemonObj.types.map(result => result.type.name)}
+                  image={pokemonObj.sprites.front_default}
+                  onClick={this.handle_selectedPokemon}
+                />
+              );
+            })}
         </Card.Group>
 
         <Grid columns={3} divided>
@@ -185,11 +181,12 @@ export default class CreateDeckComponent extends Component {
             <Grid.Row right>
               <Grid.Column floated="right" width={6}>
                 <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>
-                  {this.state.selectedPokemon.map(character =>
+                  {this.state.selectedPokemon.map(pokemonObj =>
                     <Card
+                      characterId={pokemonObj.characterId}
                       color="blue"
-                      image={character.image}
-                      id={character.id}
+                      image={pokemonObj.image}
+                      id={pokemonObj.id}
                       onClick={this.handle_deletePokemon}
                     />
                   )}
