@@ -26,15 +26,6 @@ export default class CreateDeckComponent extends Component {
     };
   }
 
-  //**call Pokemon API**//
-  handle_onPokemonObj = () => {
-    if (this.props.pokemonArray.length < 18) {
-      this.props.defaultPokemonArray.map(pokemon => {
-        return this.props.onPokemonObj(pokemon.pokemonId);
-      });
-    }
-  };
-
   //**setState select pokemon**//
   handle_selectedPokemon = (event, data) => {
     event.preventDefault();

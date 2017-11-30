@@ -26,11 +26,11 @@ export default function InboxPageLayout(props) {
           <Menu inverted pointing secondary size="large">
             <Link to="/signin">
               <Menu.Item as="a" active>
-                SignIn
+                SignOut
               </Menu.Item>
             </Link>
-            <Link to="/signup">
-              <Menu.Item as="a">SignUp</Menu.Item>
+            <Link to="/decks/render">
+              <Menu.Item as="a">Deck Management</Menu.Item>
             </Link>
           </Menu>
         </Container>

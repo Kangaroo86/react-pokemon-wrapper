@@ -2,8 +2,6 @@
 import env from '../env';
 
 export default function updateUserDeck(deckObj, deckId) {
-  console.log('deckObj------', deckObj);
-  console.log('deckId------', deckId);
   const storedToken = localStorage.getItem('token');
   return (
     fetch(`${env.API_BASE_URL}/decks/${deckId}`, {

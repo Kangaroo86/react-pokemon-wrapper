@@ -15,7 +15,6 @@ export default function IndexPage({
   match,
   location
 }) {
-  //console.log('called from components', location, history, match);
   return (
     <RenderAllDecksPageLayout>
       <RenderAllDecksComponent

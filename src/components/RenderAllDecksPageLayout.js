@@ -1,4 +1,5 @@
 import React from 'react';
+import pokeball04 from '../images/pokeball04.png';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
 import ReactAudioPlayer from 'react-audio-player';
@@ -27,6 +28,16 @@ export default function InboxPageLayout(props) {
               />
             </Link>
             Pokemon Decks
+          </Menu.Item>
+          <Menu.Item as="a" heade>
+            <Link to="/">
+              <Image
+                size="mini"
+                src={pokeball2}
+                style={{ marginRight: '1.5em' }}
+              />
+            </Link>
+            Build Decks
           </Menu.Item>
         </Container>
       </Menu>

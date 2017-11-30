@@ -24,7 +24,7 @@ const withlifecycle = lifecycle({
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.userSignIn.token) {
-      this.props.history.push(`/`);
+      this.props.history.push(`/decks/render`);
     }
   }
 });

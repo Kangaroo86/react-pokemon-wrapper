@@ -10,7 +10,8 @@ export default class SignUpComponent extends Component {
     this.state = {
       name: '',
       password: '',
-      errorName: ''
+      errorName: '',
+      signInAccepted: false
     };
   }
 
@@ -23,7 +24,7 @@ export default class SignUpComponent extends Component {
   };
 
   validate = (name, password) => {
-    let isError = false;
+    let isThereError = false;
 
     let errors = {
       errorName: '',
@@ -31,16 +32,16 @@ export default class SignUpComponent extends Component {
     };
 
     if (name === '') {
-      isError = true;
+      isThereError = true;
       errors.errorName = 'Please enter your name';
     }
 
     if (password === '') {
-      isError = true;
+      isThereError = true;
       errors.errorPassword = 'Password entered is blank';
     }
 
-    return isError ? errors : true;
+    return isThereError ? errors : true;
   };
 
   handle_signin = (event, data) => {
@@ -48,11 +49,12 @@ export default class SignUpComponent extends Component {
     const name = this.state.name.trim();
     const password = this.state.password.trim();
 
-    let errors = this.validate(name, password);
+    let errorPass = this.validate(name, password);
 
-    if (errors !== true) {
-      this.setState(errors);
+    if (errorPass !== true) {
+      this.setState(errorPass);
     } else {
+      this.props.history.push(`/decks/render`);
       this.props.signIn_user({ name, password });
     }
   };

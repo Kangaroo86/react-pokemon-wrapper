@@ -17,14 +17,14 @@ export default function InboxPageLayout(props) {
       <Menu inverted>
         <Container>
           <Menu.Item as="a" heade>
-            <Link to="/">
+            <Link to="/decks/render">
               <Image
                 size="mini"
                 src={pokeball2}
                 style={{ marginRight: '1.5em' }}
               />
             </Link>
-            Update Deck
+            Deck Management
           </Menu.Item>
         </Container>
       </Menu>

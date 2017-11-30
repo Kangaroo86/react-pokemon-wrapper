@@ -43,9 +43,9 @@ export default class RenderAllDecksComponent extends Component {
     this.setState({ selectedDeckId: data.target.id });
   };
 
-  refreshPage = () => {
-    window.parent.location = window.parent.location.href;
-  };
+  // refreshPage = () => {
+  //   window.parent.location = window.parent.location.href;
+  // };
 
   handle_updateDecks = (event, data, deckName, pokemonIds) => {
     // let $target = data.target;

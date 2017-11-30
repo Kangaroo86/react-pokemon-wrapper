@@ -9,7 +9,6 @@ import updateDecksProcess from '../thunks/updateDecksProcess';
 import getDefaultPokemonProcess from '../thunks/getDefaultPokemonProcess';
 
 function mapStateToProps(state, ownProps) {
-  //console.log('render state.userDecks containerXXXXX-----', state.userDecks);
   return {
     pokemonObj: state.pokemonObj,
     pokemonArray: state.pokemonArray,
