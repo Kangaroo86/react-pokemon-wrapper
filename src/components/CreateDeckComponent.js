@@ -82,6 +82,9 @@ export default class CreateDeckComponent extends Component {
   render() {
     return (
       <div>
+        {this.props.pokemonArray.map(result => {
+          console.log('my resul------', result);
+        })}
         <Grid textAlign="center">
           <Header as="h3" style={{ fontSize: '2em' }}>
             Choose your Pokemon
