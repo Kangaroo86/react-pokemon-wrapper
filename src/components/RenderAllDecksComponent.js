@@ -75,12 +75,12 @@ export default class RenderAllDecksComponent extends Component {
                 10
               );
               return (
-                <Grid.Column>
+                <Grid.Column key={i}>
                   <Card.Group>
                     <Card id={deck.id} name="deckId">
                       <Icon
                         id={deck.id}
-                        floated="left"
+                        // floated="left"
                         name="delete"
                         onClick={this.handle_deleteDecks}
                       />
@@ -91,9 +91,9 @@ export default class RenderAllDecksComponent extends Component {
                         </Card.Header>
                         {/* <Card.Meta>User Name</Card.Meta> */}
                         <List size="massive" horizontal>
-                          {deck.cards.map(character => {
+                          {deck.cards.map((character, i) => {
                             return (
-                              <Label size="small" image>
+                              <Label size="small" key={i} image>
                                 <Image src={character.sprites.front_default} />
                                 {character.name}
                               </Label>

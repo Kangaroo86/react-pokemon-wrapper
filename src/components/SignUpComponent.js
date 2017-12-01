@@ -37,7 +37,7 @@ export default class SignUpComponent extends Component {
 
     let duplicateName = '';
     let duplicateEmail = '';
-    this.props.users.usersObj.map(listOfUsers => {
+    this.props.users.usersObj.forEach(listOfUsers => {
       if (listOfUsers.name === name) {
         duplicateName = true;
       }

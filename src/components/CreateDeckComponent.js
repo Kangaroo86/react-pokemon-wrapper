@@ -60,7 +60,7 @@ export default class CreateDeckComponent extends Component {
 
   //**setState Deck Name**//
   handle_selectedDeckName = data => {
-    this.setState(this.setState({ selectedDeckName: data.target.value }));
+    this.setState({ selectedDeckName: data.target.value });
   };
 
   //**Create Deck**//
@@ -68,6 +68,9 @@ export default class CreateDeckComponent extends Component {
     const deckName = this.state.selectedDeckName.trim();
     const pokemonIds = this.state.selectedPokemon.map(pokemon => pokemon.id);
     const userId = this.props.userSignIn.id;
+    console.log('this.props.userSignIn-----------', this.props.userSignIn);
+    console.log('this.props.history-----------', this.props.history);
+    console.log('this.props-----------', this.props);
     this.props.create_decks({
       deckName,
       pokemonIds,

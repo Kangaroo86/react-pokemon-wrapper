@@ -10,7 +10,8 @@ export default function IndexPage({
   create_decks,
   userDecks,
   users,
-  userSignIn
+  userSignIn,
+  history
 }) {
   return (
     <CreateDeckPageLayout>
@@ -23,6 +24,7 @@ export default function IndexPage({
         userDecks={userDecks}
         users={users}
         userSignIn={userSignIn}
+        history={history}
       />
     </CreateDeckPageLayout>
   );

@@ -44,6 +44,7 @@ export default class App extends Component {
                 exact
                 path="/decks/battle"
                 component={BattlePageContainer}
+                history={history}
               />
               <Route
                 exact
@@ -55,6 +56,7 @@ export default class App extends Component {
                 exact
                 path="/decks/:deckId/update"
                 component={UpdateDeckPageContainer}
+                history={history}
               />
             </Switch>
           </Router>

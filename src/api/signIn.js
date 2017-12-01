@@ -19,6 +19,7 @@ export default function doctorLogin(attribute) {
       }
     })
     .then(record => {
+      console.log('my recooordss-----', record);
       return {
         id: record.id,
         name: record.name,
