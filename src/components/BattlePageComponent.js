@@ -33,7 +33,7 @@ export default class RenderAllDecksComponent extends Component {
   render() {
     return (
       <div>
-        <Grid columns="equal" divided padded>
+        {/* <Grid columns="equal" divided padded>
           <Grid.Row textAlign="center">
             <Grid.Column>
               <Segment color="blue">
@@ -90,63 +90,108 @@ export default class RenderAllDecksComponent extends Component {
               </Segment>
             </Grid.Column>
           </Grid.Row>
+        </Grid> */}
+
+        {/* <Grid celled>
+          <Grid.Row columns="equal">
+            <Grid.Column>
+              <Button basic color="green">
+                ATK
+              </Button>
+            </Grid.Column>
+            <Grid.Column>
+              <Button basic color="green">
+                ATK
+              </Button>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row columns="equal">
+            <Grid.Column>
+              <Button basic color="green">
+                ATK
+              </Button>
+            </Grid.Column>
+            <Grid.Column>
+              <Button basic color="green">
+                ATK
+              </Button>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid> */}
+
+        <Grid columns="equal" divided padded>
+          <Grid.Row textAlign="center">
+            <Card.Group itemsPerRow={5}>
+              <Card color="red" image={eevee} />
+              <Card color="orange" image={eevee} />
+              <Card color="yellow" image={eevee} />
+              <Card color="olive" image={eevee} />
+              <Card color="green" image={eevee} />
+            </Card.Group>
+          </Grid.Row>
+
+          <Grid.Row textAlign="center">
+            <Card.Group itemsPerRow={5}>
+              <Card color="red" image={eevee} />
+              <Card color="orange" image={eevee} />
+              <Card color="yellow" image={eevee} />
+              <Card color="olive" image={eevee} />
+              <Card color="green" image={eevee} />
+            </Card.Group>
+          </Grid.Row>
         </Grid>
 
-        <Grid columns={3} divided>
-          <Grid.Row stretched>
-            <Grid.Column key={''}>
+        <Grid columns="equal" padded>
+          <Grid.Row>
+            <Grid.Column>
               <Card.Group>
-                <Card id={''} name="deckId">
+                <Card>
                   <Header as="h2">eevee</Header>
-
-                  {/* <Label.Group size="huge">
-                    <Label>eevee</Label>
-                  </Label.Group> */}
-
                   <Grid columns="equal" divided>
                     <Grid.Row>
                       <Grid.Column>
-                        <Label as="a" color="blue" image>
+                        <Label color="black">
                           <Icon name="heartbeat" size="huge" />
-                          HP
+                          HP:
                         </Label>
                       </Grid.Column>
                       <Grid.Column>
                         <Progress
                           active
-                          percent={32}
-                          color="red"
-                          value="3"
-                          total="5"
-                          progress="ratio"
+                          color="green"
                           size="big"
+                          value="4"
+                          total="5"
+                          progress="percent"
                         />
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>
 
                   <Segment color="blue" textAlign="center">
-                    <Image src={eevee} centered size="small" bordered />
+                    <Image src={eevee} centered size="small" />
                   </Segment>
-                  <Card.Content extra>
-                    <Button basic color="green">
-                      READY
-                    </Button>
-                    <Button
-                      value={'deck'}
-                      basic
-                      color="red"
-                      onClick={this.handle_updateDecks}>
-                      EDIT
-                    </Button>
-                  </Card.Content>
+
                   <Segment inverted>
-                    <Progress percent={50} inverted progress success>
-                      WINS
-                    </Progress>
-                    <Progress percent={10} inverted progress warning>
-                      LOSSES
-                    </Progress>
+                    <Menu compact icon="labeled">
+                      <Menu.Item name="bomb" onClick={''}>
+                        <Icon name="bomb" />
+                        Attack
+                      </Menu.Item>
+                      <Menu.Item
+                        name="lightning"
+                        onClick={this.handleItemClick}>
+                        <Icon name="lightning" />
+                        Attack
+                      </Menu.Item>
+                      <Menu.Item
+                        name="video play"
+                        onClick={this.handleItemClick}>
+                        <Icon name="shield" />
+                        Defend
+                      </Menu.Item>
+                    </Menu>
                   </Segment>
                 </Card>
               </Card.Group>
