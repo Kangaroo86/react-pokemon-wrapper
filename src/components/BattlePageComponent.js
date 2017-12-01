@@ -3,6 +3,8 @@ import {
   Card,
   Grid,
   Menu,
+  Comment,
+  Form,
   Icon,
   Item,
   List,
@@ -15,6 +17,7 @@ import {
   Segment
 } from 'semantic-ui-react';
 import eevee from '../images/eevee.png';
+import jenny from '../images/jenny.jpg';
 
 export default class RenderAllDecksComponent extends Component {
   constructor(props) {
@@ -33,7 +36,7 @@ export default class RenderAllDecksComponent extends Component {
   render() {
     return (
       <div>
-        <Grid columns="equal" padded>
+        <Grid center columns="equal" padded>
           <Grid.Row textAlign="center">
             <Grid.Column>
               <Segment inverted color="red">
@@ -180,63 +183,6 @@ export default class RenderAllDecksComponent extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-
-        {/* <Grid columns="equal" padded>
-          <Grid.Row>
-            <Grid.Column>
-              <Card.Group>
-                <Card>
-                  <Header as="h2">eevee</Header>
-                  <Grid columns="equal" divided>
-                    <Grid.Row>
-                      <Grid.Column>
-                        <Label color="black">
-                          <Icon name="heartbeat" size="huge" />
-                          HP:
-                        </Label>
-                      </Grid.Column>
-                      <Grid.Column>
-                        <Progress
-                          active
-                          color="green"
-                          size="big"
-                          value="4"
-                          total="5"
-                          progress="percent"
-                        />
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
-
-                  <Segment color="blue" textAlign="center">
-                    <Image src={eevee} centered size="small" />
-                  </Segment>
-
-                  <Segment inverted>
-                    <Menu compact icon="labeled">
-                      <Menu.Item name="bomb" onClick={''}>
-                        <Icon name="bomb" />
-                        Attack
-                      </Menu.Item>
-                      <Menu.Item
-                        name="lightning"
-                        onClick={this.handleItemClick}>
-                        <Icon name="lightning" />
-                        Attack
-                      </Menu.Item>
-                      <Menu.Item
-                        name="video play"
-                        onClick={this.handleItemClick}>
-                        <Icon name="shield" />
-                        Defend
-                      </Menu.Item>
-                    </Menu>
-                  </Segment>
-                </Card>
-              </Card.Group>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid> */}
       </div>
     );
   }
