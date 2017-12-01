@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Card,
   Grid,
+  Divider,
   Menu,
   Comment,
   Form,
@@ -18,6 +19,22 @@ import {
 } from 'semantic-ui-react';
 import eevee from '../images/eevee.png';
 import jenny from '../images/jenny.jpg';
+
+const colors = [
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green',
+  'teal',
+  'blue',
+  'violet',
+  'purple',
+  'pink',
+  'brown',
+  'grey',
+  'black'
+];
 
 export default class RenderAllDecksComponent extends Component {
   constructor(props) {
@@ -38,11 +55,7 @@ export default class RenderAllDecksComponent extends Component {
       <div>
         <Grid center columns="equal" padded>
           <Grid.Row textAlign="center">
-            <Grid.Column>
-              <Segment inverted color="red">
-                Player 1
-              </Segment>
-            </Grid.Column>
+            <Grid.Column />
             <Card.Group itemsPerRow={5}>
               <Card color="red" image={eevee} />
               <Card color="orange" image={eevee} />
@@ -50,17 +63,19 @@ export default class RenderAllDecksComponent extends Component {
               <Card color="olive" image={eevee} />
               <Card color="green" image={eevee} />
             </Card.Group>
-            <Grid.Column>
-              <Segment inverted color="red">
-                Player 1
-              </Segment>
-            </Grid.Column>
+            <Grid.Column />
           </Grid.Row>
 
-          <Grid.Row>
-            {/* 1nd Player */}
-            <Grid.Column>
-              <Card.Group>
+          <Segment inverted>
+            <Divider fitted horizontal inverted>
+              Horizontal
+            </Divider>
+          </Segment>
+
+          <Grid centered columns={5}>
+            <Grid.Row>
+              {/* 1nd Player */}
+              <Grid.Column>
                 <Card>
                   <Header as="h2">eevee</Header>
                   <Grid columns="equal">
@@ -87,32 +102,71 @@ export default class RenderAllDecksComponent extends Component {
                     <Image src={eevee} centered size="small" />
                   </Segment>
                   <Segment inverted>
-                    <Menu compact icon="labeled">
-                      <Menu.Item name="bomb" onClick={''}>
-                        <Icon name="bomb" />
-                        Attack
-                      </Menu.Item>
-                      <Menu.Item
-                        name="lightning"
-                        onClick={this.handleItemClick}>
-                        <Icon name="lightning" />
-                        Attack
-                      </Menu.Item>
-                      <Menu.Item
-                        name="video play"
-                        onClick={this.handleItemClick}>
-                        <Icon name="shield" />
-                        Defend
-                      </Menu.Item>
-                    </Menu>
+                    <Grid>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Menu compact icon="labeled">
+                            <Menu.Item name="bomb" onClick={''}>
+                              <Icon name="bomb" />
+                              Attack
+                            </Menu.Item>
+                            <Menu.Item
+                              name="lightning"
+                              onClick={this.handleItemClick}>
+                              <Icon name="lightning" />
+                              Attack
+                            </Menu.Item>
+                            <Menu.Item
+                              name="video play"
+                              onClick={this.handleItemClick}>
+                              <Icon name="shield" />
+                              Defend
+                            </Menu.Item>
+                          </Menu>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
                   </Segment>
                 </Card>
-              </Card.Group>
-            </Grid.Column>
+              </Grid.Column>
 
-            {/* 2nd Player */}
-            <Grid.Column>
-              <Card.Group>
+              <Comment.Group>
+                <Header as="h3" dividing>
+                  Comments
+                </Header>
+
+                <Comment>
+                  <Comment.Avatar src={jenny} />
+                  <Comment.Content>
+                    <Comment.Author as="a">Matt</Comment.Author>
+
+                    <Comment.Text>How artistic!</Comment.Text>
+                  </Comment.Content>
+                </Comment>
+
+                <Comment>
+                  <Comment.Avatar src={jenny} />
+                  <Comment.Content>
+                    <Comment.Author as="a">Joe Henderson</Comment.Author>
+                    <Comment.Text>
+                      Dude, this is awesome. Thanks so much
+                    </Comment.Text>
+                  </Comment.Content>
+                </Comment>
+
+                <Form reply>
+                  <Form.TextArea />
+                  <Button
+                    content="Add Reply"
+                    labelPosition="left"
+                    icon="edit"
+                    primary
+                  />
+                </Form>
+              </Comment.Group>
+
+              {/* 2nd Player */}
+              <Grid.Column>
                 <Card>
                   <Header as="h2">eevee</Header>
                   <Grid columns="equal">
@@ -139,36 +193,44 @@ export default class RenderAllDecksComponent extends Component {
                     <Image src={eevee} centered size="small" />
                   </Segment>
                   <Segment inverted>
-                    <Menu compact icon="labeled">
-                      <Menu.Item name="bomb" onClick={''}>
-                        <Icon name="bomb" />
-                        Attack
-                      </Menu.Item>
-                      <Menu.Item
-                        name="lightning"
-                        onClick={this.handleItemClick}>
-                        <Icon name="lightning" />
-                        Attack
-                      </Menu.Item>
-                      <Menu.Item
-                        name="video play"
-                        onClick={this.handleItemClick}>
-                        <Icon name="shield" />
-                        Defend
-                      </Menu.Item>
-                    </Menu>
+                    <Grid>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Menu compact icon="labeled">
+                            <Menu.Item name="bomb" onClick={''}>
+                              <Icon name="bomb" />
+                              Attack
+                            </Menu.Item>
+                            <Menu.Item
+                              name="lightning"
+                              onClick={this.handleItemClick}>
+                              <Icon name="lightning" />
+                              Attack
+                            </Menu.Item>
+                            <Menu.Item
+                              name="video play"
+                              onClick={this.handleItemClick}>
+                              <Icon name="shield" />
+                              Defend
+                            </Menu.Item>
+                          </Menu>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
                   </Segment>
                 </Card>
-              </Card.Group>
-            </Grid.Column>
-          </Grid.Row>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+
+          <Segment inverted>
+            <Divider fitted horizontal inverted>
+              Player - 2
+            </Divider>
+          </Segment>
 
           <Grid.Row textAlign="center">
-            <Grid.Column>
-              <Segment inverted color="orange">
-                Player 2
-              </Segment>
-            </Grid.Column>
+            <Grid.Column />
             <Card.Group itemsPerRow={5}>
               <Card color="red" image={eevee} />
               <Card color="orange" image={eevee} />
@@ -176,11 +238,7 @@ export default class RenderAllDecksComponent extends Component {
               <Card color="olive" image={eevee} />
               <Card color="green" image={eevee} />
             </Card.Group>
-            <Grid.Column>
-              <Segment inverted color="orange">
-                Player 2
-              </Segment>
-            </Grid.Column>
+            <Grid.Column />
           </Grid.Row>
         </Grid>
       </div>
