@@ -23,6 +23,7 @@ const withlifecycle = lifecycle({
   componentDidMount() {},
 
   componentDidUpdate(prevProps, prevState) {
+    console.log('this props----', this.props);
     if (this.props.userSignIn.token) {
       this.props.history.push(`/decks/render`);
     }

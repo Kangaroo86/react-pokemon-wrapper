@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { Button, Form, Segment, Grid, Header, Image } from 'semantic-ui-react';
+import {
+  Divider,
+  Button,
+  Form,
+  Segment,
+  Grid,
+  Header,
+  Image
+} from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import pokeball2 from '../images/pokeball2.png';
 //import ReactAudioPlayer from 'react-audio-player';
 
@@ -23,6 +32,7 @@ export default class SignUpComponent extends Component {
     this.setState({ password: data.target.value });
   };
 
+  //Validating user's userName & password
   validate = (name, password) => {
     let isThereError = false;
 
@@ -60,6 +70,8 @@ export default class SignUpComponent extends Component {
   };
 
   render() {
+    //console.log('token----------', window.localStorage);
+    console.log('this.props.userSignIn.token-----', this.props.userSignIn);
     return (
       <div className="login-form">
         {/* <ReactAudioPlayer
@@ -90,7 +102,7 @@ export default class SignUpComponent extends Component {
                   icon="user"
                   id="userId"
                   iconPosition="left"
-                  placeholder="Name"
+                  placeholder="username"
                   onChange={this.handle_selectedName}
                 />
                 {this.state.errorName !== ''
@@ -104,7 +116,7 @@ export default class SignUpComponent extends Component {
                   icon="lock"
                   id="passwordId"
                   iconPosition="left"
-                  placeholder="Password"
+                  placeholder="password"
                   type="password"
                   onChange={this.handle_selectedPassword}
                 />
@@ -125,6 +137,12 @@ export default class SignUpComponent extends Component {
                   onClick={this.handle_signin}>
                   Sign-In
                 </Button>
+                <Divider horizontal>Or</Divider>
+                <Link to="/signup">
+                  <Button color="black" fluid size="large">
+                    Sign-Up
+                  </Button>
+                </Link>
               </Segment>
             </Form>
           </Grid.Column>

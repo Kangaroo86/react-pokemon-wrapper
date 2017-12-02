@@ -48,27 +48,32 @@ export default class SignUpComponent extends Component {
 
     if (name === '') {
       isThereError = true;
-      errors.errorName = 'Name could not be blank';
-    }
-
-    if (duplicateName === true) {
+      errors.errorName = 'This is required';
+    } else if (name.length < 5) {
       isThereError = true;
-      errors.errorName = 'Name has already existed';
-    }
-
-    if (duplicateEmail === true) {
+      errors.errorName = 'Username need at least 5 characters';
+    } else if (duplicateName === true) {
       isThereError = true;
-      errors.errorEmail = 'Email has already existed';
+      errors.errorName = 'Username has already taken';
     }
 
     if (email === '') {
       isThereError = true;
-      errors.errorEmail = 'Email could not be blank';
+      errors.errorEmail = 'This is required';
+    } else if (email.length < 5) {
+      isThereError = true;
+      errors.errorEmail = 'Email need at least 5 characters';
+    } else if (duplicateEmail === true) {
+      isThereError = true;
+      errors.errorEmail = 'Email has already existed';
     }
 
     if (password === '') {
       isThereError = true;
-      errors.errorPassword = 'Password could not be blank';
+      errors.errorPassword = 'Password need at least 5 characters';
+    } else if (password.length < 5) {
+      isThereError = true;
+      errors.errorEmail = 'Email need at least 5 characters';
     }
     return isThereError ? errors : true;
   };
@@ -121,7 +126,7 @@ export default class SignUpComponent extends Component {
                   icon="user"
                   id="userId"
                   iconPosition="left"
-                  placeholder="Name"
+                  placeholder="username"
                   onChange={this.handle_selectedName}
                 />
                 {this.state.errorName !== ''
@@ -147,7 +152,7 @@ export default class SignUpComponent extends Component {
                   icon="lock"
                   id="passwordId"
                   iconPosition="left"
-                  placeholder="Password"
+                  placeholder="password"
                   type="password"
                   onChange={this.handle_selectedPassword}
                 />

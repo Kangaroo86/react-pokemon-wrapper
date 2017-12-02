@@ -4,6 +4,10 @@ export default function signInProcess(attribute) {
   return (dispatch, getState) => {
     return signIn(attribute)
       .then(result => {
+        console.log(
+          'signInProcesss window.localStorage------',
+          window.localStorage
+        );
         if (result.error === 'Invalid request') {
           dispatch({
             type: 'ERROR_USERIN_MESSAGE',
