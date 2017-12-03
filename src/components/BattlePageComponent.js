@@ -232,28 +232,37 @@ export default class RenderAllDecksComponent extends Component {
     return (
       <div>
         <Grid center columns="equal" padded>
-          <Grid.Row textAlign="center">
-            <Grid.Column />
-            <Card.Group itemsPerRow={5}>
-              <Card color="red" image={eevee} />
-              <Card color="orange" image={eevee} />
-              <Card color="yellow" image={eevee} />
-              <Card color="olive" image={eevee} />
-              <Card color="green" image={eevee} />
-            </Card.Group>
-            <Grid.Column />
-          </Grid.Row>
-
-          <Segment inverted>
-            <Divider fitted horizontal inverted>
-              Player - 1
-            </Divider>
-          </Segment>
+          <Grid>
+            <Grid.Column floated="left" width={6}>
+              <Segment inverted>
+                <Divider fitted horizontal inverted>
+                  Player - 1
+                </Divider>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column floated="right" width={6}>
+              <Segment inverted>
+                <Divider fitted horizontal inverted>
+                  Player - 2
+                </Divider>
+              </Segment>
+            </Grid.Column>
+          </Grid>
 
           <Grid centered columns={5}>
             <Grid.Row>
+              <Grid.Column floated="left" width={2}>
+                <Card.Group itemsPerRow={1}>
+                  <Card color="red" image={eevee} />
+                  <Card color="orange" image={eevee} />
+                  <Card color="yellow" image={eevee} />
+                  <Card color="olive" image={eevee} />
+                  <Card color="green" image={eevee} />
+                </Card.Group>
+              </Grid.Column>
+
               {/* 1nd Player */}
-              <Grid.Column>
+              <Grid.Column floated="left">
                 <Segment inverted color="black">
                   <Header textAlign="center" as="h2">
                     eevee
@@ -289,7 +298,7 @@ export default class RenderAllDecksComponent extends Component {
                   </Segment>
                   <Divider />
                   <Grid celled>
-                    <Segment floated="right" inverted>
+                    <Segment inverted>
                       <Button.Group vertical labeled icon>
                         <Button compact size="medium" inverted color="teal">
                           <Icon name="lightning" />
@@ -344,7 +353,7 @@ export default class RenderAllDecksComponent extends Component {
               </Comment.Group>
 
               {/* 2nd Player */}
-              <Grid.Column>
+              <Grid.Column floated="right">
                 <Segment inverted color="black">
                   <Header textAlign="center" as="h2">
                     eevee
@@ -380,7 +389,7 @@ export default class RenderAllDecksComponent extends Component {
                   </Segment>
                   <Divider />
                   <Grid celled>
-                    <Segment floated="right" inverted>
+                    <Segment inverted>
                       <Button.Group vertical labeled icon>
                         <Button compact size="medium" inverted color="teal">
                           <Icon name="lightning" />
@@ -399,26 +408,18 @@ export default class RenderAllDecksComponent extends Component {
                   </Grid>
                 </Segment>
               </Grid.Column>
+
+              <Grid.Column floated="right" width={2}>
+                <Card.Group itemsPerRow={1}>
+                  <Card color="red" image={eevee} />
+                  <Card color="orange" image={eevee} />
+                  <Card color="yellow" image={eevee} />
+                  <Card color="olive" image={eevee} />
+                  <Card color="green" image={eevee} />
+                </Card.Group>
+              </Grid.Column>
             </Grid.Row>
           </Grid>
-
-          <Segment inverted>
-            <Divider fitted horizontal inverted>
-              Player - 2
-            </Divider>
-          </Segment>
-
-          <Grid.Row textAlign="center">
-            <Grid.Column />
-            <Card.Group itemsPerRow={5}>
-              <Card color="red" image={eevee} />
-              <Card color="orange" image={eevee} />
-              <Card color="yellow" image={eevee} />
-              <Card color="olive" image={eevee} />
-              <Card color="green" image={eevee} />
-            </Card.Group>
-            <Grid.Column />
-          </Grid.Row>
         </Grid>
       </div>
     );
