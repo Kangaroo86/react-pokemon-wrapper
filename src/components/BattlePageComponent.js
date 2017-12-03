@@ -7,35 +7,16 @@ import {
   Comment,
   Form,
   Icon,
-  Item,
-  List,
   Label,
   Image,
-  Feed,
+  Table,
   Header,
   Button,
   Progress,
-  Container,
   Segment
 } from 'semantic-ui-react';
 import eevee from '../images/eevee.png';
 import jenny from '../images/jenny.jpg';
-
-const colors = [
-  'red',
-  'orange',
-  'yellow',
-  'olive',
-  'green',
-  'teal',
-  'blue',
-  'violet',
-  'purple',
-  'pink',
-  'brown',
-  'grey',
-  'black'
-];
 
 export default class RenderAllDecksComponent extends Component {
   constructor(props) {
@@ -273,52 +254,57 @@ export default class RenderAllDecksComponent extends Component {
             <Grid.Row>
               {/* 1nd Player */}
               <Grid.Column>
-                <Segment>
-                  <Header as="h2">eevee</Header>
+                <Segment inverted color="black">
+                  <Header textAlign="center" as="h2">
+                    eevee
+                  </Header>
                   <Grid columns="equal">
-                    <Grid.Row>
-                      <Grid.Column>
-                        <Label color="black">
-                          <Icon name="heartbeat" size="huge" />
-                          HP:
-                        </Label>
-                      </Grid.Column>
-                      <Grid.Column>
-                        <Progress
-                          active
-                          color="green"
-                          size="big"
-                          value="4"
-                          total="5"
-                          progress="percent"
-                        />
-                      </Grid.Column>
-                    </Grid.Row>
+                    <Grid.Column>
+                      <Table compact celled inverted selectable>
+                        <Table.Body>
+                          <Table.Row>
+                            <Table.Cell width={1}>
+                              <Icon name="heartbeat" size="large" />
+                              HP:
+                            </Table.Cell>
+                            <Table.Cell>
+                              <br />
+                              <Progress
+                                active
+                                color="green"
+                                size="small"
+                                value="4"
+                                total="5"
+                                progress="percent"
+                              />
+                            </Table.Cell>
+                          </Table.Row>
+                        </Table.Body>
+                      </Table>
+                    </Grid.Column>
                   </Grid>
-                  <Segment color="blue" textAlign="center">
-                    <Image src={eevee} centered size="small" />
+                  <Divider />
+                  <Segment inverted color="olive" textAlign="center">
+                    <Image bordered src={eevee} centered size="small" />
                   </Segment>
-                  <Grid>
-                    <Grid.Row>
-                      <Grid.Column>
-                        <Segment inverted>
-                          <Button.Group vertical labeled icon>
-                            <Button compact size="big" inverted color="teal">
-                              <Icon name="lightning" />
-                              ATK
-                            </Button>
-                            <Button compact size="big" inverted color="violet">
-                              <Icon name="bomb" />
-                              ATK
-                            </Button>
-                            <Button compact size="big" inverted color="brown">
-                              <Icon name="shield" />
-                              DEF
-                            </Button>
-                          </Button.Group>
-                        </Segment>
-                      </Grid.Column>
-                    </Grid.Row>
+                  <Divider />
+                  <Grid celled>
+                    <Segment floated="right" inverted>
+                      <Button.Group vertical labeled icon>
+                        <Button compact size="medium" inverted color="teal">
+                          <Icon name="lightning" />
+                          ATK
+                        </Button>
+                        <Button compact size="medium" inverted color="violet">
+                          <Icon name="bomb" />
+                          ATK
+                        </Button>
+                        <Button compact size="medium" inverted color="brown">
+                          <Icon name="shield" />
+                          DEF
+                        </Button>
+                      </Button.Group>
+                    </Segment>
                   </Grid>
                 </Segment>
               </Grid.Column>
@@ -332,7 +318,6 @@ export default class RenderAllDecksComponent extends Component {
                   <Comment.Avatar src={jenny} />
                   <Comment.Content>
                     <Comment.Author as="a">Matt</Comment.Author>
-
                     <Comment.Text>How artistic!</Comment.Text>
                   </Comment.Content>
                 </Comment>
@@ -360,58 +345,59 @@ export default class RenderAllDecksComponent extends Component {
 
               {/* 2nd Player */}
               <Grid.Column>
-                <Card>
-                  <Header as="h2">eevee</Header>
+                <Segment inverted color="black">
+                  <Header textAlign="center" as="h2">
+                    eevee
+                  </Header>
                   <Grid columns="equal">
-                    <Grid.Row>
-                      <Grid.Column>
-                        <Label color="black">
-                          <Icon name="heartbeat" size="huge" />
-                          HP:
-                        </Label>
-                      </Grid.Column>
-                      <Grid.Column>
-                        <Progress
-                          active
-                          color="green"
-                          size="big"
-                          value="4"
-                          total="5"
-                          progress="percent"
-                        />
-                      </Grid.Column>
-                    </Grid.Row>
+                    <Grid.Column>
+                      <Table compact celled inverted selectable>
+                        <Table.Body>
+                          <Table.Row>
+                            <Table.Cell width={1}>
+                              <Icon name="heartbeat" size="large" />
+                              HP:
+                            </Table.Cell>
+                            <Table.Cell>
+                              <br />
+                              <Progress
+                                active
+                                color="green"
+                                size="small"
+                                value="4"
+                                total="5"
+                                progress="percent"
+                              />
+                            </Table.Cell>
+                          </Table.Row>
+                        </Table.Body>
+                      </Table>
+                    </Grid.Column>
                   </Grid>
-                  <Segment color="blue" textAlign="center">
-                    <Image src={eevee} centered size="small" />
+                  <Divider />
+                  <Segment inverted color="olive" textAlign="center">
+                    <Image bordered src={eevee} centered size="small" />
                   </Segment>
-                  <Segment inverted>
-                    <Grid>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Menu compact icon="labeled">
-                            <Menu.Item name="bomb" onClick={''}>
-                              <Icon name="bomb" />
-                              Attack
-                            </Menu.Item>
-                            <Menu.Item
-                              name="lightning"
-                              onClick={this.handleItemClick}>
-                              <Icon name="lightning" />
-                              Attack
-                            </Menu.Item>
-                            <Menu.Item
-                              name="video play"
-                              onClick={this.handleItemClick}>
-                              <Icon name="shield" />
-                              Defend
-                            </Menu.Item>
-                          </Menu>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
-                  </Segment>
-                </Card>
+                  <Divider />
+                  <Grid celled>
+                    <Segment floated="right" inverted>
+                      <Button.Group vertical labeled icon>
+                        <Button compact size="medium" inverted color="teal">
+                          <Icon name="lightning" />
+                          ATK
+                        </Button>
+                        <Button compact size="medium" inverted color="violet">
+                          <Icon name="bomb" />
+                          ATK
+                        </Button>
+                        <Button compact size="medium" inverted color="brown">
+                          <Icon name="shield" />
+                          DEF
+                        </Button>
+                      </Button.Group>
+                    </Segment>
+                  </Grid>
+                </Segment>
               </Grid.Column>
             </Grid.Row>
           </Grid>
