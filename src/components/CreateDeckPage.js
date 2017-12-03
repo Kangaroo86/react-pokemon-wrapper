@@ -11,10 +11,11 @@ export default function IndexPage({
   userDecks,
   users,
   userSignIn,
+  signOut,
   history
 }) {
   return (
-    <CreateDeckPageLayout>
+    <CreateDeckPageLayout signOut={signOut} history={history}>
       <CreateDeckComponent
         //pokemonObj={pokemonObj}
         onPokemonObj={onPokemonObj}

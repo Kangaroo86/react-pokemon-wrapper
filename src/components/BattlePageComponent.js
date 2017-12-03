@@ -68,7 +68,7 @@ export default class RenderAllDecksComponent extends Component {
 
           <Segment inverted>
             <Divider fitted horizontal inverted>
-              Horizontal
+              Player - 1
             </Divider>
           </Segment>
 

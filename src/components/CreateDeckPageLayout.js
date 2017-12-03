@@ -15,6 +15,15 @@ import {
 } from 'semantic-ui-react';
 
 export default function CreateDeckPageLayout(props) {
+  //**handle signOut**//
+  function handle_signOut(event) {
+    event.preventDefault();
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    props.signOut();
+    props.history.push(`/`);
+  }
+
   return (
     <div>
       <Segment
@@ -24,11 +33,9 @@ export default function CreateDeckPageLayout(props) {
         vertical>
         <Container>
           <Menu inverted pointing secondary size="large">
-            {/* <Link to="/signin"> */}
-            <Menu.Item as="a" active>
+            <Menu.Item as="a" active onClick={handle_signOut}>
               SignOut
             </Menu.Item>
-            {/* </Link> */}
             <Link to="/decks/render">
               <Menu.Item as="a">Deck Management</Menu.Item>
             </Link>

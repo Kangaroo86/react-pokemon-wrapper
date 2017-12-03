@@ -21,8 +21,8 @@ export default function signInProcess(attribute) {
           localStorage.setItem('userId', result.id);
           dispatch({
             type: 'USER_SIGNIN',
-            userSignIn: result,
-            errorMessage: null
+            userSignIn: result
+            //errorMessage: null
           });
         }
       })

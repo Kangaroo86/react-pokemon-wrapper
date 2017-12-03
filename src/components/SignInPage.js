@@ -7,7 +7,6 @@ export default function SignInPage({
   errorMessage,
   history
 }) {
-  console.log('signInPage errorMessage----', errorMessage);
   return (
     <div>
       <SignInComponent
