@@ -260,20 +260,26 @@ export default class RenderAllDecksComponent extends Component {
                   <Card color="green" image={eevee} />
                 </Card.Group>
               </Grid.Column>
-
               {/* 1nd Player */}
               <Grid.Column floated="left">
                 <Segment inverted color="black">
-                  <Header textAlign="center" as="h2">
-                    eevee
-                  </Header>
+                  <Label as="a" color="olive" ribbon="right">
+                    Eevee
+                  </Label>
+                  <br />
+                  <br />
                   <Grid columns="equal">
                     <Grid.Column>
                       <Table compact celled inverted selectable>
                         <Table.Body>
                           <Table.Row>
                             <Table.Cell width={1}>
-                              <Icon name="heartbeat" size="large" />
+                              <Icon
+                                inverted
+                                color="red"
+                                name="heartbeat"
+                                size="large"
+                              />
                               HP:
                             </Table.Cell>
                             <Table.Cell>
@@ -355,18 +361,26 @@ export default class RenderAllDecksComponent extends Component {
               {/* 2nd Player */}
               <Grid.Column floated="right">
                 <Segment inverted color="black">
-                  <Header textAlign="center" as="h2">
-                    eevee
-                  </Header>
+                  <Label as="a" color="olive" ribbon>
+                    Eevee
+                  </Label>
+                  <br />
+                  <br />
                   <Grid columns="equal">
                     <Grid.Column>
                       <Table compact celled inverted selectable>
                         <Table.Body>
                           <Table.Row>
                             <Table.Cell width={1}>
-                              <Icon name="heartbeat" size="large" />
+                              <Icon
+                                inverted
+                                color="red"
+                                name="heartbeat"
+                                size="large"
+                              />
                               HP:
                             </Table.Cell>
+
                             <Table.Cell>
                               <br />
                               <Progress
