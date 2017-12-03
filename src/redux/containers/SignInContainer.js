@@ -7,9 +7,10 @@ import SignInProcess from '../thunks/SignInProcess';
 function mapStateToProps(state, ownProps) {
   return {
     userSignIn: state.userSignIn,
-    errorUserSignIn: state.errorUserSignIn
+    errorMessage: state.errorMessage
   };
 }
+console.log('container-------', this.state);
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
@@ -19,16 +20,19 @@ function mapDispatchToProps(dispatch, ownProps) {
   };
 }
 
-const withlifecycle = lifecycle({
-  componentDidMount() {},
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log('this props----', this.props);
-    if (this.props.userSignIn.token) {
-      this.props.history.push(`/decks/render`);
-    }
+const withlifecycle = lifecycle(
+  {
+    // componentDidMount() {},
+    // componentDidUpdate(prevProps, prevState) {
+    //   if (this.props.userSignIn.token) {
+    //     this.props.history.push(`/decks/render`);
+    //   }
+    //   if (window.localStorage.getItem('userId')) {
+    //     this.props.history.push(`/decks/render`);
+    //   }
+    // }
   }
-});
+);
 
 const connectToStore = connect(mapStateToProps, mapDispatchToProps);
 

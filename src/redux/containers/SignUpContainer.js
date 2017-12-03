@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import SignUpPage from '../../components/SignUpPage';
 import signUpProcess from '../thunks/signUpProcess';
 import getRegisteredUsersObjProcess from '../thunks/getRegisteredUsersObjProcess';
+import SignInProcess from '../thunks/SignInProcess';
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -16,6 +17,9 @@ function mapDispatchToProps(dispatch, ownProps) {
   return {
     user_signup: attribute => {
       dispatch(signUpProcess(attribute));
+    },
+    signIn_user: attribute => {
+      dispatch(SignInProcess(attribute));
     },
     get_user: () => dispatch(getRegisteredUsersObjProcess())
   };

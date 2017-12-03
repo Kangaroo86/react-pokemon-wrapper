@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Segment, Grid, Header, Image } from 'semantic-ui-react';
 import pokeball2 from '../images/pokeball2.png';
-import ReactAudioPlayer from 'react-audio-player';
+//import ReactAudioPlayer from 'react-audio-player';
 
 export default class SignUpComponent extends Component {
   constructor(props) {
@@ -91,6 +91,8 @@ export default class SignUpComponent extends Component {
       return;
     } else {
       this.props.user_signup({ name: name, email: email, password: password });
+      //this.props.signIn_user({ name, password });
+      //this.props.history.push(`/decks/createDeck`);
       this.props.history.push(`/`);
     }
   };
@@ -98,11 +100,11 @@ export default class SignUpComponent extends Component {
   render() {
     return (
       <div className="login-form">
-        <ReactAudioPlayer
+        {/* <ReactAudioPlayer
           src="http://files.simey.me/pokonami/pallet.mp3"
           autoPlay
           loop="true"
-        />
+        /> */}
         <style>{`
           body > div,
           body > div > div,

@@ -8,7 +8,6 @@ export default function getUserProcess(attribute) {
           type: 'USER_SIGNUP',
           userSignup: result
         });
-        return result;
       })
       .catch(err => err);
   };

@@ -3,6 +3,13 @@ import getPokemonObj from '../../api/getPokemonObj';
 
 export default function getUserDecksProcess() {
   return (dispatch, getState, env) => {
+    const storedUserId = localStorage.getItem('userId');
+    //console.log('storedUserId**********', storedUserId);
+    if (!storedUserId) {
+      dispatch({ type: 'FETCHED_USER_DECKS', userDecks: [] });
+      return;
+    }
+
     const scope = {};
     return getUserDecks()
       .then(userDecks => {

@@ -6,7 +6,7 @@ export default function rootReducer(
     userDecks: [],
     userSignup: {},
     userSignIn: {},
-    errorUserSignIn: {},
+    errorMessage: null,
     users: []
   },
   action
@@ -18,24 +18,16 @@ export default function rootReducer(
     case 'USER_SIGNUP':
       return { ...currentState, userSignup: action.userSignup };
 
-    case 'ERROR_USERIN_MESSAGE':
-      return { ...currentState, errorUserSignIn: action.errorUserSignIn };
+    case 'ERROR_HANDLING_MESSAGE':
+      console.log('errorMessage from Reducer********', action.errorMessage);
+      return { ...currentState, errorMessage: action.errorMessage };
 
     case 'USER_SIGNIN':
+      console.log('userSignIn from Reducer********', action.userSignIn);
       return { ...currentState, userSignIn: action.userSignIn };
 
     case 'FETCHED_POKEMON_OBJ_LIST':
       return { ...currentState, pokemonArray: action.pokemonObjList };
-
-    // case 'FETCHED_POKEMON_OBJ_LIST':
-    //   let updatedPokeArray = [...currentState.pokemonArray];
-    //   updatedPokeArray.push(action.pokemonObj);
-    //
-    //   return {
-    //     ...currentState,
-    //     pokemonObj: action.pokemonObj,
-    //     pokemonArray: updatedPokeArray
-    //   };
 
     case 'FETCHED_DEFAULT_POKEMON':
       return {
@@ -58,11 +50,10 @@ export default function rootReducer(
         userDecks: deleteDeck
       };
 
-    case 'UPDATE_DECK': // TODO: WIP
+    case 'UPDATE_DECK':
       return { ...currentState, userDecks: action.userDecks };
 
     default:
-      console.log('rootReducer: default with action ', action);
       return currentState;
   }
 }

@@ -19,8 +19,7 @@ export default class SignUpComponent extends Component {
     this.state = {
       name: '',
       password: '',
-      errorName: '',
-      signInAccepted: false
+      errorName: ''
     };
   }
 
@@ -51,6 +50,11 @@ export default class SignUpComponent extends Component {
       errors.errorPassword = 'Password entered is blank';
     }
 
+    // else if (!window.localStorage.getItem('userId')) {
+    //   isThereError = true;
+    //   errors.errorPassword = 'Password entered is incorret';
+    // }
+
     return isThereError ? errors : true;
   };
 
@@ -64,14 +68,18 @@ export default class SignUpComponent extends Component {
     if (errorPass !== true) {
       this.setState(errorPass);
     } else {
-      this.props.history.push(`/decks/render`);
       this.props.signIn_user({ name, password });
+      this.props.history.push(`/decks/render`);
     }
   };
 
   render() {
-    //console.log('token----------', window.localStorage);
-    console.log('this.props.userSignIn.token-----', this.props.userSignIn);
+    console.log('what are my props from signin Comp------', this.props);
+    console.log(
+      'signIn component errorMessage*****-----',
+      this.props.errorMessage
+    );
+    console.log('this.props.userSignIn--------', this.props.userSignIn);
     return (
       <div className="login-form">
         {/* <ReactAudioPlayer
@@ -122,14 +130,10 @@ export default class SignUpComponent extends Component {
                 />
                 {this.state.errorPassword !== ''
                   ? <p style={{ color: 'Red' }}>
-                      {this.state.errorName}
+                      {this.state.errorPassword}
                     </p>
                   : null}
-                {this.props.errorUserSignIn === 'Invalid request'
-                  ? <p style={{ color: 'Red' }}>
-                      {'Invalid password'}
-                    </p>
-                  : null}
+
                 <Button
                   color="teal"
                   fluid

@@ -37,6 +37,9 @@ const withlifecycle = lifecycle({
   componentDidMount() {
     this.props.get_userDecks();
   }
+  // componentDidUpdate(prevProps, prevState) {
+  //   this.props.get_userDecks();
+  // }
 });
 
 export default compose(connectToStore, withlifecycle)(

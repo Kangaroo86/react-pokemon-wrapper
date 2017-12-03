@@ -27,7 +27,13 @@ export default class CreateDeckComponent extends Component {
   //**setState select pokemon**//
   handle_selectedPokemon = (event, data) => {
     event.preventDefault();
-    if (this.state.selectedPokemon.length < 6) {
+    let duplicate = false;
+    this.state.selectedPokemon.forEach(pokemon => {
+      if (pokemon.id === data.id) {
+        duplicate = true;
+      }
+    });
+    if (!duplicate && this.state.selectedPokemon.length < 6) {
       this.setState(
         currentState => {
           return {
@@ -68,9 +74,6 @@ export default class CreateDeckComponent extends Component {
     const deckName = this.state.selectedDeckName.trim();
     const pokemonIds = this.state.selectedPokemon.map(pokemon => pokemon.id);
     const userId = this.props.userSignIn.id;
-    console.log('this.props.userSignIn-----------', this.props.userSignIn);
-    console.log('this.props.history-----------', this.props.history);
-    console.log('this.props-----------', this.props);
     this.props.create_decks({
       deckName,
       pokemonIds,
@@ -82,9 +85,6 @@ export default class CreateDeckComponent extends Component {
   render() {
     return (
       <div>
-        {this.props.pokemonArray.map(result => {
-          console.log('my resul------', result);
-        })}
         <Grid textAlign="center">
           <Header as="h3" style={{ fontSize: '2em' }}>
             Choose your Pokemon

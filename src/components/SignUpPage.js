@@ -5,7 +5,8 @@ export default function SignUpPage({
   userSignup,
   user_signup,
   users,
-  history
+  history,
+  signIn_user
 }) {
   return (
     <div>
@@ -13,6 +14,7 @@ export default function SignUpPage({
         userSignup={userSignup}
         users={users}
         user_signup={user_signup}
+        signIn_user={signIn_user}
         history={history}
       />
     </div>
