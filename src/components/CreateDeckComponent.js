@@ -73,7 +73,7 @@ export default class CreateDeckComponent extends Component {
   handle_createDeck = event => {
     const deckName = this.state.selectedDeckName.trim();
     const pokemonIds = this.state.selectedPokemon.map(pokemon => pokemon.id);
-    const userId = this.props.userSignIn.id;
+    const userId = localStorage.getItem('userId');
     this.props.create_decks({
       deckName,
       pokemonIds,

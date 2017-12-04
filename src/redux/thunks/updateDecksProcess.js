@@ -1,13 +1,13 @@
 import updateDecks from '../../api/updateDecks';
 
-export default function updateUserDeckProcess(deckObj, deckId) {
+export default function updateUserDeckProcess(deckObj, userId, deckId) {
   return (dispatch, getState, env) => {
-    return updateDecks(deckObj, deckId)
+    return updateDecks(deckObj, userId, deckId)
       .then(results => {
         dispatch({ type: 'UPDATE_DECK', userDecks: results });
       })
       .catch(error => {
-        console.log('updateDecksProcess: Couldnt fetch: ', error);
+        console.log('updateDecksProcess could not fetch: ', error);
       });
   };
 }

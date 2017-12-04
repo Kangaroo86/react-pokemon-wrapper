@@ -83,10 +83,12 @@ export default class CreateDeckComponent extends Component {
       return pokemon.characterId;
     });
     const deckId = this.props.match.params.deckId;
+    const userId = localStorage.getItem('userId');
     this.props.update_decks(
       {
         characterIdArray
       },
+      userId,
       deckId
     );
     this.setState({ redirect: true });
@@ -102,27 +104,27 @@ export default class CreateDeckComponent extends Component {
           <Header as="h3" style={{ fontSize: '2em' }}>
             Update your Pokemon
           </Header>
+          <br />
+          <Card.Group ref="pokemonDisplayed" itemsPerRow={9}>
+            {this.props.pokemonArray &&
+              this.props.pokemonArray.map(pokemonObj => {
+                return (
+                  <Card
+                    color="red"
+                    name={pokemonObj.name}
+                    characterId={pokemonObj.characterId}
+                    id={pokemonObj.id}
+                    image={pokemonObj.sprites.front_default}
+                    onClick={this.handle_selectedPokemon}
+                  />
+                );
+              })}
+          </Card.Group>
         </Grid>
-        <br />
-        <Card.Group ref="pokemonDisplayed" itemsPerRow={9}>
-          {this.props.pokemonArray &&
-            this.props.pokemonArray.map(pokemonObj => {
-              return (
-                <Card
-                  color="red"
-                  name={pokemonObj.name}
-                  characterId={pokemonObj.characterId}
-                  id={pokemonObj.id}
-                  image={pokemonObj.sprites.front_default}
-                  onClick={this.handle_selectedPokemon}
-                />
-              );
-            })}
-        </Card.Group>
 
-        <Grid columns={3} divided>
-          <Grid.Row stretched>
-            <Grid.Column>
+        <Grid columns="equal">
+          <Grid.Row>
+            <Grid.Column floated="right">
               <Card.Group>
                 {userObj &&
                   userObj[0] &&
@@ -173,29 +175,31 @@ export default class CreateDeckComponent extends Component {
                   </Card>}
               </Card.Group>
             </Grid.Column>
+
+            <Grid.Column>
+              <Segment style={{ padding: '5em 0em' }} vertical>
+                <Grid container stackable verticalAlign="middle">
+                  <Grid.Row>
+                    <Grid.Column floated="left" width={8}>
+                      <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>
+                        {this.state.selectedPokemon.map(pokemonObj =>
+                          <Card
+                            characterId={pokemonObj.characterId}
+                            color="blue"
+                            image={pokemonObj.image}
+                            id={pokemonObj.id}
+                            onClick={this.handle_deletePokemon}
+                          />
+                        )}
+                      </Card.Group>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+            </Grid.Column>
           </Grid.Row>
         </Grid>
 
-        {/* <Divider section /> */}
-        <Segment style={{ padding: '5em 0em' }} vertical>
-          <Grid container stackable verticalAlign="middle">
-            <Grid.Row right>
-              <Grid.Column floated="right" width={6}>
-                <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>
-                  {this.state.selectedPokemon.map(pokemonObj =>
-                    <Card
-                      characterId={pokemonObj.characterId}
-                      color="blue"
-                      image={pokemonObj.image}
-                      id={pokemonObj.id}
-                      onClick={this.handle_deletePokemon}
-                    />
-                  )}
-                </Card.Group>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Segment>
         <br />
       </div>
     );

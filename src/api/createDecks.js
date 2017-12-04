@@ -1,9 +1,9 @@
 import env from '../env';
 
-export default function createUserDeck(deckObj, id) {
+export default function createUserDeck(deckObj, userId) {
   const storedToken = localStorage.getItem('token');
 
-  return fetch(`${env.API_BASE_URL}/decks/${id}`, {
+  return fetch(`${env.API_BASE_URL}/users/${userId}/decks/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

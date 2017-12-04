@@ -50,12 +50,12 @@ export default class SignUpComponent extends Component {
       errors.errorPassword = 'Password entered is blank';
     }
 
-    // else if (!window.localStorage.getItem('userId')) {
-    //   isThereError = true;
-    //   errors.errorPassword = 'Password entered is incorret';
-    // }
+    if (this.props.errorMessage !== null) {
+      isThereError = true;
+      errors.errorPassword = this.props.errorMessage;
+    }
 
-    return isThereError ? errors : true;
+    return isThereError ? errors : false;
   };
 
   handle_signin = (event, data) => {
@@ -63,23 +63,24 @@ export default class SignUpComponent extends Component {
     const name = this.state.name.trim();
     const password = this.state.password.trim();
 
+    this.props.signIn_user({ name, password });
     let errorPass = this.validate(name, password);
 
-    if (errorPass !== true) {
+    console.log('errorPass----', errorPass);
+    if (errorPass !== false) {
       this.setState(errorPass);
     } else {
-      this.props.signIn_user({ name, password });
       this.props.history.push(`/decks/render`);
     }
   };
 
   render() {
-    console.log('what are my props from signin Comp------', this.props);
+    //console.log('what are my props from signin Comp------', this.props);
     console.log(
       'signIn component errorMessage*****-----',
       this.props.errorMessage
     );
-    console.log('this.props.userSignIn--------', this.props.userSignIn);
+    //console.log('this.props.userSignIn--------', this.props.userSignIn);
     return (
       <div className="login-form">
         {/* <ReactAudioPlayer
