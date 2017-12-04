@@ -9,7 +9,6 @@ export default class SignUpComponent extends Component {
 
     this.state = {
       name: '',
-      email: '',
       password: ''
     };
   }
@@ -18,31 +17,22 @@ export default class SignUpComponent extends Component {
     this.setState({ name: data.target.value });
   };
 
-  handle_selectedEmail = data => {
-    this.setState({ email: data.target.value });
-  };
-
   handle_selectedPassword = data => {
     this.setState({ password: data.target.value });
   };
 
   //Validate user sign in
-  validate = (name, email, password) => {
+  validate = (name, password) => {
     let isThereError = false;
     const errors = {
       errorName: '',
-      errorEmail: '',
       errorPassword: ''
     };
 
     let duplicateName = '';
-    let duplicateEmail = '';
     this.props.users.usersObj.forEach(listOfUsers => {
       if (listOfUsers.name === name) {
         duplicateName = true;
-      }
-      if (listOfUsers.email === email) {
-        duplicateEmail = true;
       }
     });
 
@@ -57,23 +47,12 @@ export default class SignUpComponent extends Component {
       errors.errorName = 'Username has already taken';
     }
 
-    if (email === '') {
-      isThereError = true;
-      errors.errorEmail = 'This is required';
-    } else if (email.length < 5) {
-      isThereError = true;
-      errors.errorEmail = 'Email need at least 5 characters';
-    } else if (duplicateEmail === true) {
-      isThereError = true;
-      errors.errorEmail = 'Email has already existed';
-    }
-
     if (password === '') {
       isThereError = true;
-      errors.errorPassword = 'Password need at least 5 characters';
+      errors.errorPassword = 'This is required';
     } else if (password.length < 5) {
       isThereError = true;
-      errors.errorEmail = 'Email need at least 5 characters';
+      errors.errorPassword = 'Password need at least 5 characters';
     }
     return isThereError ? errors : true;
   };
@@ -81,16 +60,15 @@ export default class SignUpComponent extends Component {
   handle_signup = (event, data) => {
     event.preventDefault();
     const name = this.state.name.trim();
-    const email = this.state.email.trim();
     const password = this.state.password.trim();
 
-    const errorPass = this.validate(name, email, password);
+    const errorPass = this.validate(name, password);
 
     if (errorPass !== true) {
       this.setState(errorPass);
       return;
     } else {
-      this.props.user_signup({ name: name, email: email, password: password });
+      this.props.user_signup({ name: name, password: password });
       //this.props.signIn_user({ name, password });
       //this.props.history.push(`/decks/createDeck`);
       this.props.history.push(`/`);
@@ -134,19 +112,6 @@ export default class SignUpComponent extends Component {
                 {this.state.errorName !== ''
                   ? <p style={{ color: 'Red' }}>
                       {this.state.errorName}
-                    </p>
-                  : null}
-                <Form.Input
-                  fluid
-                  icon="mail outline"
-                  id="emailId"
-                  iconPosition="left"
-                  placeholder="E-mail address"
-                  onChange={this.handle_selectedEmail}
-                />
-                {this.state.errorEmail !== ''
-                  ? <p style={{ color: 'Red' }}>
-                      {this.state.errorEmail}
                     </p>
                   : null}
                 <Form.Input

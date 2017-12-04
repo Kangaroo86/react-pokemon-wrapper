@@ -3,12 +3,11 @@ import getPokemonObj from '../../api/getPokemonObj';
 
 export default function getUserDecksProcess() {
   return (dispatch, getState, env) => {
-    const userId = localStorage.getItem('userId');
-    //console.log('userId**********', userId);
-    if (!userId) {
-      dispatch({ type: 'FETCHED_USER_DECKS', userDecks: [] });
-      return;
-    }
+    //const userId = localStorage.getItem('userId');
+    // if (!userId) {
+    //   dispatch({ type: 'FETCHED_USER_DECKS', userDecks: [] });
+    //   return;
+    // }
 
     const scope = {};
     return getUserDecks()
@@ -17,7 +16,9 @@ export default function getUserDecksProcess() {
         const promises = [];
 
         let newUserDeck = userDecks.map(userDeck => {
-          userDeck.cards = userDeck.cards.map(card => card.pokemonId);
+          userDeck.cards = userDeck.cards.map(card => {
+            return card.pokemonId;
+          });
           return userDeck;
         });
 
@@ -31,11 +32,13 @@ export default function getUserDecksProcess() {
         return Promise.all(promises);
       })
       .then(characters => {
+        console.log('characters------', characters);
         scope.userDecks.forEach(userDeck => {
           userDeck.cards = userDeck.cards.map(id =>
             characters.find(character => character.id === id)
           );
         });
+        console.log('getuserDeck scope------', scope);
         dispatch({ type: 'FETCHED_USER_DECKS', userDecks: scope.userDecks });
       })
       .catch(error => {

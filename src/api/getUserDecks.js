@@ -15,6 +15,7 @@ export default function getUserDecks() {
       return response.json();
     })
     .then(data => {
+      console.log('getuserDeck data----', data);
       return data;
     })
     .catch(err => console.log('API call getUserDecks failed:', err));
