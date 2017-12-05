@@ -1,22 +1,18 @@
 //import recordToUserDeck from './utils/recordToUserDeck';
 import env from '../env';
 
-export default function updateUserDeck(deckObj, userId, deckId) {
+export default function updateUserDeck(deckObj, deckId) {
   const storedToken = localStorage.getItem('token');
-  return (
-    fetch(`${env.API_BASE_URL}/users/${userId}/decks/${deckId}`, {
-      method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${storedToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(deckObj)
+  return fetch(`${env.API_BASE_URL}/decks/${deckId}`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${storedToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(deckObj)
+  })
+    .then(response => {
+      return response.json();
     })
-      .then(response => {
-        console.log('API------', response);
-        return response.json();
-      })
-      // .then(record => recordToUserDeck(record)) //take this out?
-      .catch(err => console.log('API call getUsers failed: ', err))
-  );
+    .catch(err => console.log('API call getUsers failed: ', err));
 }

@@ -28,9 +28,8 @@ export default class RenderAllDecksComponent extends Component {
 
   handle_deleteDecks = data => {
     let deckId = data.target.id;
-    let userId = localStorage.getItem('userId');
-
-    this.props.delete_decks(userId, deckId);
+    console.log('deckId--------', deckId);
+    this.props.delete_decks(deckId);
   };
 
   onChange_selectedPokemon = data => {

@@ -21,7 +21,6 @@ export default class CreateDeckComponent extends Component {
 
     let currentPokemon = [];
     this.props.userDecks.forEach(deck => {
-      console.log('userDecks from updateCompnent----', deck);
       if (deck.id === Number(this.props.match.params.deckId)) {
         currentPokemon = deck.cards.map(pokemon => {
           return {
@@ -82,23 +81,15 @@ export default class CreateDeckComponent extends Component {
 
   //**Update Deck**//
   handle_updateDeck = event => {
-    console.log('bf click selected pokemon', this.state.selectedPokemon);
     const characterIdArray = this.state.selectedPokemon.map(pokemon => {
       return pokemon.id;
     });
     const deckId = this.props.match.params.deckId;
-    const userId = localStorage.getItem('userId');
-    console.log(
-      'after click this.state.selectedPokemon',
-      this.state.selectedPokemon
-    );
-    console.log('deckId---------', deckId);
-    console.log('userId---------', userId);
+
     this.props.update_decks(
       {
         characterIdArray
       },
-      userId,
       deckId
     );
     this.setState({ redirect: true });

@@ -1,13 +1,10 @@
 import deleteDecks from '../../api/deleteDecks';
-import envObj from '../../env';
 
-export default function deleteUserDeckProcess(userId, deckId) {
+export default function deleteUserDeckProcess(deckId) {
   return (dispatch, getState, env) => {
-    return deleteDecks(userId, deckId, {
-      databaseId: envObj.AIRTABLE_DATABASE_ID,
-      token: envObj.AIRTABLE_TOKEN
-    }).then(result => {
-      dispatch({ type: 'DELETE_USER_DECK', userId, deckId });
+    return deleteDecks(deckId).then(result => {
+      console.log('my result from thunk----', result);
+      dispatch({ type: 'DELETE_USER_DECK', deckId });
       return result;
     });
   };
