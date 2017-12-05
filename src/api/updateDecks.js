@@ -1,7 +1,7 @@
 //import recordToUserDeck from './utils/recordToUserDeck';
 import env from '../env';
 
-export default function updateUserDeck(deckObj, deckId) {
+export default function updateUserDeck(deckObj, deckId, userId) {
   const storedToken = localStorage.getItem('token');
   return fetch(`${env.API_BASE_URL}/decks/${deckId}`, {
     method: 'PATCH',

@@ -34,12 +34,12 @@ function mapDispatchToProps(dispatch, ownProps) {
 const connectToStore = connect(mapStateToProps, mapDispatchToProps); //include withRouter to link to updatePage
 
 const withlifecycle = lifecycle({
-  componentDidMount() {
+  componentDidMount(prevProps, prevState) {
+    this.props.get_userDecks();
+  },
+  componentDidUpdate(prevProps, prevState) {
     this.props.get_userDecks();
   }
-  // componentDidUpdate(prevProps, prevState) {
-  //   this.props.get_userDecks();
-  // }
 });
 
 export default compose(connectToStore, withlifecycle)(

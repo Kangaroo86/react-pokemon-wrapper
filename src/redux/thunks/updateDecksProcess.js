@@ -1,8 +1,8 @@
 import updateDecks from '../../api/updateDecks';
 
-export default function updateUserDeckProcess(deckObj, deckId) {
+export default function updateUserDeckProcess(deckObj, deckId, userId) {
   return (dispatch, getState, env) => {
-    return updateDecks(deckObj, deckId)
+    return updateDecks(deckObj, deckId, userId)
       .then(results => {
         dispatch({ type: 'UPDATE_DECK', userDecks: results });
       })

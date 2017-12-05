@@ -13,7 +13,6 @@ export default function deleteUserDeck(deckId) {
       return response.json();
     })
     .then(result => {
-      console.log('API-------', result);
       return result.deleted;
     })
     .catch(err => console.log('API call deleteDeck failed:', err));

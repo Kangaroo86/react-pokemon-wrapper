@@ -34,7 +34,7 @@ export default function getUserDecksProcess() {
         dispatch({ type: 'FETCHED_USER_DECKS', userDecks: scope.userDecks });
       })
       .catch(error => {
-        console.error('getUserDecksProcess: Couldnt fetch userDecks: ', error);
+        console.error('getUserDecksProcess couldnt fetch userDecks: ', error);
       });
   };
 }

@@ -85,10 +85,11 @@ export default class CreateDeckComponent extends Component {
       return pokemon.id;
     });
     const deckId = this.props.match.params.deckId;
-
+    const userId = localStorage.getItem('userId');
     this.props.update_decks(
       {
-        characterIdArray
+        characterIdArray,
+        userId
       },
       deckId
     );

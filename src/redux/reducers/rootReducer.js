@@ -1,6 +1,5 @@
 export default function rootReducer(
   currentState = {
-    //pokemonObj: null,
     pokemonArray: [],
     defaultPokemonArray: [],
     userDecks: [],
@@ -41,12 +40,17 @@ export default function rootReducer(
         userDecks: action.userDecks
       };
 
+    case 'CREATE_USER_DECK':
+      console.log('CREATE_USER_DECK-----', action.deckObj);
+      return {
+        ...currentState,
+        userDecks: [...currentState.userDecks, action.deckObj]
+      };
+
     case 'DELETE_USER_DECK':
       let deleteDeck = currentState.userDecks.filter(deckObj => {
-        console.log('my rooot delete=========', deckObj);
         return deckObj.id !== action.deckId;
       });
-      console.log('deleteDeck-----', deleteDeck);
       return {
         ...currentState,
         userDecks: deleteDeck

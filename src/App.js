@@ -9,6 +9,7 @@ import BattlePageContainer from './redux/containers/BattlePageContainer';
 import UpdateDeckPageContainer from './redux/containers/UpdateDeckPageContainer';
 import SignUpContainer from './redux/containers/SignUpContainer';
 import SignInContainer from './redux/containers/SignInContainer';
+import IndexContainer from './redux/containers/IndexContainer';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory();
@@ -26,6 +27,12 @@ export default class App extends Component {
                 exact
                 path="/signup"
                 component={SignUpContainer}
+                history={history}
+              />
+              <Route
+                exact
+                path="/index"
+                component={IndexContainer}
                 history={history}
               />
               <Route

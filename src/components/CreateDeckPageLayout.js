@@ -1,7 +1,10 @@
-import React from 'react';
+//import React from 'react';
 import { Link } from 'react-router-dom';
 import pokemonTitle from '../images/pokemonTitle.png';
 import pokeball2 from '../images/pokeball2.png';
+import stars from '../images/stars.jpg';
+import React, { Component } from 'react';
+import ReactPlayer from 'react-player';
 
 import {
   Segment,
@@ -26,6 +29,13 @@ export default function CreateDeckPageLayout(props) {
 
   return (
     <div>
+      {/* <Image circular src={stars} fluid /> */}
+      {/* <ReactPlayer
+        width="100%"
+        height="100%"
+        url="https://www.youtube.com/watch?v=FypSxNQ1QB8"
+        playing
+      /> */}
       <Segment
         inverted
         textAlign="center"

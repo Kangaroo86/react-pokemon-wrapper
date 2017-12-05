@@ -28,7 +28,6 @@ export default class RenderAllDecksComponent extends Component {
 
   handle_deleteDecks = data => {
     let deckId = data.target.id;
-    console.log('deckId--------', deckId);
     this.props.delete_decks(deckId);
   };
 
@@ -44,10 +43,6 @@ export default class RenderAllDecksComponent extends Component {
     this.setState({ selectedDeckId: data.target.id });
   };
 
-  // refreshPage = () => {
-  //   window.parent.location = window.parent.location.href;
-  // };
-
   handle_updateDecks = (event, data, deckName, pokemonIds) => {
     this.props.history.push(`/decks/${data.value.id}/update`);
     this.setState({ redirect: true }); //current this is not doing anything
@@ -56,7 +51,6 @@ export default class RenderAllDecksComponent extends Component {
   render() {
     return (
       <div>
-        {/* {this.refreshPage()} */}
         <Grid columns={3} divided>
           <Grid.Row stretched>
             {this.props.userDecks.map((deck, i) => {
@@ -75,7 +69,6 @@ export default class RenderAllDecksComponent extends Component {
                     <Card id={deck.id} name="deckId">
                       <Icon
                         id={deck.id}
-                        // floated="left"
                         name="delete"
                         onClick={this.handle_deleteDecks}
                       />
@@ -84,7 +77,6 @@ export default class RenderAllDecksComponent extends Component {
                         <Card.Header name="deckName" value={deck.deckname}>
                           {deck.deckname}
                         </Card.Header>
-                        {/* <Card.Meta>User Name</Card.Meta> */}
                         <List size="massive" horizontal>
                           {deck.cards.map((character, i) => {
                             return (

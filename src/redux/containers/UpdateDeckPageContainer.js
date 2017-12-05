@@ -27,8 +27,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     delete_decks: id => {
       dispatch(deleteDecksProcess(id));
     },
-    update_decks: (deckObj, deckId) => {
-      dispatch(updateDecksProcess(deckObj, deckId));
+    update_decks: (deckObj, deckId, userId) => {
+      dispatch(updateDecksProcess(deckObj, deckId, userId));
     }
   };
 }
