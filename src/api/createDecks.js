@@ -10,6 +10,12 @@ export default function createUserDeck(deckObj, userId) {
       Authorization: `Bearer ${storedToken}`
     },
     body: JSON.stringify(deckObj)
+    /*
+    {
+      name: 'some name',
+      cards: '3,4,5'   // [3,4,5].join(',')
+    }
+    */
   })
     .then(response => {
       return response.json();

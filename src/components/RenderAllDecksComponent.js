@@ -55,7 +55,6 @@ export default class RenderAllDecksComponent extends Component {
   };
 
   render() {
-    //console.log('these  are the props,>>>>>>>>>>>>>>>>>', this.props);
     return (
       <div>
         {/* {this.refreshPage()} */}
@@ -83,7 +82,7 @@ export default class RenderAllDecksComponent extends Component {
                       />
                       <Card.Content>
                         <Image floated="right" size="mini" src={jenny} />
-                        <Card.Header name="deckName" value={deck.name}>
+                        <Card.Header name="deckName" value={deck.deckname}>
                           {deck.deckname}
                         </Card.Header>
                         {/* <Card.Meta>User Name</Card.Meta> */}

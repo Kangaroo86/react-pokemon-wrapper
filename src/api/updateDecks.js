@@ -12,7 +12,10 @@ export default function updateUserDeck(deckObj, userId, deckId) {
       },
       body: JSON.stringify(deckObj)
     })
-      .then(response => response.json())
+      .then(response => {
+        console.log('API------', response);
+        return response.json();
+      })
       // .then(record => recordToUserDeck(record)) //take this out?
       .catch(err => console.log('API call getUsers failed: ', err))
   );

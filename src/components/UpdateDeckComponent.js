@@ -25,7 +25,8 @@ export default class CreateDeckComponent extends Component {
       if (deck.id === Number(this.props.match.params.deckId)) {
         currentPokemon = deck.cards.map(pokemon => {
           return {
-            characterId: pokemon.characterId,
+            color: 'red',
+            name: pokemon.name,
             id: pokemon.id,
             image: pokemon.sprites.front_default
           };
@@ -83,11 +84,16 @@ export default class CreateDeckComponent extends Component {
   handle_updateDeck = event => {
     console.log('bf click selected pokemon', this.state.selectedPokemon);
     const characterIdArray = this.state.selectedPokemon.map(pokemon => {
-      return pokemon.characterId;
+      return pokemon.id;
     });
     const deckId = this.props.match.params.deckId;
     const userId = localStorage.getItem('userId');
-    console.log('after click characterIdArray', characterIdArray);
+    console.log(
+      'after click this.state.selectedPokemon',
+      this.state.selectedPokemon
+    );
+    console.log('deckId---------', deckId);
+    console.log('userId---------', userId);
     this.props.update_decks(
       {
         characterIdArray
@@ -116,7 +122,6 @@ export default class CreateDeckComponent extends Component {
                   <Card
                     color="red"
                     name={pokemonObj.name}
-                    characterId={pokemonObj.characterId}
                     id={pokemonObj.id}
                     image={pokemonObj.sprites.front_default}
                     onClick={this.handle_selectedPokemon}
