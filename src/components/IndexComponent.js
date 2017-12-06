@@ -6,7 +6,6 @@ import cinema3 from '../images/cinema3.webm';
 import cinema4 from '../images/cinema4.webm';
 import oak1 from '../images/oak1.png';
 import oak2 from '../images/oak2.png';
-
 import ReactPlayer from 'react-player';
 import {
   Segment,
@@ -15,6 +14,7 @@ import {
   Form,
   List,
   Container,
+  Icon,
   Button,
   Grid,
   Divider
@@ -155,20 +155,15 @@ export default class IndexComponent extends Component {
       <Grid colums="equal">
         <Grid.Row>
           <Grid.Column>
-            <Segment
-              textAlign="center"
-              style={{ minHeight: 700, padding: '1em 0em' }}
-              vertical>
-              <Segment fluid>
-                <ReactPlayer
-                  // style={{ display: '100%' }}
-                  width="100%"
-                  height="100%"
-                  url={cinema2}
-                  playing
-                />
-              </Segment>
-            </Segment>
+            <Container fluid>
+              <ReactPlayer
+                // style={{ display: '100%' }}
+                width="100%"
+                height="100%"
+                url={cinema2}
+                playing
+              />
+            </Container>
 
             <Grid centered columns="equal" padded>
               <Grid.Column style={{ maxWidth: 450 }}>
