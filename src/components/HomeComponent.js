@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
 import bg1 from '../images/bg1.jpg';
+import jenny from '../images/jenny.jpg';
 import {
   Segment,
-  Header,
-  List,
-  Image,
-  Container,
-  Icon,
   Button,
+  Card,
+  Image,
+  Icon,
+  Progress,
+  List,
+  Label,
   Grid,
-  Sidebar,
+  Header,
+  Container,
   Menu
 } from 'semantic-ui-react';
 
@@ -20,15 +23,41 @@ export default class HomeComponent extends Component {
     super(props);
 
     this.state = {
-      activeItem: ''
+      activeItem: '',
+      selectedPokemon: [],
+      selectedDeckName: '',
+      selectedDeckId: [],
+      redirect: false
     };
   }
 
-  toggleVisibility = () => {
-    this.setState({ visible: !this.state.visible });
-  };
+  // toggleVisibility = () => {
+  //   this.setState({ visible: !this.state.visible });
+  // };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
+  handle_deleteDecks = data => {
+    let deckId = data.target.id;
+    this.props.delete_decks(deckId);
+  };
+
+  onChange_selectedPokemon = data => {
+    this.setState({ selectedPokemon: data.target.value });
+  };
+
+  onChange_selectedDeckName = data => {
+    this.setState({ selectedDeckName: data.target.value });
+  };
+
+  onChange_selectedDeckId = data => {
+    this.setState({ selectedDeckId: data.target.id });
+  };
+
+  handle_updateDecks = (event, data, deckName, pokemonIds) => {
+    this.props.history.push(`/decks/${data.value.id}/update`);
+    this.setState({ redirect: true }); //current this is not doing anything
+  };
 
   render() {
     // <Segment
@@ -38,12 +67,10 @@ export default class HomeComponent extends Component {
     //   vertical
     // />
     return (
-      // <img class="ui image" src={bg1} />
       <Grid columns="equal">
         <Grid.Row>
           <Grid.Column>
             <Segment
-              //style={{ 'background-image': src = { bg1 }) }}
               inverted
               textAlign="center"
               style={{ minHeight: 300, padding: '1em 0em' }}
@@ -61,10 +88,10 @@ export default class HomeComponent extends Component {
                   Home
                 </Menu.Item>
                 <Menu.Item
-                  name="deck management"
-                  active={this.state.activeItem === 'deck management'}
+                  name="Create Deck"
+                  active={this.state.activeItem === 'Create Deck'}
                   onClick={this.handleItemClick}>
-                  Deck Management
+                  <Link to="/decks/createDeck">Create Deck</Link>
                 </Menu.Item>
                 <Menu.Item
                   name="signout"
@@ -75,7 +102,84 @@ export default class HomeComponent extends Component {
               </Menu>
               <Image src={bg1} width="100%" height="250" />
             </Segment>
-            <Segment />
+
+            <br />
+
+            <Grid padded columns={4}>
+              <Grid.Row>
+                {this.props.userDecks.map((deck, i) => {
+                  let numWin = parseInt(
+                    Math.round(deck.wins / (deck.wins + deck.losses) * 100),
+                    10
+                  );
+                  let numLose = parseInt(
+                    Math.round(deck.losses / (deck.wins + deck.losses) * 100),
+                    10
+                  );
+                  return (
+                    <Grid.Column key={i}>
+                      <Card.Group>
+                        <Card id={deck.id} name="deckId">
+                          <Icon
+                            id={deck.id}
+                            name="delete"
+                            onClick={this.handle_deleteDecks}
+                          />
+                          <Card.Content>
+                            <Image floated="right" size="mini" src={jenny} />
+                            <Card.Header name="deckName" value={deck.deckname}>
+                              {deck.deckname}
+                            </Card.Header>
+                            <List size="massive" horizontal>
+                              {deck.cards.map((character, i) => {
+                                return (
+                                  <Label size="small" key={i} image>
+                                    <Image
+                                      src={character.sprites.front_default}
+                                    />
+                                    {character.name}
+                                  </Label>
+                                );
+                              })}
+                            </List>
+                          </Card.Content>
+                          <Card.Content extra>
+                            <Button basic color="green">
+                              READY
+                            </Button>
+                            <Button
+                              value={deck}
+                              basic
+                              color="red"
+                              onClick={this.handle_updateDecks}>
+                              EDIT
+                            </Button>
+                          </Card.Content>
+                          <Segment inverted>
+                            <Progress
+                              percent={numWin ? numWin : 0}
+                              inverted
+                              progress
+                              success>
+                              WINS
+                            </Progress>
+                            <Progress
+                              percent={numLose ? numLose : 0}
+                              inverted
+                              progress
+                              warning>
+                              LOSSES
+                            </Progress>
+                          </Segment>
+                        </Card>
+                      </Card.Group>
+                      <br />
+                    </Grid.Column>
+                  );
+                })}
+              </Grid.Row>
+            </Grid>
+            <br />
             <Segment inverted vertical style={{ padding: '2em 0em' }}>
               <Container textAlign="center">
                 <Image centered size="mini" src={pokeball2} />
