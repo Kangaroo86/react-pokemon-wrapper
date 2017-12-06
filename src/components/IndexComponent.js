@@ -14,12 +14,9 @@ import {
   Header,
   Image,
   Form,
-  Card,
   List,
   Container,
   Button,
-  Icon,
-  Menu,
   Grid,
   Divider
 } from 'semantic-ui-react';
@@ -28,81 +25,63 @@ export default class IndexComponent extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      signIn_name: '',
+      signIn_password: '',
+      signIn_errorName: ''
+    };
   }
 
-  //**setState select pokemon**//
-  handle_selectedPokemon = (event, data) => {
+  handle_signIn_selectedName = data => {
+    this.setState({ signIn_name: data.target.value });
+  };
+
+  handle_signIn_selectedPassword = data => {
+    this.setState({ signIn_password: data.target.value });
+  };
+
+  //Validating user's userName & signIn_password
+  signIn_validate = (signIn_name, signIn_password) => {
+    let isThereError = false;
+
+    let errors = {
+      signIn_errorName: '',
+      errorPassword: ''
+    };
+
+    if (signIn_name === '') {
+      isThereError = true;
+      errors.signIn_errorName = 'Please enter your signIn_name';
+    }
+
+    if (signIn_password === '') {
+      isThereError = true;
+      errors.errorPassword = 'Password entered is blank';
+    }
+
+    if (this.props.errorMessage !== null) {
+      isThereError = true;
+      errors.errorPassword = this.props.errorMessage;
+    }
+
+    return isThereError ? errors : false;
+  };
+
+  handle_signin = (event, data) => {
     event.preventDefault();
-    let duplicate = false;
-    this.state.selectedPokemon.forEach(pokemon => {
-      if (pokemon.id === data.id) {
-        duplicate = true;
-      }
-    });
-    if (!duplicate && this.state.selectedPokemon.length < 6) {
-      this.setState(
-        currentState => {
-          return {
-            selectedPokemon: [...currentState.selectedPokemon, data]
-          };
-        },
-        () => {
-          console.log(
-            'selectedPokemon state ----->',
-            this.state.selectedPokemon
-          );
-        }
-      );
+    const signIn_name = this.state.signIn_name.trim();
+    const signIn_password = this.state.signIn_password.trim();
+
+    this.props.signIn_user({ signIn_name, signIn_password });
+    let errorPass = this.signIn_validate(signIn_name, signIn_password);
+
+    if (errorPass !== false) {
+      this.setState(errorPass);
+    } else {
+      this.props.history.push(`/decks/render`);
     }
   };
 
-  //**delete state Pokemon**//
-  handle_deletePokemon = (event, data) => {
-    let result = this.state.selectedPokemon
-      .slice()
-      .filter(pokemonObj => pokemonObj.id !== data.id);
-
-    // let result = [...this.state.selectedPokemon].filter(
-    //   pokemonObj => pokemonObj.id !== data.id
-    // );
-    this.setState({
-      selectedPokemon: result
-    });
-  };
-
-  //**setState Deck Name**//
-  handle_selectedDeckName = data => {
-    this.setState({ selectedDeckName: data.target.value });
-  };
-
-  //**Create Deck**//
-  handle_createDeck = event => {
-    const deckName = this.state.selectedDeckName.trim();
-    const pokemonIds = this.state.selectedPokemon.map(pokemon => pokemon.id);
-    const userId = localStorage.getItem('userId');
-    this.props.create_decks({
-      deckName,
-      pokemonIds,
-      userId
-    });
-    this.setState({ redirect: true });
-  };
-
-  // <Container text>
-  //   <ReactPlayer
-  //     url={cinema1}
-  //     //url="https://www.youtube.com/watch?v=FypSxNQ1QB8"
-  //     //url="https://www.youtube.com/watch?v=XorMFUYd7q0"
-  //     //url="https://www.youtube.com/watch?v=SWBpBJs-E4A"
-  //     loop="true"
-  //     playing
-  //     //url={[{ src: '../images/cinema1.webm', type: 'video/webm' }]}
-  //   />
-  // </Container>
-  // <Segment>
-  //   <Image src={oak1} />
-  // </Segment>
   render() {
     return (
       <Grid colums="equal">
@@ -140,11 +119,11 @@ export default class IndexComponent extends Component {
                               id="userId"
                               iconPosition="left"
                               placeholder="username"
-                              onChange={this.handle_selectedName}
+                              onChange={this.handle_signIn_selectedName}
                             />
-                            {this.state.errorName !== ''
+                            {this.state.signIn_errorName !== ''
                               ? <p style={{ color: 'Red' }}>
-                                  {this.state.errorName}
+                                  {this.state.signIn_errorName}
                                 </p>
                               : null}
                             <Form.Input
@@ -152,9 +131,9 @@ export default class IndexComponent extends Component {
                               icon="lock"
                               id="passwordId"
                               iconPosition="left"
-                              placeholder="password"
-                              type="password"
-                              onChange={this.handle_selectedPassword}
+                              placeholder="signIn_password"
+                              type="signIn_password"
+                              onChange={this.handle_signIn_selectedPassword}
                             />
                             {this.state.errorPassword !== ''
                               ? <p style={{ color: 'Red' }}>
@@ -192,11 +171,11 @@ export default class IndexComponent extends Component {
                               id="userId"
                               iconPosition="left"
                               placeholder="username"
-                              onChange={this.handle_selectedName}
+                              onChange={this.handle_signIn_selectedName}
                             />
-                            {this.state.errorName !== ''
+                            {this.state.signIn_errorName !== ''
                               ? <p style={{ color: 'Red' }}>
-                                  {this.state.errorName}
+                                  {this.state.signIn_errorName}
                                 </p>
                               : null}
                             <Form.Input
@@ -204,9 +183,9 @@ export default class IndexComponent extends Component {
                               icon="lock"
                               id="passwordId"
                               iconPosition="left"
-                              placeholder="password"
-                              type="password"
-                              onChange={this.handle_selectedPassword}
+                              placeholder="signIn_password"
+                              type="signIn_password"
+                              onChange={this.handle_signIn_selectedPassword}
                             />
                             {this.state.errorPassword !== ''
                               ? <p style={{ color: 'Red' }}>
