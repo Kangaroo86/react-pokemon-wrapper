@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import setupStore from './redux/setupStore';
 
 import CreateDeckContainer from './redux/containers/CreateDeckContainer';
-import RenderAllDecksPageContainer from './redux/containers/RenderAllDecksPageContainer';
+//import RenderAllDecksPageContainer from './redux/containers/RenderAllDecksPageContainer';
 import BattlePageContainer from './redux/containers/BattlePageContainer';
 import UpdateDeckPageContainer from './redux/containers/UpdateDeckPageContainer';
-import SignUpContainer from './redux/containers/SignUpContainer';
-import SignInContainer from './redux/containers/SignInContainer';
+//import SignUpContainer from './redux/containers/SignUpContainer';
+//import SignInContainer from './redux/containers/SignInContainer';
 import IndexContainer from './redux/containers/IndexContainer';
 import HomeContainer from './redux/containers/HomeContainer';
 
@@ -33,13 +33,13 @@ export default class App extends Component {
               <Route
                 exact
                 path="/"
-                component={IndexContainer}
+                component={IndexContainer} //ok
                 history={history}
               />
               <Route
                 exact
                 path="/home"
-                component={HomeContainer}
+                component={HomeContainer} //ok
                 history={history}
               />
               {/* <Route
@@ -51,25 +51,25 @@ export default class App extends Component {
               <Route
                 exact
                 path="/createdeck"
-                component={CreateDeckContainer}
+                component={CreateDeckContainer} //ok
                 history={history}
               />
               <Route
                 exact
                 path="/decks/battle"
-                component={BattlePageContainer}
+                component={BattlePageContainer} //pending
                 history={history}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/deckmanagement"
                 component={RenderAllDecksPageContainer}
                 history={history}
-              />
+              /> */}
               <Route
                 exact
                 path="/decks/:deckId/update"
-                component={UpdateDeckPageContainer}
+                component={UpdateDeckPageContainer} //ok
                 history={history}
               />
             </Switch>
