@@ -5,7 +5,10 @@ export default function SignInPage({
   signIn_user,
   userSignIn,
   errorMessage,
-  history
+  history,
+  userSignup,
+  user_signup,
+  users
 }) {
   return (
     <div>
@@ -14,6 +17,9 @@ export default function SignInPage({
         history={history}
         userSignIn={userSignIn}
         errorMessage={errorMessage}
+        userSignup={userSignup}
+        user_signup={user_signup}
+        users={users}
       />
     </div>
   );
