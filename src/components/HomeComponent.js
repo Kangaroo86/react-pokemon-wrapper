@@ -35,8 +35,6 @@ export default class HomeComponent extends Component {
   //   this.setState({ visible: !this.state.visible });
   // };
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
   handle_deleteDecks = data => {
     let deckId = data.target.id;
     this.props.delete_decks(deckId);
@@ -59,13 +57,18 @@ export default class HomeComponent extends Component {
     this.setState({ redirect: true }); //current this is not doing anything
   };
 
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
+  handle_signOut = (event, { name }) => {
+    event.preventDefault();
+    this.setState({ activeItem: name });
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    this.props.signOut();
+    this.props.history.push(`/`);
+  };
+
   render() {
-    // <Segment
-    //   inverted
-    //   textAlign="center"
-    //   style={{ minHeight: 300, padding: '1em 0em' }}
-    //   vertical
-    // />
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -75,8 +78,9 @@ export default class HomeComponent extends Component {
               textAlign="center"
               style={{ minHeight: 300, padding: '1em 0em' }}
               vertical>
-              <Menu inverted>
+              <Menu inverted size="mini">
                 <Menu.Item
+                  fitted="vertically"
                   name="home"
                   active={this.state.activeItem === 'home'}
                   onClick={this.handleItemClick}>
@@ -85,23 +89,31 @@ export default class HomeComponent extends Component {
                     src={pokeball2}
                     style={{ marginRight: '1.5em' }}
                   />
-                  Home
+                  <Link to="/home">Home</Link>
                 </Menu.Item>
                 <Menu.Item
+                  fitted="vertically"
                   name="Create Deck"
                   active={this.state.activeItem === 'Create Deck'}
                   onClick={this.handleItemClick}>
-                  <Link to="/decks/createDeck">Create Deck</Link>
+                  <Link to="/createdeck">Create Deck</Link>
                 </Menu.Item>
                 <Menu.Item
+                  fitted="vertically"
                   name="signout"
                   active={this.state.activeItem === 'signout'}
-                  onClick={this.handleItemClick}>
+                  onClick={this.handle_signOut}>
                   Sign-out
                 </Menu.Item>
               </Menu>
-              <Image src={bg1} width="100%" height="250" />
+              <Image src={bg1} width="100%" height="300" />
             </Segment>
+
+            <br />
+
+            <Grid textAlign="center">
+              <Header style={{ fontSize: '2em' }}>Deck Management</Header>
+            </Grid>
 
             <br />
 

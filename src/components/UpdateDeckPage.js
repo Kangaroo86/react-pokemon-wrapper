@@ -1,6 +1,6 @@
 import React from 'react';
 import UpdateDeckComponent from './UpdateDeckComponent';
-import UpdateDeckPageLayout from './UpdateDeckPageLayout';
+//import UpdateDeckPageLayout from './UpdateDeckPageLayout';
 
 export default function IndexPage({
   pokemonObj,
@@ -14,24 +14,24 @@ export default function IndexPage({
   get_default_pokemon,
   history,
   match,
-  location
+  location,
+  signOut
 }) {
   return (
-    <UpdateDeckPageLayout>
-      <UpdateDeckComponent
-        pokemonObj={pokemonObj}
-        onPokemonObj={onPokemonObj}
-        pokemonArray={pokemonArray}
-        defaultPokemonArray={defaultPokemonArray}
-        userDecks={userDecks}
-        get_userDecks={get_userDecks}
-        delete_decks={delete_decks}
-        update_decks={update_decks}
-        get_default_pokemon={get_default_pokemon}
-        history={history}
-        match={match}
-        location={location}
-      />
-    </UpdateDeckPageLayout>
+    <UpdateDeckComponent
+      pokemonObj={pokemonObj}
+      onPokemonObj={onPokemonObj}
+      pokemonArray={pokemonArray}
+      defaultPokemonArray={defaultPokemonArray}
+      userDecks={userDecks}
+      get_userDecks={get_userDecks}
+      delete_decks={delete_decks}
+      update_decks={update_decks}
+      get_default_pokemon={get_default_pokemon}
+      history={history}
+      match={match}
+      location={location}
+      signOut={signOut}
+    />
   );
 }

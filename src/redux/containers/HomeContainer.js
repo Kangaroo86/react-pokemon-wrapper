@@ -12,7 +12,8 @@ function mapStateToProps(state, ownProps) {
     pokemonObj: state.pokemonObj,
     pokemonArray: state.pokemonArray,
     defaultPokemonArray: state.defaultPokemonArray,
-    userDecks: state.userDecks
+    userDecks: state.userDecks,
+    userSignIn: state.userSignIn
   };
 }
 
@@ -27,7 +28,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     update_Decks: (id, deckName, pokemonIds) => {
       dispatch(updateDecksProcess(id, deckName, pokemonIds));
-    }
+    },
+    signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null })
   };
 }
 

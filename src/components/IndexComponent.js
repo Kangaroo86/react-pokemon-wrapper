@@ -14,7 +14,6 @@ import {
   Form,
   List,
   Container,
-  Icon,
   Button,
   Grid,
   Divider
@@ -146,7 +145,7 @@ export default class IndexComponent extends Component {
       this.setState(errorPass);
     } else {
       console.log('it passed*******');
-      this.props.history.push(`/decks/render`);
+      this.props.history.push(`/home`);
     }
   };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import CreateDeckComponent from './CreateDeckComponent';
-import CreateDeckPageLayout from './CreateDeckPageLayout';
+//import CreateDeckPageLayout from './CreateDeckPageLayout';
 
 export default function IndexPage({
   //pokemonObj,
@@ -15,18 +15,17 @@ export default function IndexPage({
   history
 }) {
   return (
-    <CreateDeckPageLayout signOut={signOut} history={history}>
-      <CreateDeckComponent
-        //pokemonObj={pokemonObj}
-        onPokemonObj={onPokemonObj}
-        pokemonArray={pokemonArray}
-        defaultPokemonArray={defaultPokemonArray}
-        create_decks={create_decks}
-        userDecks={userDecks}
-        users={users}
-        userSignIn={userSignIn}
-        history={history}
-      />
-    </CreateDeckPageLayout>
+    <CreateDeckComponent
+      //pokemonObj={pokemonObj}
+      onPokemonObj={onPokemonObj}
+      pokemonArray={pokemonArray}
+      defaultPokemonArray={defaultPokemonArray}
+      create_decks={create_decks}
+      userDecks={userDecks}
+      users={users}
+      userSignIn={userSignIn}
+      signOut={signOut}
+      history={history}
+    />
   );
 }

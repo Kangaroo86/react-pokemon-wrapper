@@ -24,18 +24,12 @@ export default class App extends Component {
         <Provider store={store}>
           <Router>
             <Switch>
-              <Route
+              {/* <Route
                 exact
                 path="/signup"
                 component={SignUpContainer}
                 history={history}
-              />
-              <Route
-                exact
-                path="/home"
-                component={HomeContainer}
-                history={history}
-              />
+              /> */}
               <Route
                 exact
                 path="/"
@@ -44,13 +38,19 @@ export default class App extends Component {
               />
               <Route
                 exact
+                path="/home"
+                component={HomeContainer}
+                history={history}
+              />
+              {/* <Route
+                exact
                 path="/index"
                 component={SignInContainer}
                 history={history}
-              />
+              /> */}
               <Route
                 exact
-                path="/decks/createDeck"
+                path="/createdeck"
                 component={CreateDeckContainer}
                 history={history}
               />
@@ -62,7 +62,7 @@ export default class App extends Component {
               />
               <Route
                 exact
-                path="/decks/render"
+                path="/deckmanagement"
                 component={RenderAllDecksPageContainer}
                 history={history}
               />

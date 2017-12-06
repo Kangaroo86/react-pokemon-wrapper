@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import jenny from '../images/jenny.jpg';
+import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
+import bg10 from '../images/bg10.png';
 
 import {
   Segment,
@@ -11,6 +13,8 @@ import {
   List,
   Image,
   Button,
+  Menu,
+  Container,
   Progress,
   Label
 } from 'semantic-ui-react';
@@ -34,6 +38,7 @@ export default class CreateDeckComponent extends Component {
     });
 
     this.state = {
+      activeItem: '',
       selectedPokemon: currentPokemon,
       selectedDeckName: '',
       redirect: false
@@ -95,114 +100,179 @@ export default class CreateDeckComponent extends Component {
     );
     this.setState({ redirect: true });
   };
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
+  //**Sign out**//
+  handle_signOut = (event, { name }) => {
+    event.preventDefault();
+    this.setState({ activeItem: name });
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    this.props.signOut();
+    this.props.history.push(`/`);
+  };
+
   render() {
     let userObj = this.props.userDecks.filter(
       result => result.id === parseInt(this.props.match.params.deckId, 10)
     );
-
     return (
-      <div>
-        <Grid textAlign="center">
-          <Header as="h3" style={{ fontSize: '2em' }}>
-            Update your Pokemon
-          </Header>
-          <br />
-          <Card.Group ref="pokemonDisplayed" itemsPerRow={9}>
-            {this.props.pokemonArray &&
-              this.props.pokemonArray.map(pokemonObj => {
-                return (
-                  <Card
-                    color="red"
-                    name={pokemonObj.name}
-                    id={pokemonObj.id}
-                    image={pokemonObj.sprites.front_default}
-                    onClick={this.handle_selectedPokemon}
+      <Grid columns="equal">
+        <Grid.Row>
+          <Grid.Column>
+            <Segment
+              inverted
+              textAlign="center"
+              style={{ minHeight: 300, padding: '1em 0em' }}
+              vertical>
+              <Menu inverted size="mini">
+                <Menu.Item
+                  fitted="vertically"
+                  name="home"
+                  active={this.state.activeItem === 'home'}
+                  onClick={this.handleItemClick}>
+                  <Image
+                    size="mini"
+                    src={pokeball2}
+                    style={{ marginRight: '1.5em' }}
                   />
-                );
-              })}
-          </Card.Group>
-        </Grid>
-
-        <Grid columns="equal">
-          <Grid.Row>
-            <Grid.Column floated="right">
-              <Card.Group>
-                {userObj &&
-                  userObj[0] &&
-                  <Card id={userObj[0].id} name="deckId">
-                    <Icon
-                      id={userObj[0].id}
-                      floated="left"
-                      name="delete"
-                      onClick={this.handle_deleteDecks}
-                    />
-                    <Card.Content>
-                      <Image floated="right" size="mini" src={jenny} />
-                      <Card.Header name="deckName" value={userObj[0].deckname}>
-                        {userObj[0].deckname}
-                      </Card.Header>
-                      <List size="massive" horizontal>
-                        {userObj[0].cards.map(character => {
-                          return (
-                            <Label size="small" image>
-                              <Image src={character.sprites.front_default} />
-                              {character.name}
-                            </Label>
-                          );
-                        })}
-                      </List>
-                    </Card.Content>
-                    <Card.Content extra>
-                      <Button basic color="green">
-                        READY
-                      </Button>
-                      <Link to="/decks/render">
-                        <Button
-                          basic
-                          color="red"
-                          onClick={this.handle_updateDeck}>
-                          UPDATE
-                        </Button>
-                      </Link>
-                    </Card.Content>
-                    <Segment inverted>
-                      <Progress percent={50} inverted progress success>
-                        WINS
-                      </Progress>
-                      <Progress percent={50} inverted progress warning>
-                        LOSSES
-                      </Progress>
-                    </Segment>
-                  </Card>}
+                  <Link to="/home">
+                    <strong>Home</strong>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item
+                  fitted="vertically"
+                  name="Create Deck"
+                  active={this.state.activeItem === 'Create Deck'}
+                  onClick={this.handleItemClick}>
+                  <Link to="/createdeck">Create Deck</Link>
+                </Menu.Item>
+                <Menu.Item
+                  fitted="vertically"
+                  name="signout"
+                  active={this.state.activeItem === 'signout'}
+                  onClick={this.handle_signOut}>
+                  Sign-out
+                </Menu.Item>
+              </Menu>
+              <Image src={bg10} width="100%" height="300" />
+            </Segment>
+            <br />
+            <Grid textAlign="center">
+              <Header style={{ fontSize: '2em' }}>Update your Deck</Header>
+              <br />
+              <Card.Group ref="pokemonDisplayed" itemsPerRow={9}>
+                {this.props.pokemonArray &&
+                  this.props.pokemonArray.map(pokemonObj => {
+                    return (
+                      <Card
+                        color="red"
+                        name={pokemonObj.name}
+                        id={pokemonObj.id}
+                        image={pokemonObj.sprites.front_default}
+                        onClick={this.handle_selectedPokemon}
+                      />
+                    );
+                  })}
               </Card.Group>
-            </Grid.Column>
+            </Grid>
 
-            <Grid.Column>
-              <Segment style={{ padding: '5em 0em' }} vertical>
-                <Grid container stackable verticalAlign="middle">
-                  <Grid.Row>
-                    <Grid.Column floated="left" width={8}>
-                      <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>
-                        {this.state.selectedPokemon.map(pokemonObj =>
-                          <Card
-                            characterId={pokemonObj.characterId}
-                            color="blue"
-                            image={pokemonObj.image}
-                            id={pokemonObj.id}
-                            onClick={this.handle_deletePokemon}
-                          />
-                        )}
-                      </Card.Group>
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-              </Segment>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+            <Grid columns="equal">
+              <Grid.Row>
+                <Grid.Column floated="right">
+                  <Card.Group>
+                    {userObj &&
+                      userObj[0] &&
+                      <Card id={userObj[0].id} name="deckId">
+                        <Icon
+                          id={userObj[0].id}
+                          floated="left"
+                          name="delete"
+                          onClick={this.handle_deleteDecks}
+                        />
+                        <Card.Content>
+                          <Image floated="right" size="mini" src={jenny} />
+                          <Card.Header
+                            name="deckName"
+                            value={userObj[0].deckname}>
+                            {userObj[0].deckname}
+                          </Card.Header>
+                          <List size="massive" horizontal>
+                            {userObj[0].cards.map(character => {
+                              return (
+                                <Label size="small" image>
+                                  <Image
+                                    src={character.sprites.front_default}
+                                  />
+                                  {character.name}
+                                </Label>
+                              );
+                            })}
+                          </List>
+                        </Card.Content>
+                        <Card.Content extra>
+                          <Button basic color="green">
+                            READY
+                          </Button>
+                          <Link to="/decks/render">
+                            <Button
+                              basic
+                              color="red"
+                              onClick={this.handle_updateDeck}>
+                              UPDATE
+                            </Button>
+                          </Link>
+                        </Card.Content>
+                        <Segment inverted>
+                          <Progress percent={50} inverted progress success>
+                            WINS
+                          </Progress>
+                          <Progress percent={50} inverted progress warning>
+                            LOSSES
+                          </Progress>
+                        </Segment>
+                      </Card>}
+                  </Card.Group>
+                </Grid.Column>
 
-        <br />
-      </div>
+                <Grid.Column>
+                  <Segment style={{ padding: '5em 0em' }} vertical>
+                    <Grid container stackable verticalAlign="middle">
+                      <Grid.Row>
+                        <Grid.Column floated="left" width={8}>
+                          <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>
+                            {this.state.selectedPokemon.map(pokemonObj =>
+                              <Card
+                                characterId={pokemonObj.characterId}
+                                color="blue"
+                                image={pokemonObj.image}
+                                id={pokemonObj.id}
+                                onClick={this.handle_deletePokemon}
+                              />
+                            )}
+                          </Card.Group>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Segment>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+
+            <br />
+
+            <Segment inverted vertical style={{ padding: '2em 0em' }}>
+              <Container textAlign="center">
+                <Image centered size="mini" src={pokeball2} />
+                <List horizontal inverted divided link>
+                  <List.Item>gotta catch em all</List.Item>
+                </List>
+              </Container>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

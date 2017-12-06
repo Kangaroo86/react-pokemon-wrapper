@@ -10,6 +10,7 @@ export default function SignInPage({
   get_userDecks,
   delete_decks,
   update_Decks,
+  signOut,
   history,
   match,
   location
@@ -27,6 +28,7 @@ export default function SignInPage({
         history={history}
         match={match}
         location={location}
+        signOut={signOut}
       />
     </div>
   );
