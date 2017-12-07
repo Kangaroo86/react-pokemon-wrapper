@@ -10,7 +10,6 @@ import {
   Divider,
   Comment,
   Container,
-  Embed,
   List,
   Menu,
   Form,
@@ -24,15 +23,63 @@ import {
   Segment
 } from 'semantic-ui-react';
 
+let colors = ['red', 'orange', 'yellow', 'olive', 'green'];
+
 export default class RenderAllDecksComponent extends Component {
   constructor(props) {
     super(props);
 
+    let { userDecks } = this.props;
+
+    let P1_cards = [];
+    userDecks.filter(deck => {
+      if (deck.id === Number(this.props.match.params.deckId)) {
+        P1_cards = deck.cards.map((pokeObj, i) => {
+          return {
+            color: colors[i],
+            name: pokeObj.name,
+            id: pokeObj.id,
+            moves: pokeObj.moves.slice(0, 2).map(result => result.move.name),
+            stats: pokeObj.stats.map(result => {
+              let newState = {};
+              newState.base_stat = result.base_stat;
+              newState.name = result.stat.name;
+              return newState;
+            }),
+            types: pokeObj.types.map(result => result.type.name),
+            image: pokeObj.sprites.front_default
+          };
+        });
+      }
+    });
+
+    console.log('my props-------', this.props);
+    console.log('P1_cards******', P1_cards);
+
+    console.log('userDecks******', userDecks);
+
     this.state = {
       activeItem: '',
-      activeIndex: 0
+      P1_battle_zone: [],
+      P1_deck_zone: [P1_cards]
     };
   }
+
+  handle_P1_battle_zone = (event, data) => {
+    let { P1_battle_zone } = this.state;
+    let duplicate = false;
+
+    P1_battle_zone.forEach(pokeObj => {
+      if (pokeObj.id === data.id) {
+        duplicate = true;
+      }
+    });
+
+    if (!duplicate && P1_battle_zone.length < 1) {
+      let currentState = P1_battle_zone.slice(0);
+      this.setState({ P1_battle_zone: [...currentState, data] });
+    }
+  };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -46,9 +93,14 @@ export default class RenderAllDecksComponent extends Component {
   };
 
   render() {
-    {
-      /* <Image src={bg2} width="100%" height="300" /> */
-    }
+    let { activeItem, P1_battle_zone } = this.state;
+    //console.log('this.state.P1_battle_zone------', P1_battle_zone);
+    let playerOneDeck = this.props.userDecks.filter(
+      decks => decks.id === Number(this.props.match.params.deckId)
+    );
+    //console.log('my props------- after render', this.props);
+    //console.log('P1_cards******', P1_cards);
+    //console.log('my selected deck cards---******', playerOneDeck[0].cards);
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -62,7 +114,7 @@ export default class RenderAllDecksComponent extends Component {
                 <Menu.Item
                   fitted="vertically"
                   name="home"
-                  active={this.state.activeItem === 'home'}
+                  active={activeItem === 'home'}
                   onClick={this.handleItemClick}>
                   <Image
                     size="mini"
@@ -74,14 +126,14 @@ export default class RenderAllDecksComponent extends Component {
                 <Menu.Item
                   fitted="vertically"
                   name="Create Deck"
-                  active={this.state.activeItem === 'Create Deck'}
+                  active={activeItem === 'Create Deck'}
                   onClick={this.handleItemClick}>
                   <Link to="/createdeck">Create Deck</Link>
                 </Menu.Item>
                 <Menu.Item
                   fitted="vertically"
                   name="signout"
-                  active={this.state.activeItem === 'signout'}
+                  active={activeItem === 'signout'}
                   onClick={this.handle_signOut}>
                   Sign-out
                 </Menu.Item>
@@ -89,7 +141,7 @@ export default class RenderAllDecksComponent extends Component {
               <Image src={bg2} width="100%" height="300" />
             </Segment>
 
-            {/* Play1       */}
+            {/* Play1*/}
             <Grid columns="equal" padded>
               <Grid>
                 <Grid.Column floated="left" width={6}>
@@ -108,18 +160,38 @@ export default class RenderAllDecksComponent extends Component {
                 </Grid.Column>
               </Grid>
 
+              {/* 1nd Player */}
               <Grid centered columns={5}>
                 <Grid.Row>
                   <Grid.Column floated="left" width={2}>
                     <Card.Group itemsPerRow={1}>
-                      <Card color="red" image={eevee} />
-                      <Card color="orange" image={eevee} />
-                      <Card color="yellow" image={eevee} />
-                      <Card color="olive" image={eevee} />
-                      <Card color="green" image={eevee} />
+                      {playerOneDeck[0] &&
+                        playerOneDeck[0].cards.map((pokeObj, i) => {
+                          return (
+                            <Card
+                              key={i}
+                              color={colors[i]}
+                              name={pokeObj.name}
+                              id={pokeObj.id}
+                              moves={pokeObj.moves
+                                .slice(0, 2)
+                                .map(result => result.move.name)}
+                              stats={pokeObj.stats.map(result => {
+                                let newState = {};
+                                newState.base_stat = result.base_stat;
+                                newState.name = result.stat.name;
+                                return newState;
+                              })}
+                              types={pokeObj.types.map(
+                                result => result.type.name
+                              )}
+                              image={pokeObj.sprites.front_default}
+                              onClick={this.handle_P1_battle_zone}
+                            />
+                          );
+                        })}
                     </Card.Group>
                   </Grid.Column>
-                  {/* 1nd Player */}
                   <Grid.Column floated="left">
                     <Segment inverted color="black">
                       <Label size="large" as="a" color="olive" ribbon="right">
@@ -159,7 +231,12 @@ export default class RenderAllDecksComponent extends Component {
                       </Grid>
                       <Divider />
                       <Segment inverted color="olive" textAlign="center">
-                        <Image bordered src={eevee} centered size="small" />
+                        <Image
+                          bordered
+                          src={P1_battle_zone[0] && P1_battle_zone[0].image}
+                          centered
+                          size="small"
+                        />
                       </Segment>
                       <Divider />
                       <Grid celled>

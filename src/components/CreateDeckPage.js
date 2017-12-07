@@ -1,9 +1,7 @@
 import React from 'react';
 import CreateDeckComponent from './CreateDeckComponent';
-//import CreateDeckPageLayout from './CreateDeckPageLayout';
 
 export default function IndexPage({
-  //pokemonObj,
   pokemonArray,
   defaultPokemonArray,
   onPokemonObj,
@@ -16,7 +14,6 @@ export default function IndexPage({
 }) {
   return (
     <CreateDeckComponent
-      //pokemonObj={pokemonObj}
       onPokemonObj={onPokemonObj}
       pokemonArray={pokemonArray}
       defaultPokemonArray={defaultPokemonArray}

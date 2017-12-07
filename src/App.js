@@ -50,7 +50,7 @@ export default class App extends Component {
               />
               <Route
                 exact
-                path="/battle"
+                path="/decks/:deckId/battle"
                 component={BattlePageContainer} //pending
                 history={history}
               />

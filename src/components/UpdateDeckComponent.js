@@ -101,6 +101,12 @@ export default class CreateDeckComponent extends Component {
     this.setState({ redirect: true });
   };
 
+  handle_battlePage = (event, data) => {
+    //console.log('my updatedeck data--------', data);
+    //console.log('my updatedeck data--------', data.value[0].id);
+    this.props.history.push(`/decks/${data.value[0].id}/battle`);
+  };
+
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   //**Sign out**//
@@ -176,9 +182,9 @@ export default class CreateDeckComponent extends Component {
               </Card.Group>
             </Grid>
 
-            <Grid columns="equal">
+            <Grid centered columns={3}>
               <Grid.Row>
-                <Grid.Column floated="right">
+                <Grid.Column textAlign="center">
                   <Card.Group>
                     {userObj &&
                       userObj[0] &&
@@ -210,7 +216,11 @@ export default class CreateDeckComponent extends Component {
                           </List>
                         </Card.Content>
                         <Card.Content extra>
-                          <Button basic color="green">
+                          <Button
+                            value={userObj}
+                            basic
+                            color="green"
+                            onClick={this.handle_battlePage}>
                             READY
                           </Button>
                           <Link to="/home">
@@ -236,7 +246,7 @@ export default class CreateDeckComponent extends Component {
 
                 <Grid.Column>
                   <Segment style={{ padding: '5em 0em' }} vertical>
-                    <Grid container stackable verticalAlign="middle">
+                    <Grid>
                       <Grid.Row>
                         <Grid.Column floated="left" width={8}>
                           <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>

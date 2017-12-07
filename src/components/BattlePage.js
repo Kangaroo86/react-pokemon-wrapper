@@ -2,7 +2,7 @@ import React from 'react';
 import BattlePageComponent from './BattlePageComponent';
 
 export default function IndexPage({
-  pokemonObj,
+  userDecks,
   pokemonArray,
   defaultPokemonArray,
   onPokemonObj,
@@ -13,8 +13,8 @@ export default function IndexPage({
 }) {
   return (
     <BattlePageComponent
+      userDecks={userDecks}
       signOut={signOut}
-      pokemonObj={pokemonObj}
       onPokemonObj={onPokemonObj}
       defaultPokemonArray={defaultPokemonArray}
       history={history}

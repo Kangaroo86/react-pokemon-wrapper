@@ -48,9 +48,14 @@ export default class HomeComponent extends Component {
     this.setState({ selectedDeckId: data.target.id });
   };
 
-  handle_updateDecks = (event, data, deckName, pokemonIds) => {
+  handle_updateDeck = (event, data, deckName, pokemonIds) => {
     this.props.history.push(`/decks/${data.value.id}/update`);
     this.setState({ redirect: true }); //current this is not doing anything
+  };
+
+  handle_battlePage = (event, data) => {
+    //console.log('my data from HOME--------', data);
+    this.props.history.push(`/decks/${data.value.id}/battle`);
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -152,14 +157,18 @@ export default class HomeComponent extends Component {
                             </List>
                           </Card.Content>
                           <Card.Content extra>
-                            <Button basic color="green">
+                            <Button
+                              value={deck}
+                              basic
+                              color="green"
+                              onClick={this.handle_battlePage}>
                               READY
                             </Button>
                             <Button
                               value={deck}
                               basic
                               color="red"
-                              onClick={this.handle_updateDecks}>
+                              onClick={this.handle_updateDeck}>
                               EDIT
                             </Button>
                           </Card.Content>
