@@ -23,12 +23,11 @@ import {
   Segment
 } from 'semantic-ui-react';
 
-let colors = ['red', 'orange', 'yellow', 'olive', 'green'];
+let colors = ['red', 'violet', 'blue', 'pink', 'green'];
 
 export default class RenderAllDecksComponent extends Component {
   constructor(props) {
     super(props);
-
     let { userDecks } = this.props;
 
     let P1_cards = [];
@@ -36,32 +35,26 @@ export default class RenderAllDecksComponent extends Component {
       if (deck.id === Number(this.props.match.params.deckId)) {
         P1_cards = deck.cards.map((pokeObj, i) => {
           return {
-            color: colors[i],
-            name: pokeObj.name,
             id: pokeObj.id,
+            name: pokeObj.name,
             moves: pokeObj.moves.slice(0, 2).map(result => result.move.name),
+            image: pokeObj.sprites.front_default,
+            types: pokeObj.types.map(result => result.type.name),
             stats: pokeObj.stats.map(result => {
               let newState = {};
               newState.base_stat = result.base_stat;
               newState.name = result.stat.name;
               return newState;
-            }),
-            types: pokeObj.types.map(result => result.type.name),
-            image: pokeObj.sprites.front_default
+            })
           };
         });
       }
     });
 
-    console.log('my props-------', this.props);
-    console.log('P1_cards******', P1_cards);
-
-    console.log('userDecks******', userDecks);
-
     this.state = {
       activeItem: '',
       P1_battle_zone: [],
-      P1_deck_zone: [P1_cards]
+      P1_deck_zone: P1_cards
     };
   }
 
@@ -93,14 +86,20 @@ export default class RenderAllDecksComponent extends Component {
   };
 
   render() {
-    let { activeItem, P1_battle_zone } = this.state;
-    //console.log('this.state.P1_battle_zone------', P1_battle_zone);
-    let playerOneDeck = this.props.userDecks.filter(
-      decks => decks.id === Number(this.props.match.params.deckId)
-    );
-    //console.log('my props------- after render', this.props);
+    let { activeItem, P1_battle_zone, P1_deck_zone } = this.state;
+
+    //let { userDecks } = this.props;
+
+    console.log('this.state.P1_battle_zone------array', P1_battle_zone);
+    //console.log('this.state.P1_battle_zone------index', P1_battle_zone[0]);
+    //console.log('this.state.P1_battle_zone------name', P1_battle_zone[0].name);
+
+    // let P1_deck_zone = this.props.userDecks.filter(
+    //   decks => decks.id === Number(this.props.match.params.deckId)
+    // );
+    // console.log('my state P1_deck_zone-------', P1_deck_zone);
     //console.log('P1_cards******', P1_cards);
-    //console.log('my selected deck cards---******', playerOneDeck[0].cards);
+    //console.log('my selected deck cards---******', P1_deck_zone[0].cards);
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -165,27 +164,18 @@ export default class RenderAllDecksComponent extends Component {
                 <Grid.Row>
                   <Grid.Column floated="left" width={2}>
                     <Card.Group itemsPerRow={1}>
-                      {playerOneDeck[0] &&
-                        playerOneDeck[0].cards.map((pokeObj, i) => {
+                      {P1_deck_zone &&
+                        P1_deck_zone.map((pokeObj, i) => {
                           return (
                             <Card
                               key={i}
                               color={colors[i]}
                               name={pokeObj.name}
                               id={pokeObj.id}
-                              moves={pokeObj.moves
-                                .slice(0, 2)
-                                .map(result => result.move.name)}
-                              stats={pokeObj.stats.map(result => {
-                                let newState = {};
-                                newState.base_stat = result.base_stat;
-                                newState.name = result.stat.name;
-                                return newState;
-                              })}
-                              types={pokeObj.types.map(
-                                result => result.type.name
-                              )}
-                              image={pokeObj.sprites.front_default}
+                              moves={pokeObj.moves}
+                              stats={pokeObj.stats}
+                              types={pokeObj.types}
+                              image={pokeObj.image}
                               onClick={this.handle_P1_battle_zone}
                             />
                           );
@@ -195,7 +185,7 @@ export default class RenderAllDecksComponent extends Component {
                   <Grid.Column floated="left">
                     <Segment inverted color="black">
                       <Label size="large" as="a" color="olive" ribbon="right">
-                        Eevee
+                        {P1_battle_zone[0] ? P1_battle_zone[0].name : ''}
                       </Label>
                       <br />
                       <br />
@@ -206,7 +196,6 @@ export default class RenderAllDecksComponent extends Component {
                               <Table.Row>
                                 <Table.Cell width={1}>
                                   <Icon
-                                    inverted
                                     color="red"
                                     name="heartbeat"
                                     size="large"
@@ -218,10 +207,14 @@ export default class RenderAllDecksComponent extends Component {
                                   <Progress
                                     active
                                     color="green"
-                                    size="small"
-                                    value="4"
-                                    total="5"
-                                    progress="percent"
+                                    size="large"
+                                    progress="ratio"
+                                    value={Math.floor(39)}
+                                    total={
+                                      P1_battle_zone[0]
+                                        ? P1_battle_zone[0].stats[5].base_stat
+                                        : 0
+                                    }
                                   />
                                 </Table.Cell>
                               </Table.Row>
@@ -317,7 +310,6 @@ export default class RenderAllDecksComponent extends Component {
                               <Table.Row>
                                 <Table.Cell width={1}>
                                   <Icon
-                                    inverted
                                     color="red"
                                     name="heartbeat"
                                     size="large"
@@ -330,10 +322,10 @@ export default class RenderAllDecksComponent extends Component {
                                   <Progress
                                     active
                                     color="green"
-                                    size="small"
-                                    value="4"
-                                    total="5"
-                                    progress="percent"
+                                    size="large"
+                                    progress="ratio"
+                                    value="70"
+                                    total="100"
                                   />
                                 </Table.Cell>
                               </Table.Row>
