@@ -39,7 +39,6 @@ export default function rootReducer(
       };
 
     case 'CREATE_USER_DECK':
-      console.log('CREATE_USER_DECK-----', action.deckObj);
       return {
         ...currentState,
         userDecks: [...currentState.userDecks, action.deckObj]

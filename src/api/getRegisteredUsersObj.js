@@ -11,7 +11,6 @@ export default function getRegisteredUsersObj() {
       return response.json();
     })
     .then(data => {
-      console.log('alll user*********', data);
       return data;
     })
     .catch(err => console.log('API call getUsers failed: ', err));

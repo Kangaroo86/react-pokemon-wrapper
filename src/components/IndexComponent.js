@@ -26,7 +26,9 @@ export default class IndexComponent extends Component {
     };
   }
 
-  //*****sign up section*****//
+  //*************************//
+  //**** sign up section ****//
+  //*************************//
   handle_signUp_selectedName = data => {
     this.setState({ signUp_name: data.target.value });
   };
@@ -88,7 +90,9 @@ export default class IndexComponent extends Component {
     }
   };
 
-  //*****sign in section*****//
+  //*************************//
+  //**** sign in section ****//
+  //*************************//
   handle_signIn_selectedName = data => {
     this.setState({ signIn_name: data.target.value });
   };
@@ -122,11 +126,16 @@ export default class IndexComponent extends Component {
     event.preventDefault();
     const name = this.state.signIn_name.trim();
     const password = this.state.signIn_password.trim();
-    let failedValidation = this.signIn_validate(name, password);
+
+    let failedValidation = this.signIn_validate(name, password); //return an obj when true
+
     if (failedValidation) {
       this.setState(failedValidation);
+    } else {
+      this.props.signIn_user({ name, password });
     }
-    !failedValidation && this.props.signIn_user({ name, password });
+
+    //!failedValidation && this.props.signIn_user({ name, password });
 
     // } else {
     //   this.props.history.push(`/home`);
@@ -186,6 +195,11 @@ export default class IndexComponent extends Component {
                           {this.state.signIn_errorPassword}
                         </p>
                       : null}
+                    {this.state.signIn_errorPassword !== '' &&
+                      this.props.errorMessage &&
+                      <p style={{ color: 'Red' }}>
+                        {this.props.errorMessage}
+                      </p>}
                     <Button
                       color="teal"
                       fluid
@@ -194,10 +208,6 @@ export default class IndexComponent extends Component {
                       Sign-In
                     </Button>
                   </Form>
-                  {this.props.errorMessage &&
-                    <h2 style={{ textAlign: 'center', color: 'red' }}>
-                      bad email or password
-                    </h2>}
 
                   <Divider horizontal>OR</Divider>
 

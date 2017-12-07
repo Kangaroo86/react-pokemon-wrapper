@@ -4,17 +4,10 @@ export default function signInProcess(attribute) {
   return (dispatch, getState) => {
     return signIn(attribute)
       .then(result => {
-        console.log('my result thunk--------', result);
-        console.log(
-          'my result thunk--------',
-          typeof result.error,
-          result.error
-        );
         if (result.error === 400) {
-          console.log('do i get in here************', result.error === 400);
           dispatch({
             type: 'ERROR_HANDLING_MESSAGE',
-            errorMessage: 'Invalid SignIn Request'
+            errorMessage: 'Invalid Password'
           });
         } else {
           localStorage.setItem('token', result.token);
@@ -22,7 +15,6 @@ export default function signInProcess(attribute) {
           dispatch({
             type: 'USER_SIGNIN',
             userSignIn: result
-            //errorMessage: null
           });
         }
       })
