@@ -34,7 +34,7 @@ export default class RenderAllDecksComponent extends Component {
   render() {
     return (
       <div>
-        <Grid center columns="equal" padded>
+        <Grid columns="equal" padded>
           <Grid>
             <Grid.Column floated="left" width={6}>
               <Segment inverted>

@@ -136,10 +136,6 @@ export default class IndexComponent extends Component {
     }
 
     //!failedValidation && this.props.signIn_user({ name, password });
-
-    // } else {
-    //   this.props.history.push(`/home`);
-    // }
   };
 
   render() {

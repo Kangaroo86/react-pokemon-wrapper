@@ -137,9 +137,7 @@ export default class CreateDeckComponent extends Component {
                     src={pokeball2}
                     style={{ marginRight: '1.5em' }}
                   />
-                  <Link to="/home">
-                    <strong>Home</strong>
-                  </Link>
+                  <Link to="/home">Home</Link>
                 </Menu.Item>
                 <Menu.Item
                   fitted="vertically"
