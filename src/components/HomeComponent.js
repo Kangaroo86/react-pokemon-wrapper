@@ -31,10 +31,6 @@ export default class HomeComponent extends Component {
     };
   }
 
-  // toggleVisibility = () => {
-  //   this.setState({ visible: !this.state.visible });
-  // };
-
   handle_deleteDecks = data => {
     let deckId = data.target.id;
     this.props.delete_decks(deckId);
@@ -117,7 +113,7 @@ export default class HomeComponent extends Component {
 
             <br />
 
-            <Grid padded columns={4}>
+            <Grid centered padded columns={4}>
               <Grid.Row>
                 {this.props.userDecks.map((deck, i) => {
                   let numWin = parseInt(
@@ -129,7 +125,7 @@ export default class HomeComponent extends Component {
                     10
                   );
                   return (
-                    <Grid.Column key={i}>
+                    <Grid.Column key={i} textAlign="center" stretched>
                       <Card.Group>
                         <Card id={deck.id} name="deckId">
                           <Icon
@@ -170,16 +166,16 @@ export default class HomeComponent extends Component {
                           <Segment inverted>
                             <Progress
                               percent={numWin ? numWin : 0}
-                              inverted
-                              progress
-                              success>
+                              active
+                              color="green"
+                              progress="percent">
                               WINS
                             </Progress>
                             <Progress
                               percent={numLose ? numLose : 0}
-                              inverted
-                              progress
-                              warning>
+                              active
+                              color="orange"
+                              progress="percent">
                               LOSSES
                             </Progress>
                           </Segment>

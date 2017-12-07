@@ -24,12 +24,6 @@ export default class App extends Component {
         <Provider store={store}>
           <Router>
             <Switch>
-              {/* <Route
-                exact
-                path="/signup"
-                component={SignUpContainer}
-                history={history}
-              /> */}
               <Route
                 exact
                 path="/"
@@ -42,12 +36,12 @@ export default class App extends Component {
                 component={HomeContainer} //ok
                 history={history}
               />
-              {/* <Route
+              <Route
                 exact
-                path="/index"
-                component={SignInContainer}
+                path="/decks/:deckId/update"
+                component={UpdateDeckPageContainer} //ok
                 history={history}
-              /> */}
+              />
               <Route
                 exact
                 path="/createdeck"
@@ -62,16 +56,22 @@ export default class App extends Component {
               />
               {/* <Route
                 exact
+                path="/index"
+                component={SignInContainer}
+                history={history}
+              /> */}
+              {/* <Route
+                exact
+                path="/signup"
+                component={SignUpContainer}
+                history={history}
+              /> */}
+              {/* <Route
+                exact
                 path="/deckmanagement"
                 component={RenderAllDecksPageContainer}
                 history={history}
               /> */}
-              <Route
-                exact
-                path="/decks/:deckId/update"
-                component={UpdateDeckPageContainer} //ok
-                history={history}
-              />
             </Switch>
           </Router>
         </Provider>

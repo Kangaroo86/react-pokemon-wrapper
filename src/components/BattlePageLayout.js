@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { Image, Container, Menu } from 'semantic-ui-react';
 
 export default function BattlePageLayout(props) {
-  // console.log('this prossss', props);
   return (
     <div>
       <Menu inverted>

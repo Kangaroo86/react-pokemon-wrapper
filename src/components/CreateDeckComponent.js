@@ -24,6 +24,7 @@ export default class CreateDeckComponent extends Component {
 
     this.state = {
       activeItem: '',
+      requirements: 'hover',
       selectedPokemon: [],
       selectedDeckName: '',
       redirect: false
@@ -172,7 +173,15 @@ export default class CreateDeckComponent extends Component {
             <Segment style={{ padding: '5em 0em' }} vertical>
               <Grid container stackable verticalAlign="middle">
                 <Grid.Row>
-                  <Popup trigger={<Image src={professorOak} size="medium" />}>
+                  <Popup
+                    inverted
+                    position="top center"
+                    style={{
+                      borderRadius: '0',
+                      opacity: '0.7',
+                      padding: '2em'
+                    }}
+                    trigger={<Image src={professorOak} size="medium" />}>
                     {this.state.selectedPokemon.length < 6
                       ? <Popup.Header>- Select at least 6 pokemon</Popup.Header>
                       : 'got your pokemon!!'}

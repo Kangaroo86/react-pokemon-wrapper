@@ -197,7 +197,7 @@ export default class IndexComponent extends Component {
                         {this.props.errorMessage}
                       </p>}
                     <Button
-                      color="teal"
+                      color="red"
                       fluid
                       size="large"
                       onClick={this.handle_signin}>
@@ -236,7 +236,7 @@ export default class IndexComponent extends Component {
                         </p>
                       : null}
                     <Button
-                      color="teal"
+                      color="black"
                       fluid
                       size="large"
                       onClick={this.handle_signup}>
@@ -245,8 +245,6 @@ export default class IndexComponent extends Component {
                   </Form>
                 </Segment>
               </Grid.Column>
-
-              {/* {-------} */}
             </Grid>
 
             <Segment inverted vertical style={{ padding: '2em 0em' }}>

@@ -213,7 +213,7 @@ export default class CreateDeckComponent extends Component {
                           <Button basic color="green">
                             READY
                           </Button>
-                          <Link to="/decks/render">
+                          <Link to="/home">
                             <Button
                               basic
                               color="red"
