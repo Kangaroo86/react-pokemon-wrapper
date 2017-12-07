@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
-import cinema1 from '../images/cinema1.webm';
 import cinema2 from '../images/cinema2.webm';
-import cinema3 from '../images/cinema3.webm';
-import cinema4 from '../images/cinema4.webm';
-import oak1 from '../images/oak1.png';
-import oak2 from '../images/oak2.png';
 import ReactPlayer from 'react-player';
 import {
   Segment,
@@ -89,8 +84,6 @@ export default class IndexComponent extends Component {
       return;
     } else {
       this.props.user_signup({ name: signUp_name, password: signUp_password });
-      //this.props.signIn_user({ name, password });
-      //this.props.history.push(`/decks/createDeck`);
       this.props.history.push(`/`);
     }
   };
@@ -105,51 +98,45 @@ export default class IndexComponent extends Component {
   };
 
   signIn_validate = (name, password) => {
-    let isThereError = false;
+    let isThereError;
 
-    let errors = {
+    let errorsObj = {
       signIn_errorName: '',
       signIn_errorPassword: ''
     };
 
     if (name === '') {
       isThereError = true;
-      errors.signIn_errorName = 'Please enter your name';
+      errorsObj.signIn_errorName = 'Please enter your name';
     }
 
     if (password === '') {
       isThereError = true;
-      errors.signIn_errorPassword = 'Password entered is blank';
+      errorsObj.signIn_errorPassword = 'Password entered is blank';
     }
 
-    if (this.props.errorMessage !== null) {
-      isThereError = true;
-      errors.signIn_errorPassword = this.props.errorMessage;
-    }
-
-    return isThereError ? errors : false;
+    return isThereError ? errorsObj : false;
   };
 
   handle_signin = (event, data) => {
     event.preventDefault();
     const name = this.state.signIn_name.trim();
     const password = this.state.signIn_password.trim();
-
-    console.log('signIn_name-----', name);
-    console.log('signIn_password-----', password);
-    this.props.signIn_user({ name, password });
-    let errorPass = this.signIn_validate(name, password);
-
-    if (errorPass !== false) {
-      console.log('it failed*******');
-      this.setState(errorPass);
-    } else {
-      console.log('it passed*******');
-      this.props.history.push(`/home`);
+    let failedValidation = this.signIn_validate(name, password);
+    if (failedValidation) {
+      this.setState(failedValidation);
     }
+    !failedValidation && this.props.signIn_user({ name, password });
+
+    // } else {
+    //   this.props.history.push(`/home`);
+    // }
   };
 
   render() {
+    if (this.props.userSignIn && this.props.userSignIn.name) {
+      this.props.history.push('/home');
+    }
     return (
       <Grid colums="equal">
         <Grid.Row>
@@ -207,6 +194,10 @@ export default class IndexComponent extends Component {
                       Sign-In
                     </Button>
                   </Form>
+                  {this.props.errorMessage &&
+                    <h2 style={{ textAlign: 'center', color: 'red' }}>
+                      bad email or password
+                    </h2>}
 
                   <Divider horizontal>OR</Divider>
 

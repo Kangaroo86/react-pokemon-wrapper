@@ -18,11 +18,9 @@ export default function rootReducer(
       return { ...currentState, userSignup: action.userSignup };
 
     case 'ERROR_HANDLING_MESSAGE':
-      console.log('errorMessage from Reducer********', action.errorMessage);
       return { ...currentState, errorMessage: action.errorMessage };
 
     case 'USER_SIGNIN':
-      console.log('userSignIn from Reducer********', action.userSignIn);
       return { ...currentState, userSignIn: action.userSignIn };
 
     case 'FETCHED_POKEMON_OBJ_LIST':

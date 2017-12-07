@@ -4,13 +4,13 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import setupStore from './redux/setupStore';
 
 import CreateDeckContainer from './redux/containers/CreateDeckContainer';
-//import RenderAllDecksPageContainer from './redux/containers/RenderAllDecksPageContainer';
 import BattlePageContainer from './redux/containers/BattlePageContainer';
 import UpdateDeckPageContainer from './redux/containers/UpdateDeckPageContainer';
-//import SignUpContainer from './redux/containers/SignUpContainer';
-//import SignInContainer from './redux/containers/SignInContainer';
 import IndexContainer from './redux/containers/IndexContainer';
 import HomeContainer from './redux/containers/HomeContainer';
+//import SignUpContainer from './redux/containers/SignUpContainer';
+//import SignInContainer from './redux/containers/SignInContainer';
+//import RenderAllDecksPageContainer from './redux/containers/RenderAllDecksPageContainer';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory();
@@ -56,7 +56,7 @@ export default class App extends Component {
               />
               <Route
                 exact
-                path="/decks/battle"
+                path="/battle"
                 component={BattlePageContainer} //pending
                 history={history}
               />
