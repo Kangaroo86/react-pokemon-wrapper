@@ -175,6 +175,8 @@ export default class HomeComponent extends Component {
                           <Segment inverted>
                             <Progress
                               percent={numWin ? numWin : 0}
+                              inverted
+                              success
                               active
                               color="green"
                               progress="percent">
@@ -182,6 +184,8 @@ export default class HomeComponent extends Component {
                             </Progress>
                             <Progress
                               percent={numLose ? numLose : 0}
+                              inverted
+                              warning
                               active
                               color="orange"
                               progress="percent">

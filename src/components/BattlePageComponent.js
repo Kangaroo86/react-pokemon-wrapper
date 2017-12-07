@@ -12,6 +12,7 @@ import {
   Container,
   List,
   Menu,
+  Transition,
   Form,
   Icon,
   Label,
@@ -29,8 +30,9 @@ export default class RenderAllDecksComponent extends Component {
   constructor(props) {
     super(props);
     let { userDecks } = this.props;
-
     let P1_cards = [];
+    let P2_cards = [];
+
     userDecks.filter(deck => {
       if (deck.id === Number(this.props.match.params.deckId)) {
         P1_cards = deck.cards.map((pokeObj, i) => {
@@ -50,13 +52,65 @@ export default class RenderAllDecksComponent extends Component {
         });
       }
     });
-
     this.state = {
       activeItem: '',
+
+      P1_animation: 'shake',
+      P1_duration: 500,
+      P1_visible: true,
       P1_battle_zone: [],
-      P1_deck_zone: P1_cards
+      P1_deck_zone: P1_cards,
+
+      P2_animation: 'shake',
+      P2_duration: 500,
+      P2_visible: true,
+      P2_battle_zone: [],
+      P2_deck_zone: P2_cards
     };
   }
+
+  //SandBox
+  handle_takeDamage = (event, data) => {
+    let { P1_battle_zone } = this.state;
+    //console.log('P1_battle_zone-----: ', P1_battle_zone);
+    console.log(
+      'P1_battle_zone HP-----: ',
+      P1_battle_zone[0].stats[5].base_stat
+    );
+    return (P1_battle_zone[0].stats[5].base_stat =
+      P1_battle_zone[0].stats[5].base_stat - 10);
+  };
+
+  handle_P1_specialAtk = (event, data) => {
+    let { P1_battle_zone, P2_battle_zone } = this.state;
+    let P1_specialAtkCounter = P1_battle_zone[0].stats[2].base_stat; //P1's battle zone specialATK stat
+    let P2_spdCounter = P2_battle_zone[0].stats[0].base_stat;
+    let P2_defCounter = P2_battle_zone[0].stats[3].base_stat;
+    let P2_hpCounter = P2_battle_zone[0].stats[5].base_stat; //P2's battle zone HP stat
+
+    return P2_hpCounter - P1_specialAtkCounter;
+  };
+
+  handle_P1_atk = (event, data) => {
+    let { P1_battle_zone, P2_battle_zone } = this.state;
+    //let P1_atkCounter = P1_battle_zone[0].stats[4].base_stat; //P1's battle zone ATK stat
+    //let P2_spdCounter = P2_battle_zone[0].stats[0].base_stat;
+    //let P2_defCounter = P2_battle_zone[0].stats[3].base_stat;
+    //let P2_hpCounter = P2_battle_zone[0].stats[5].base_stat;
+    this.P2_toggleVisibility();
+    //return P2_hpCounter - P1_atkCounter;
+  };
+
+  handle_P2_atk = (event, data) => {
+    let { P1_battle_zone, P2_battle_zone } = this.state;
+    let P2_atkCounter = 10; //hardcoded
+    //let P2_atkCounter = P2_battle_zone[0].stats[4].base_stat; //P1's battle zone ATK stat
+    let P1_spdCounter = P1_battle_zone[0].stats[0].base_stat;
+    let P1_defCounter = P1_battle_zone[0].stats[3].base_stat;
+    let P1_hpCounter = P1_battle_zone[0].stats[5].base_stat;
+    this.P1_toggleVisibility();
+    return P1_hpCounter - P2_atkCounter;
+  };
 
   handle_P1_battle_zone = (event, data) => {
     let { P1_battle_zone } = this.state;
@@ -74,6 +128,12 @@ export default class RenderAllDecksComponent extends Component {
     }
   };
 
+  P1_toggleVisibility = () =>
+    this.setState({ P1_visible: !this.state.P1_visible });
+
+  P2_toggleVisibility = () =>
+    this.setState({ P2_visible: !this.state.P2_visible });
+
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   handle_signOut = (event, { name }) => {
@@ -86,20 +146,25 @@ export default class RenderAllDecksComponent extends Component {
   };
 
   render() {
-    let { activeItem, P1_battle_zone, P1_deck_zone } = this.state;
-
+    let {
+      activeItem,
+      P1_animation,
+      P1_duration,
+      P1_visible,
+      P1_battle_zone,
+      P1_deck_zone,
+      P2_animation,
+      P2_duration,
+      P2_visible
+    } = this.state;
     //let { userDecks } = this.props;
 
-    console.log('this.state.P1_battle_zone------array', P1_battle_zone);
-    //console.log('this.state.P1_battle_zone------index', P1_battle_zone[0]);
-    //console.log('this.state.P1_battle_zone------name', P1_battle_zone[0].name);
-
-    // let P1_deck_zone = this.props.userDecks.filter(
-    //   decks => decks.id === Number(this.props.match.params.deckId)
+    // console.log(
+    //   'ORIGINAL HP****************',
+    //   P1_battle_zone[0] ? P1_battle_zone[0].stats[5].base_stat : 0
     // );
-    // console.log('my state P1_deck_zone-------', P1_deck_zone);
-    //console.log('P1_cards******', P1_cards);
-    //console.log('my selected deck cards---******', P1_deck_zone[0].cards);
+    console.log('this.state.P1_battle_zone------index', P1_battle_zone[0]);
+    console.log('this state P1_deck_zone*********', this.state.P1_deck_zone);
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -224,18 +289,28 @@ export default class RenderAllDecksComponent extends Component {
                       </Grid>
                       <Divider />
                       <Segment inverted color="olive" textAlign="center">
-                        <Image
-                          bordered
-                          src={P1_battle_zone[0] && P1_battle_zone[0].image}
-                          centered
-                          size="small"
-                        />
+                        <Transition
+                          animation={P1_animation}
+                          duration={P1_duration}
+                          visible={P1_visible}>
+                          <Image
+                            bordered
+                            src={P1_battle_zone[0] && P1_battle_zone[0].image}
+                            centered
+                            size="small"
+                          />
+                        </Transition>
                       </Segment>
                       <Divider />
-                      <Grid celled>
+                      <Grid celled centered>
                         <Segment inverted>
                           <Button.Group vertical labeled icon>
-                            <Button compact size="medium" inverted color="teal">
+                            <Button
+                              compact
+                              size="medium"
+                              inverted
+                              color="teal"
+                              onClick={this.handle_P1_specialAtk}>
                               <Icon name="lightning" />
                               ATK
                             </Button>
@@ -243,7 +318,8 @@ export default class RenderAllDecksComponent extends Component {
                               compact
                               size="medium"
                               inverted
-                              color="violet">
+                              color="violet"
+                              onClick={this.handle_P1_atk}>
                               <Icon name="bomb" />
                               ATK
                             </Button>
@@ -287,6 +363,7 @@ export default class RenderAllDecksComponent extends Component {
                     <Form reply>
                       <Form.TextArea />
                       <Button
+                        onClick={this.toggleVisibility}
                         content="Add Reply"
                         labelPosition="left"
                         icon="edit"
@@ -335,10 +412,15 @@ export default class RenderAllDecksComponent extends Component {
                       </Grid>
                       <Divider />
                       <Segment inverted color="olive" textAlign="center">
-                        <Image bordered src={eevee} centered size="small" />
+                        <Transition
+                          animation={P2_animation}
+                          duration={P2_duration}
+                          visible={P2_visible}>
+                          <Image bordered src={eevee} centered size="small" />
+                        </Transition>
                       </Segment>
                       <Divider />
-                      <Grid celled>
+                      <Grid celled centered>
                         <Segment inverted>
                           <Button.Group vertical labeled icon>
                             <Button compact size="medium" inverted color="teal">
@@ -349,7 +431,8 @@ export default class RenderAllDecksComponent extends Component {
                               compact
                               size="medium"
                               inverted
-                              color="violet">
+                              color="violet"
+                              onClick={this.handle_P2_atk}>
                               <Icon name="bomb" />
                               ATK
                             </Button>
