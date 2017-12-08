@@ -63,9 +63,6 @@ export default class CreateDeckComponent extends Component {
       .slice()
       .filter(pokemonObj => pokemonObj.id !== data.id);
 
-    // let result = [...this.state.selectedPokemon].filter(
-    //   pokemonObj => pokemonObj.id !== data.id
-    // );
     this.setState({
       selectedPokemon: result
     });
@@ -148,26 +145,29 @@ export default class CreateDeckComponent extends Component {
             <br />
             <Card.Group itemsPerRow={9}>
               {this.props.pokemonArray &&
-                this.props.pokemonArray.map((character, i) =>
-                  <Card
-                    key={i}
-                    color="red"
-                    name={character.name}
-                    id={character.id}
-                    moves={character.moves
-                      .slice(0, 2)
-                      .map(result => result.move.name)}
-                    stats={character.stats.map(result => {
-                      let newState = {};
-                      newState.base_stat = result.base_stat;
-                      newState.name = result.stat.name;
-                      return newState;
-                    })}
-                    types={character.types.map(result => result.type.name)}
-                    image={character.sprites.front_default}
-                    onClick={this.handle_selectedPokemon}
-                  />
-                )}
+                this.props.pokemonArray.map((character, i) => {
+                  //console.log('character--------', character);
+                  return (
+                    <Card
+                      key={i}
+                      color="red"
+                      name={character.name}
+                      id={character.id}
+                      moves={character.moves
+                        .slice(0, 2)
+                        .map(result => result.move.name)}
+                      stats={character.stats.map(result => {
+                        let newState = {};
+                        newState.base_stat = result.base_stat;
+                        newState.name = result.stat.name;
+                        return newState;
+                      })}
+                      types={character.types.map(result => result.type.name)}
+                      image={character.sprites.front_default}
+                      onClick={this.handle_selectedPokemon}
+                    />
+                  );
+                })}
             </Card.Group>
             <Divider section />
             <Segment style={{ padding: '5em 0em' }} vertical>

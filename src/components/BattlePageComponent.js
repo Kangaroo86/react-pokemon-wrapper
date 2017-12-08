@@ -69,7 +69,7 @@ export default class RenderAllDecksComponent extends Component {
     };
   }
 
-  //SandBox
+  //SandBox. delete Me
   handle_takeDamage = (event, data) => {
     let { P1_battle_zone } = this.state;
     //console.log('P1_battle_zone-----: ', P1_battle_zone);
