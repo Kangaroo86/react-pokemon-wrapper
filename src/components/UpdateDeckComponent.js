@@ -170,9 +170,9 @@ export default class CreateDeckComponent extends Component {
                   this.props.pokemonArray.map(pokemonObj => {
                     return (
                       <Card
+                        id={pokemonObj.id}
                         color="red"
                         name={pokemonObj.name}
-                        id={pokemonObj.id}
                         image={pokemonObj.sprites.front_default}
                         onClick={this.handle_selectedPokemon}
                       />

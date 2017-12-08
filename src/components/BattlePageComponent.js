@@ -29,27 +29,37 @@ export default class RenderAllDecksComponent extends Component {
     super(props);
 
     let { userDecks } = this.props;
-    let P1_cards = [];
-    let P2_cards = [];
+    let p1_cards = [];
+    let p2_cards = [];
 
     userDecks.filter(deck => {
       if (deck.id === Number(this.props.match.params.deckId)) {
-        P1_cards = deck.cards.map((pokeObj, i) => {
+        p1_cards = deck.cards.map((pokeObj, i) => {
           let updatedStats = {};
           pokeObj.stats.forEach(statObj => {
-            if (statObj.stat.name === 'hp') {
-              updatedStats.hp = statObj.base_stat;
-              updatedStats.total_hp = statObj.base_stat;
-            } else if (statObj.stat.name === 'special-defense') {
-              updatedStats.spec_def = statObj.base_stat;
-            } else if (statObj.stat.name === 'special-attack') {
-              updatedStats.spec_atk = statObj.base_stat;
-            } else if (statObj.stat.name === 'defense') {
-              updatedStats.def = statObj.base_stat;
-            } else if (statObj.stat.name === 'attack') {
-              updatedStats.atk = statObj.base_stat;
-            } else if (statObj.stat.name === 'speed') {
-              updatedStats.spd = statObj.base_stat;
+            switch (statObj.stat.name) {
+              case 'hp':
+                updatedStats.hp = statObj.base_stat;
+                updatedStats.total_hp = statObj.base_stat;
+                break;
+              case 'special-defense':
+                updatedStats.spec_def = statObj.base_stat;
+                updatedStats.total_hp = statObj.base_stat;
+                break;
+              case 'special-attack':
+                updatedStats.spec_atk = statObj.base_stat;
+                break;
+              case 'defense':
+                updatedStats.def = statObj.base_stat;
+                break;
+              case 'attack':
+                updatedStats.atk = statObj.base_stat;
+                break;
+              case 'speed':
+                updatedStats.spd = statObj.base_stat;
+                break;
+              default:
+                updatedStats = {};
             }
           });
           return {
@@ -67,92 +77,129 @@ export default class RenderAllDecksComponent extends Component {
     this.state = {
       activeItem: '',
 
-      P1_animation: 'shake',
-      P1_duration: 500,
-      P1_visible: true,
-      P1_battle_zone: [],
-      P1_deck_zone: P1_cards,
-      P1_grave_yard: [],
+      p1_animation: 'shake',
+      p1_duration: 500,
+      p1_visible: true,
+      p1_battle_zone: [],
+      p1_deck_zone: p1_cards,
+      p1_grave_yard: [],
 
-      P2_animation: 'shake',
-      P2_duration: 500,
-      P2_visible: true,
-      P2_battle_zone: [],
-      P2_deck_zone: P1_cards.slice(0), //TODO this is hardcoded. Change me later
-      P2_grave_yard: []
+      p2_animation: 'shake',
+      p2_duration: 500,
+      p2_visible: true,
+      p2_battle_zone: [],
+      p2_deck_zone: p1_cards.slice(0), //TODO this is hardcoded. Change me later
+      p2_grave_yard: []
     };
   }
 
-  //P1 attacking P2 with special atk TODO add more complex battle phase
-  handle_P1_specialAtk = (event, data) => {
-    let { P1_battle_zone, P2_battle_zone, P2_grave_yard } = this.state;
-    let P1_specialAtkCounter = P1_battle_zone[0].stats.spec_atk;
-    let P2_spdCounter = P2_battle_zone[0].stats.spd;
-    let P2_defCounter = P2_battle_zone[0].stats.def;
-
-    P2_battle_zone[0].stats.hp =
-      P2_battle_zone[0].stats.hp - P1_specialAtkCounter;
-
-    this.P2_toggleVisibility();
-    if (P2_battle_zone[0].stats.hp <= 0) {
-      this.setState({
-        P2_grave_yard: [...P2_grave_yard, P2_battle_zone[0]]
+  // *********************** PLAYER-1 CODES: *********************** //
+  //p1 select card to battle zone
+  handle_p1_battle_zone = (event, data) => {
+    let { p1_battle_zone, p1_deck_zone } = this.state;
+    if (p1_battle_zone.length < 1) {
+      this.setState({ p1_battle_zone: [data] });
+      let updatedDeckZone = p1_deck_zone.filter(pokeObj => {
+        if (pokeObj.id !== data.id) {
+          return pokeObj;
+        }
       });
-      this.setState({
-        P2_battle_zone: []
-      });
+      this.setState({ p1_deck_zone: updatedDeckZone });
+    }
+  };
+
+  //p1 inflicts special atks to p2  TODO add more complex battle phase
+  handle_p1_specialAtk = (event, data) => {
+    let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
+
+    let p1_stats = p1_battle_zone[0].stats;
+    let p2_stats = p2_battle_zone[0].stats;
+
+    p2_stats.hp = p2_stats.hp - p1_stats.spec_atk;
+
+    this.p2_toggleVisibility();
+    if (p2_stats.hp <= 0) {
+      this.setState({ p2_grave_yard: [...p2_grave_yard, p2_battle_zone[0]] });
+      this.setState({ p2_battle_zone: [] });
     } else {
-      this.setState({
-        P2_battle_zone: P2_battle_zone //does this refresh the stat
-      });
+      this.setState({ p2_battle_zone: p2_battle_zone });
     }
   };
 
-  handle_P1_atk = (event, data) => {
-    let { P1_battle_zone, P2_battle_zone } = this.state;
+  //P1 inflicts normal atk to P2
+  handle_p1_atk = (event, data) => {
+    let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
+
+    let p1_stats = p1_battle_zone[0].stats;
+    let p2_stats = p2_battle_zone[0].stats;
+
+    p2_stats.hp = p2_stats.hp - p1_stats.atk;
+
+    if (p2_stats.hp <= 0) {
+      this.setState({ p2_grave_yard: [...p2_grave_yard, p2_battle_zone] });
+      this.setState({ p2_battle_zone: [] });
+    } else {
+      this.setState({ p2_battle_zone: p2_battle_zone });
+    }
   };
 
-  handle_P2_atk = (event, data) => {
-    let { P1_battle_zone, P2_battle_zone } = this.state;
-  };
-
-  //P1 select card to deck zone
-  handle_P1_battle_zone = (event, data) => {
-    let { P1_battle_zone, P1_deck_zone } = this.state;
-    if (P1_battle_zone.length < 1) {
-      this.setState({ P1_battle_zone: [data] });
-      let updatedDeckZone = P1_deck_zone.filter(pokeObj => {
+  // *********************** PLAYER-2 CODES: *********************** //
+  //p2 select card to battle zone
+  handle_p2_battle_zone = (event, data) => {
+    let { p2_battle_zone, p2_deck_zone } = this.state;
+    if (p2_battle_zone.length < 1) {
+      this.setState({ p2_battle_zone: [data] });
+      let updatedDeckZone = p2_deck_zone.filter(pokeObj => {
         if (pokeObj.id !== data.id) {
           return pokeObj;
         }
       });
-      this.setState({ P1_deck_zone: updatedDeckZone });
+      this.setState({ p2_deck_zone: updatedDeckZone });
     }
   };
 
-  //P2 select card to deck zone
-  handle_P2_battle_zone = (event, data) => {
-    let { P2_battle_zone, P2_deck_zone } = this.state;
-    if (P2_battle_zone.length < 1) {
-      this.setState({ P2_battle_zone: [data] });
-      let updatedDeckZone = P2_deck_zone.filter(pokeObj => {
-        if (pokeObj.id !== data.id) {
-          return pokeObj;
-        }
-      });
-      this.setState({ P2_deck_zone: updatedDeckZone });
+  //p2 atks p1 w/ special atk TODO add more complex battle phase
+  handle_p2_specialAtk = (event, data) => {
+    let { p2_battle_zone, p1_battle_zone, p1_grave_yard } = this.state;
+
+    let p1_stats = p1_battle_zone[0].stats;
+    let p2_stats = p2_battle_zone[0].stats;
+
+    p1_stats.hp = p1_stats.hp - p2_stats.spec_atk;
+
+    if (p1_stats.hp <= 0) {
+      this.setState({ p1_grave_yard: [...p1_grave_yard, p1_battle_zone[0]] });
+      this.setState({ p1_battle_zone: [] });
+    } else {
+      this.setState({ p1_battle_zone: p1_battle_zone });
     }
   };
 
-  //Belows are CSS animation:
+  //P2 inflicts normal atk to P1
+  handle_p2_atk = (event, data) => {
+    let { p2_battle_zone, p1_battle_zone, p1_grave_yard } = this.state;
 
-  //image toggle when P1 get atked
-  P1_toggleVisibility = () =>
-    this.setState({ P1_visible: !this.state.P1_visible });
+    let p1_stats = p1_battle_zone[0].stats;
+    let p2_stats = p2_battle_zone[0].stats;
 
-  //image toggle when P2 get atked
-  P2_toggleVisibility = () =>
-    this.setState({ P2_visible: !this.state.P2_visible });
+    p1_stats.hp = p1_stats.hp - p2_stats.atk;
+
+    if (p1_stats.hp <= 0) {
+      this.setState({ p1_grave_yard: [...p1_grave_yard, p1_battle_zone[0]] });
+      this.setState({ p1_battle_zone: [] });
+    } else {
+      this.setState({ p1_battle_zone: p1_battle_zone });
+    }
+  };
+
+  // *********************** CSS ANIMATION CODES: *********************** //
+  //image toggle when p1 get atked
+  p1_toggleVisibility = () =>
+    this.setState({ p1_visible: !this.state.p1_visible });
+
+  //image toggle when p2 get atked
+  p2_toggleVisibility = () =>
+    this.setState({ p2_visible: !this.state.p2_visible });
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -168,20 +215,20 @@ export default class RenderAllDecksComponent extends Component {
   render() {
     let {
       activeItem,
-      P1_animation,
-      P1_duration,
-      P1_visible,
-      P1_battle_zone,
-      P1_deck_zone,
-      P2_animation,
-      P2_duration,
-      P2_visible,
-      P2_battle_zone,
-      P2_deck_zone
+      p1_animation,
+      p1_duration,
+      p1_visible,
+      p1_battle_zone,
+      p1_deck_zone,
+      p2_animation,
+      p2_duration,
+      p2_visible,
+      p2_battle_zone,
+      p2_deck_zone
     } = this.state;
 
-    console.log('P1_deck_zone--------', P1_deck_zone);
-    console.log('P1_battle_zone--------', P1_battle_zone);
+    console.log('p1_deck_zone--------', p1_deck_zone);
+    console.log('p1_battle_zone--------', p1_battle_zone);
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -222,7 +269,6 @@ export default class RenderAllDecksComponent extends Component {
               <Image src={bg2} width="100%" height="300" />
             </Segment>
 
-            {/* Play1*/}
             <Grid columns="equal" padded>
               <Grid>
                 <Grid.Column floated="left" width={6}>
@@ -241,13 +287,13 @@ export default class RenderAllDecksComponent extends Component {
                 </Grid.Column>
               </Grid>
 
-              {/* 1nd Player */}
+              {/* PLAYER-1 */}
               <Grid centered columns={5}>
                 <Grid.Row>
                   <Grid.Column floated="left" width={2}>
                     <Card.Group itemsPerRow={1}>
-                      {P1_deck_zone &&
-                        P1_deck_zone.map((pokeObj, i) => {
+                      {p1_deck_zone &&
+                        p1_deck_zone.map((pokeObj, i) => {
                           return (
                             <Card
                               key={i}
@@ -258,7 +304,7 @@ export default class RenderAllDecksComponent extends Component {
                               stats={pokeObj.stats}
                               types={pokeObj.types}
                               image={pokeObj.image}
-                              onClick={this.handle_P1_battle_zone}
+                              onClick={this.handle_p1_battle_zone}
                             />
                           );
                         })}
@@ -267,7 +313,7 @@ export default class RenderAllDecksComponent extends Component {
                   <Grid.Column floated="left">
                     <Segment inverted color="black">
                       <Label size="large" as="a" color="olive" ribbon="right">
-                        {P1_battle_zone[0] ? P1_battle_zone[0].name : ''}
+                        {p1_battle_zone[0] ? p1_battle_zone[0].name : ''}
                       </Label>
                       <br />
                       <br />
@@ -292,13 +338,13 @@ export default class RenderAllDecksComponent extends Component {
                                     size="large"
                                     progress="ratio"
                                     value={
-                                      P1_battle_zone[0]
-                                        ? P1_battle_zone[0].stats.hp
+                                      p1_battle_zone[0]
+                                        ? p1_battle_zone[0].stats.hp
                                         : 0
                                     }
                                     total={
-                                      P1_battle_zone[0]
-                                        ? P1_battle_zone[0].stats.total_hp
+                                      p1_battle_zone[0]
+                                        ? p1_battle_zone[0].stats.total_hp
                                         : 0
                                     }
                                   />
@@ -311,12 +357,12 @@ export default class RenderAllDecksComponent extends Component {
                       <Divider />
                       <Segment inverted color="olive" textAlign="center">
                         <Transition
-                          animation={P1_animation}
-                          duration={P1_duration}
-                          visible={P1_visible}>
+                          animation={p1_animation}
+                          duration={p1_duration}
+                          visible={p1_visible}>
                           <Image
                             bordered
-                            src={P1_battle_zone[0] && P1_battle_zone[0].image}
+                            src={p1_battle_zone[0] && p1_battle_zone[0].image}
                             centered
                             size="small"
                           />
@@ -331,7 +377,7 @@ export default class RenderAllDecksComponent extends Component {
                               size="medium"
                               inverted
                               color="teal"
-                              onClick={this.handle_P1_specialAtk}>
+                              onClick={this.handle_p1_specialAtk}>
                               <Icon name="lightning" />
                               SPEC ATK
                             </Button>
@@ -340,7 +386,7 @@ export default class RenderAllDecksComponent extends Component {
                               size="medium"
                               inverted
                               color="violet"
-                              onClick={this.handle_P1_atk}>
+                              onClick={this.handle_p1_atk}>
                               <Icon name="bomb" />
                               ATK
                             </Button>
@@ -397,7 +443,7 @@ export default class RenderAllDecksComponent extends Component {
                   <Grid.Column floated="right">
                     <Segment inverted color="black">
                       <Label size="large" as="a" color="olive" ribbon="right">
-                        {P2_battle_zone[0] ? P2_battle_zone[0].name : ''}
+                        {p2_battle_zone[0] ? p2_battle_zone[0].name : ''}
                       </Label>
                       <br />
                       <br />
@@ -423,13 +469,13 @@ export default class RenderAllDecksComponent extends Component {
                                     size="large"
                                     progress="ratio"
                                     value={
-                                      P2_battle_zone[0]
-                                        ? P2_battle_zone[0].stats.hp
+                                      p2_battle_zone[0]
+                                        ? p2_battle_zone[0].stats.hp
                                         : 0
                                     }
                                     total={
-                                      P2_battle_zone[0]
-                                        ? P2_battle_zone[0].stats.total_hp
+                                      p2_battle_zone[0]
+                                        ? p2_battle_zone[0].stats.total_hp
                                         : 0
                                     }
                                   />
@@ -442,12 +488,12 @@ export default class RenderAllDecksComponent extends Component {
                       <Divider />
                       <Segment inverted color="olive" textAlign="center">
                         <Transition
-                          animation={P2_animation}
-                          duration={P2_duration}
-                          visible={P2_visible}>
+                          animation={p2_animation}
+                          duration={p2_duration}
+                          visible={p2_visible}>
                           <Image
                             bordered
-                            src={P2_battle_zone[0] && P2_battle_zone[0].image}
+                            src={p2_battle_zone[0] && p2_battle_zone[0].image}
                             centered
                             size="small"
                           />
@@ -457,7 +503,12 @@ export default class RenderAllDecksComponent extends Component {
                       <Grid celled centered>
                         <Segment inverted>
                           <Button.Group vertical labeled icon>
-                            <Button compact size="medium" inverted color="teal">
+                            <Button
+                              compact
+                              size="medium"
+                              inverted
+                              color="teal"
+                              onClick={this.handle_p2_specialAtk}>
                               <Icon name="lightning" />
                               SPEC ATK
                             </Button>
@@ -466,7 +517,7 @@ export default class RenderAllDecksComponent extends Component {
                               size="medium"
                               inverted
                               color="violet"
-                              onClick={this.handle_P2_atk}>
+                              onClick={this.handle_p2_atk}>
                               <Icon name="bomb" />
                               ATK
                             </Button>
@@ -486,8 +537,8 @@ export default class RenderAllDecksComponent extends Component {
 
                   <Grid.Column floated="right" width={2}>
                     <Card.Group itemsPerRow={1}>
-                      {P2_deck_zone &&
-                        P2_deck_zone.map((pokeObj, i) => {
+                      {p2_deck_zone &&
+                        p2_deck_zone.map((pokeObj, i) => {
                           return (
                             <Card
                               key={i}
@@ -498,7 +549,7 @@ export default class RenderAllDecksComponent extends Component {
                               stats={pokeObj.stats}
                               types={pokeObj.types}
                               image={pokeObj.image}
-                              onClick={this.handle_P2_battle_zone}
+                              onClick={this.handle_p2_battle_zone}
                             />
                           );
                         })}

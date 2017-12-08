@@ -137,23 +137,31 @@ export default class CreateDeckComponent extends Component {
                   return (
                     <Card
                       key={i}
-                      color="red"
-                      name={character.name}
                       id={character.id}
-                      moves={character.moves
-                        .slice(0, 2)
-                        .map(result => result.move.name)}
-                      stats={character.stats.map(result => {
-                        let newState = {};
-                        newState.base_stat = result.base_stat;
-                        newState.name = result.stat.name;
-                        return newState;
-                      })}
-                      types={character.types.map(result => result.type.name)}
+                      color="red"
                       image={character.sprites.front_default}
                       onClick={this.handle_selectedPokemon}
                     />
                   );
+                  //   <Card
+                  //     key={i}
+                  //     color="red"
+                  //     name={character.name}
+                  //     id={character.id}
+                  //     moves={character.moves
+                  //       .slice(0, 2)
+                  //       .map(result => result.move.name)}
+                  //     stats={character.stats.map(result => {
+                  //       let newState = {};
+                  //       newState.base_stat = result.base_stat;
+                  //       newState.name = result.stat.name;
+                  //       return newState;
+                  //     })}
+                  //     types={character.types.map(result => result.type.name)}
+                  //     image={character.sprites.front_default}
+                  //     onClick={this.handle_selectedPokemon}
+                  //   />
+                  // );
                 })}
             </Card.Group>
             <Divider section />
