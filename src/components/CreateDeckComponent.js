@@ -33,39 +33,26 @@ export default class CreateDeckComponent extends Component {
 
   //**setState select pokemon**//
   handle_selectedPokemon = (event, data) => {
-    event.preventDefault();
+    //let currentState = this.state.selectedPokemon.slice(0);
+    let { selectedPokemon } = this.state;
     let duplicate = false;
-    this.state.selectedPokemon.forEach(pokemon => {
-      if (pokemon.id === data.id) {
+    selectedPokemon.forEach(pokeArray => {
+      if (pokeArray.id === data.id) {
         duplicate = true;
       }
     });
-    if (!duplicate && this.state.selectedPokemon.length < 6) {
-      this.setState(
-        currentState => {
-          return {
-            selectedPokemon: [...currentState.selectedPokemon, data]
-          };
-        },
-        () => {
-          console.log(
-            'selectedPokemon state ----->',
-            this.state.selectedPokemon
-          );
-        }
-      );
+    if (!duplicate && selectedPokemon.length < 6) {
+      this.setState({ selectedPokemon: [...selectedPokemon, data] });
     }
   };
 
   //**delete state Pokemon**//
   handle_deletePokemon = (event, data) => {
-    let result = this.state.selectedPokemon
-      .slice()
-      .filter(pokemonObj => pokemonObj.id !== data.id);
-
-    this.setState({
-      selectedPokemon: result
-    });
+    let { selectedPokemon } = this.state;
+    let filteredArray = selectedPokemon.filter(
+      pokeArray => pokeArray.id !== data.id
+    );
+    this.setState({ selectedPokemon: filteredArray });
   };
 
   //**setState Deck Name**//

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
 import bg2 from '../images/bg2.jpg';
-import eevee from '../images/eevee.png';
 import jenny from '../images/jenny.jpg';
 import {
   Card,
@@ -23,7 +22,6 @@ import {
   Progress,
   Segment
 } from 'semantic-ui-react';
-
 let colors = ['red', 'violet', 'blue', 'pink', 'green'];
 
 export default class RenderAllDecksComponent extends Component {
@@ -54,7 +52,6 @@ export default class RenderAllDecksComponent extends Component {
               updatedStats.spd = statObj.base_stat;
             }
           });
-          console.log('updatedStats*********', updatedStats);
           return {
             id: pokeObj.id,
             name: pokeObj.name,
@@ -66,6 +63,7 @@ export default class RenderAllDecksComponent extends Component {
         });
       }
     });
+
     this.state = {
       activeItem: '',
 
@@ -80,12 +78,12 @@ export default class RenderAllDecksComponent extends Component {
       P2_duration: 500,
       P2_visible: true,
       P2_battle_zone: [],
-      P2_deck_zone: P1_cards, //TODO this is hardcoded. Change me later
+      P2_deck_zone: P1_cards.slice(0), //TODO this is hardcoded. Change me later
       P2_grave_yard: []
     };
   }
 
-  //P1 attacking P2 with special atk
+  //P1 attacking P2 with special atk TODO add more complex battle phase
   handle_P1_specialAtk = (event, data) => {
     let { P1_battle_zone, P2_battle_zone, P2_grave_yard } = this.state;
     let P1_specialAtkCounter = P1_battle_zone[0].stats.spec_atk;
@@ -95,6 +93,7 @@ export default class RenderAllDecksComponent extends Component {
     P2_battle_zone[0].stats.hp =
       P2_battle_zone[0].stats.hp - P1_specialAtkCounter;
 
+    this.P2_toggleVisibility();
     if (P2_battle_zone[0].stats.hp <= 0) {
       this.setState({
         P2_grave_yard: [...P2_grave_yard, P2_battle_zone[0]]
@@ -102,30 +101,22 @@ export default class RenderAllDecksComponent extends Component {
       this.setState({
         P2_battle_zone: []
       });
+    } else {
+      this.setState({
+        P2_battle_zone: P2_battle_zone //does this refresh the stat
+      });
     }
   };
 
   handle_P1_atk = (event, data) => {
     let { P1_battle_zone, P2_battle_zone } = this.state;
-    //let P1_atkCounter = P1_battle_zone[0].stats[4].base_stat; //P1's battle zone ATK stat
-    //let P2_spdCounter = P2_battle_zone[0].stats[0].base_stat;
-    //let P2_defCounter = P2_battle_zone[0].stats[3].base_stat;
-    //let P2_hpCounter = P2_battle_zone[0].stats[5].base_stat;
-    this.P2_toggleVisibility();
-    //return P2_hpCounter - P1_atkCounter;
   };
 
   handle_P2_atk = (event, data) => {
     let { P1_battle_zone, P2_battle_zone } = this.state;
-    let P2_atkCounter = 10; //hardcoded
-    //let P2_atkCounter = P2_battle_zone[0].stats[4].base_stat; //P1's battle zone ATK stat
-    let P1_spdCounter = P1_battle_zone[0].stats[0].base_stat;
-    let P1_defCounter = P1_battle_zone[0].stats[3].base_stat;
-    let P1_hpCounter = P1_battle_zone[0].stats[5].base_stat;
-    this.P1_toggleVisibility();
-    return P1_hpCounter - P2_atkCounter;
   };
 
+  //P1 select card to deck zone
   handle_P1_battle_zone = (event, data) => {
     let { P1_battle_zone, P1_deck_zone } = this.state;
     if (P1_battle_zone.length < 1) {
@@ -139,9 +130,27 @@ export default class RenderAllDecksComponent extends Component {
     }
   };
 
+  //P2 select card to deck zone
+  handle_P2_battle_zone = (event, data) => {
+    let { P2_battle_zone, P2_deck_zone } = this.state;
+    if (P2_battle_zone.length < 1) {
+      this.setState({ P2_battle_zone: [data] });
+      let updatedDeckZone = P2_deck_zone.filter(pokeObj => {
+        if (pokeObj.id !== data.id) {
+          return pokeObj;
+        }
+      });
+      this.setState({ P2_deck_zone: updatedDeckZone });
+    }
+  };
+
+  //Belows are CSS animation:
+
+  //image toggle when P1 get atked
   P1_toggleVisibility = () =>
     this.setState({ P1_visible: !this.state.P1_visible });
 
+  //image toggle when P2 get atked
   P2_toggleVisibility = () =>
     this.setState({ P2_visible: !this.state.P2_visible });
 
@@ -387,8 +396,8 @@ export default class RenderAllDecksComponent extends Component {
                   {/* 2nd Player */}
                   <Grid.Column floated="right">
                     <Segment inverted color="black">
-                      <Label as="a" size="large" color="olive" ribbon>
-                        Eevee
+                      <Label size="large" as="a" color="olive" ribbon="right">
+                        {P2_battle_zone[0] ? P2_battle_zone[0].name : ''}
                       </Label>
                       <br />
                       <br />
@@ -436,7 +445,12 @@ export default class RenderAllDecksComponent extends Component {
                           animation={P2_animation}
                           duration={P2_duration}
                           visible={P2_visible}>
-                          <Image bordered src={eevee} centered size="small" />
+                          <Image
+                            bordered
+                            src={P2_battle_zone[0] && P2_battle_zone[0].image}
+                            centered
+                            size="small"
+                          />
                         </Transition>
                       </Segment>
                       <Divider />
@@ -472,11 +486,22 @@ export default class RenderAllDecksComponent extends Component {
 
                   <Grid.Column floated="right" width={2}>
                     <Card.Group itemsPerRow={1}>
-                      <Card color="red" image={eevee} />
-                      <Card color="orange" image={eevee} />
-                      <Card color="yellow" image={eevee} />
-                      <Card color="olive" image={eevee} />
-                      <Card color="green" image={eevee} />
+                      {P2_deck_zone &&
+                        P2_deck_zone.map((pokeObj, i) => {
+                          return (
+                            <Card
+                              key={i}
+                              color={colors[i]}
+                              name={pokeObj.name}
+                              id={pokeObj.id}
+                              moves={pokeObj.moves}
+                              stats={pokeObj.stats}
+                              types={pokeObj.types}
+                              image={pokeObj.image}
+                              onClick={this.handle_P2_battle_zone}
+                            />
+                          );
+                        })}
                     </Card.Group>
                   </Grid.Column>
                 </Grid.Row>
