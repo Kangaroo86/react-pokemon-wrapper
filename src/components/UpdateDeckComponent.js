@@ -66,7 +66,7 @@ export default class CreateDeckComponent extends Component {
 
   //**delete state Pokemon**//
   handle_deletePokemon = (event, data) => {
-    let { selectedPokemon } = this.setState;
+    let { selectedPokemon } = this.state;
     let filteredArray = selectedPokemon.filter(
       pokeArray => pokeArray.id !== data.id
     );

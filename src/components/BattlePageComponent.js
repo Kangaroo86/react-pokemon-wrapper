@@ -24,7 +24,7 @@ import {
 } from 'semantic-ui-react';
 let colors = ['red', 'violet', 'blue', 'pink', 'green'];
 
-export default class RenderAllDecksComponent extends Component {
+export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
@@ -97,13 +97,16 @@ export default class RenderAllDecksComponent extends Component {
   //p1 select card to battle zone
   handle_p1_battle_zone = (event, data) => {
     let { p1_battle_zone, p1_deck_zone } = this.state;
+
     if (p1_battle_zone.length < 1) {
       this.setState({ p1_battle_zone: [data] });
+
       let updatedDeckZone = p1_deck_zone.filter(pokeObj => {
         if (pokeObj.id !== data.id) {
           return pokeObj;
         }
       });
+
       this.setState({ p1_deck_zone: updatedDeckZone });
     }
   };
@@ -118,6 +121,7 @@ export default class RenderAllDecksComponent extends Component {
     p2_stats.hp = p2_stats.hp - p1_stats.spec_atk;
 
     this.p2_toggleVisibility();
+
     if (p2_stats.hp <= 0) {
       this.setState({ p2_grave_yard: [...p2_grave_yard, p2_battle_zone[0]] });
       this.setState({ p2_battle_zone: [] });
@@ -147,6 +151,7 @@ export default class RenderAllDecksComponent extends Component {
   //p2 select card to battle zone
   handle_p2_battle_zone = (event, data) => {
     let { p2_battle_zone, p2_deck_zone } = this.state;
+
     if (p2_battle_zone.length < 1) {
       this.setState({ p2_battle_zone: [data] });
       let updatedDeckZone = p2_deck_zone.filter(pokeObj => {
@@ -154,6 +159,7 @@ export default class RenderAllDecksComponent extends Component {
           return pokeObj;
         }
       });
+
       this.setState({ p2_deck_zone: updatedDeckZone });
     }
   };
@@ -406,7 +412,7 @@ export default class RenderAllDecksComponent extends Component {
 
                   <Comment.Group>
                     <Header as="h3" dividing>
-                      Comments
+                      Chat Room
                     </Header>
 
                     <Comment>
