@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import cinema2 from '../images/cinema2.webm';
 import ReactPlayer from 'react-player';
+import io from 'socket.io-client';
+import { USER_CONNECTED, VERIFY_USER } from '../serverChat/Events';
 import {
   Segment,
   Header,
@@ -14,11 +16,15 @@ import {
   Divider
 } from 'semantic-ui-react';
 
+const socketUrl = 'http://localhost:3000';
 export default class IndexComponent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      socket: null, //socketio
+      error: '',
+
       signIn_name: '',
       signIn_password: '',
       signUp_name: '',
@@ -27,7 +33,7 @@ export default class IndexComponent extends Component {
   }
 
   //*************************//
-  //**** sign up section ****//
+  //**** sign-up section ****//
   //*************************//
   handle_signUp_selectedName = data => {
     this.setState({ signUp_name: data.target.value });
@@ -91,7 +97,7 @@ export default class IndexComponent extends Component {
   };
 
   //*************************//
-  //**** sign in section ****//
+  //**** sign-in section ****//
   //*************************//
   handle_signIn_selectedName = data => {
     this.setState({ signIn_name: data.target.value });
@@ -124,21 +130,47 @@ export default class IndexComponent extends Component {
 
   handle_signin = (event, data) => {
     event.preventDefault();
+    const { socket } = this.state; //socketio
     const name = this.state.signIn_name.trim();
     const password = this.state.signIn_password.trim();
 
     let failedValidation = this.signIn_validate(name, password); //return an obj when true
 
     if (failedValidation) {
-      this.setState(failedValidation);
     } else {
+      socket.emit(VERIFY_USER, name, this.setUser); //socketio
       this.props.signIn_user({ name, password });
     }
+  };
 
-    //!failedValidation && this.props.signIn_user({ name, password });
+  //***************************//
+  //**** socket-io section ****//
+  //***************************//
+  componentWillMount() {
+    this.initSocket();
+  }
+
+  initSocket = () => {
+    const socket = io(socketUrl);
+    socket.on('connect', () => {
+      console.log('Connected');
+    });
+    this.setState({ socket: socket });
+  };
+
+  //Sets the user property in state
+  setUser = ({ user, isUser }) => {
+    const { socket } = this.state;
+    if (isUser) {
+      this.setState({ error: 'User Name taken' });
+    } else {
+      this.setState({ user: user });
+      socket.emit(USER_CONNECTED, user);
+    }
   };
 
   render() {
+    console.log('what is my socket id-----', this.state.socket);
     if (this.props.userSignIn && this.props.userSignIn.name) {
       this.props.history.push('/home');
     }

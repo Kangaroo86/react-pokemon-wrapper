@@ -38,7 +38,9 @@ const withlifecycle = lifecycle({
     this.props.get_userDecks();
   },
   componentDidUpdate(prevProps, prevState) {
-    this.props.get_userDecks();
+    // console.log('prevProps-------', prevProps);
+    // console.log('prevState-------', prevState);
+    //this.props.get_userDecks();
   }
 });
 

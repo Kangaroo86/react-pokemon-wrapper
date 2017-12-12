@@ -18,7 +18,7 @@ export default function getUserDecksProcess() {
 
         newUserDeck.forEach(userDeck => {
           const ids = userDeck.cards;
-          userDeck.cards = ids;
+          userDeck.cards = ids; //i dont get it
           ids.forEach(id => {
             promises.push(getPokemonObj(id));
           });
@@ -31,6 +31,7 @@ export default function getUserDecksProcess() {
             characters.find(character => character.id === id)
           );
         });
+        //console.log('my scope----', scope);
         dispatch({ type: 'FETCHED_USER_DECKS', userDecks: scope.userDecks });
       })
       .catch(error => {

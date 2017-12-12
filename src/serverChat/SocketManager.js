@@ -1,5 +1,5 @@
 const io = require('./index.js').io;
-
+const { createUser, createMessage, createChat } = require('../Factories');
 const {
   VERIFY_USER,
   USER_CONNECTED,
@@ -11,14 +11,11 @@ const {
   TYPING
 } = require('./Events');
 
-const { createUser, createMessage, createChat } = require('../Factories');
-
 let connectedUsers = {};
-
 let communityChat = createChat();
 
 module.exports = function(socket) {
-  console.log('Socket Id:' + socket.id);
+  console.log('Socket Id ***** ' + socket.id);
 
   let sendMessageToChatFromUser;
   let sendTypingFromUser;

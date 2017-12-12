@@ -101,8 +101,6 @@ export default class CreateDeckComponent extends Component {
   };
 
   handle_battlePage = (event, data) => {
-    //console.log('my updatedeck data--------', data);
-    //console.log('my updatedeck data--------', data.value[0].id);
     this.props.history.push(`/decks/${data.value[0].id}/battle`);
   };
 

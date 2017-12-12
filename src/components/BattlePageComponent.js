@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
+//import io from 'socket.io-client';
 import bg2 from '../images/bg2.jpg';
 import jenny from '../images/jenny.jpg';
 import {
@@ -22,7 +23,9 @@ import {
   Progress,
   Segment
 } from 'semantic-ui-react';
+
 let colors = ['red', 'violet', 'blue', 'pink', 'green'];
+// const socketUrl = 'http://localhost:4000';
 
 export default class BattlePageComponent extends Component {
   constructor(props) {
@@ -75,7 +78,7 @@ export default class BattlePageComponent extends Component {
     });
 
     this.state = {
-      activeItem: '',
+      activeItem: '', //animation
 
       p1_animation: 'shake',
       p1_duration: 500,
@@ -233,8 +236,7 @@ export default class BattlePageComponent extends Component {
       p2_deck_zone
     } = this.state;
 
-    console.log('p1_deck_zone--------', p1_deck_zone);
-    console.log('p1_battle_zone--------', p1_battle_zone);
+    console.log('what are my props-------', this.props);
     return (
       <Grid columns="equal">
         <Grid.Row>

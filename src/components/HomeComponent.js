@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
+import io from 'socket.io-client';
 import bg1 from '../images/bg1.jpg';
 import jenny from '../images/jenny.jpg';
 import {
@@ -18,11 +19,16 @@ import {
   Menu
 } from 'semantic-ui-react';
 
+const socketUrl = 'http://localhost:4000';
+
 export default class HomeComponent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      socket: null, //socketIo
+      user: null, //socketIo
+
       activeItem: '',
       selectedPokemon: [],
       selectedDeckName: '',
@@ -54,7 +60,6 @@ export default class HomeComponent extends Component {
   };
 
   handle_battlePage = (event, data) => {
-    //console.log('my data from HOME--------', data);
     this.props.history.push(`/decks/${data.value.id}/battle`);
   };
 
@@ -68,6 +73,21 @@ export default class HomeComponent extends Component {
     this.props.signOut();
     this.props.history.push(`/`);
   };
+
+  // ************************* SOCKET-IO CODES: ************************* //
+
+  // componentWillMount() {
+  //   this.initSocket();
+  // }
+  //
+  // //Connect to and initializes the socket.
+  // initSocket = () => {
+  //   const socket = io(socketUrl);
+  //   socket.on('connect', () => {
+  //     console.log('I am connected');
+  //   });
+  //   this.setState({ socket: socket });
+  // };
 
   render() {
     return (

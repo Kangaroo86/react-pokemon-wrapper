@@ -8,9 +8,6 @@ import BattlePageContainer from './redux/containers/BattlePageContainer';
 import UpdateDeckPageContainer from './redux/containers/UpdateDeckPageContainer';
 import IndexContainer from './redux/containers/IndexContainer';
 import HomeContainer from './redux/containers/HomeContainer';
-//import SignUpContainer from './redux/containers/SignUpContainer';
-//import SignInContainer from './redux/containers/SignInContainer';
-//import RenderAllDecksPageContainer from './redux/containers/RenderAllDecksPageContainer';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory();
@@ -54,24 +51,6 @@ export default class App extends Component {
                 component={BattlePageContainer} //pending
                 history={history}
               />
-              {/* <Route
-                exact
-                path="/index"
-                component={SignInContainer}
-                history={history}
-              /> */}
-              {/* <Route
-                exact
-                path="/signup"
-                component={SignUpContainer}
-                history={history}
-              /> */}
-              {/* <Route
-                exact
-                path="/deckmanagement"
-                component={RenderAllDecksPageContainer}
-                history={history}
-              /> */}
             </Switch>
           </Router>
         </Provider>
