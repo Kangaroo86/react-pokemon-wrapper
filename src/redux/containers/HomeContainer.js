@@ -6,6 +6,7 @@ import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import deleteDecksProcess from '../thunks/deleteDecksProcess';
 import updateDecksProcess from '../thunks/updateDecksProcess';
+import socketProcess from '../thunks/socketProcess';
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -13,7 +14,8 @@ function mapStateToProps(state, ownProps) {
     pokemonArray: state.pokemonArray,
     defaultPokemonArray: state.defaultPokemonArray,
     userDecks: state.userDecks,
-    userSignIn: state.userSignIn
+    userSignIn: state.userSignIn,
+    socket: state.socket
   };
 }
 
@@ -29,18 +31,15 @@ function mapDispatchToProps(dispatch, ownProps) {
     update_Decks: (id, deckName, pokemonIds) => {
       dispatch(updateDecksProcess(id, deckName, pokemonIds));
     },
-    signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null })
+    signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
+    init_socket: () => dispatch(socketProcess())
   };
 }
 
 const withlifecycle = lifecycle({
   componentDidMount(prevProps, prevState) {
     this.props.get_userDecks();
-  },
-  componentDidUpdate(prevProps, prevState) {
-    // console.log('prevProps-------', prevProps);
-    // console.log('prevState-------', prevState);
-    //this.props.get_userDecks();
+    this.props.init_socket();
   }
 });
 

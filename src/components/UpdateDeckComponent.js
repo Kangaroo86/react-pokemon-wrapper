@@ -3,7 +3,6 @@ import jenny from '../images/jenny.jpg';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
 import bg10 from '../images/bg10.png';
-
 import {
   Segment,
   Card,

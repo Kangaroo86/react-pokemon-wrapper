@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import cinema2 from '../images/cinema2.webm';
 import ReactPlayer from 'react-player';
-import io from 'socket.io-client';
-import { USER_CONNECTED, VERIFY_USER } from '../serverChat/Events';
+import { USER_CONNECTED, VERIFY_USER, LOGOUT } from '../serverChat/Events';
 import {
   Segment,
   Header,
@@ -16,14 +15,14 @@ import {
   Divider
 } from 'semantic-ui-react';
 
-const socketUrl = 'http://localhost:3000';
 export default class IndexComponent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       socket: null, //socketio
-      error: '',
+      error: '', //socketio
+      user: '',
 
       signIn_name: '',
       signIn_password: '',
@@ -84,7 +83,6 @@ export default class IndexComponent extends Component {
     event.preventDefault();
     const signUp_name = this.state.signUp_name.trim();
     const signUp_password = this.state.signUp_password.trim();
-
     const errorPass = this.signUp_validate(signUp_name, signUp_password);
 
     if (errorPass !== true) {
@@ -109,7 +107,6 @@ export default class IndexComponent extends Component {
 
   signIn_validate = (name, password) => {
     let isThereError;
-
     let errorsObj = {
       signIn_errorName: '',
       signIn_errorPassword: ''
@@ -119,18 +116,16 @@ export default class IndexComponent extends Component {
       isThereError = true;
       errorsObj.signIn_errorName = 'Please enter your name';
     }
-
     if (password === '') {
       isThereError = true;
       errorsObj.signIn_errorPassword = 'Password entered is blank';
     }
-
     return isThereError ? errorsObj : false;
   };
 
   handle_signin = (event, data) => {
     event.preventDefault();
-    const { socket } = this.state; //socketio
+    const { socket } = this.props; //socketio
     const name = this.state.signIn_name.trim();
     const password = this.state.signIn_password.trim();
 
@@ -138,39 +133,23 @@ export default class IndexComponent extends Component {
 
     if (failedValidation) {
     } else {
-      socket.emit(VERIFY_USER, name, this.setUser); //socketio
       this.props.signIn_user({ name, password });
+      //this.setUser();
     }
   };
 
   //***************************//
   //**** socket-io section ****//
   //***************************//
-  componentWillMount() {
-    this.initSocket();
-  }
-
-  initSocket = () => {
-    const socket = io(socketUrl);
-    socket.on('connect', () => {
-      console.log('Connected');
-    });
-    this.setState({ socket: socket });
-  };
-
-  //Sets the user property in state
-  setUser = ({ user, isUser }) => {
-    const { socket } = this.state;
-    if (isUser) {
-      this.setState({ error: 'User Name taken' });
-    } else {
-      this.setState({ user: user });
-      socket.emit(USER_CONNECTED, user);
-    }
-  };
+  // setUser = user => {
+  //   const { userSignIn, socket } = this.props;
+  //   console.log('my socket---', socket);
+  //   console.log('my userSignIn---', userSignIn);
+  //   socket.emit(USER_CONNECTED, userSignIn.name);
+  //   this.setState({ user: user });
+  // };
 
   render() {
-    console.log('what is my socket id-----', this.state.socket);
     if (this.props.userSignIn && this.props.userSignIn.name) {
       this.props.history.push('/home');
     }

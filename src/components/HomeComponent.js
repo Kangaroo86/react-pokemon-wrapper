@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
+import { LOGOUT, USER_CONNECTED, VERIFY_USER } from '../serverChat/Events';
 import bg1 from '../images/bg1.jpg';
 import jenny from '../images/jenny.jpg';
 import {
@@ -19,8 +20,6 @@ import {
   Menu
 } from 'semantic-ui-react';
 
-const socketUrl = 'http://localhost:4000';
-
 export default class HomeComponent extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +27,7 @@ export default class HomeComponent extends Component {
     this.state = {
       socket: null, //socketIo
       user: null, //socketIo
+      error: '',
 
       activeItem: '',
       selectedPokemon: [],
@@ -60,6 +60,7 @@ export default class HomeComponent extends Component {
   };
 
   handle_battlePage = (event, data) => {
+    this.handleSubmit();
     this.props.history.push(`/decks/${data.value.id}/battle`);
   };
 
@@ -75,19 +76,26 @@ export default class HomeComponent extends Component {
   };
 
   // ************************* SOCKET-IO CODES: ************************* //
+  setUser = ({ user, isUser }) => {
+    const { socket } = this.props;
+    if (isUser) {
+      this.setError('User name taken');
+    } else {
+      console.log('user-----', user);
+      this.setError('');
+      socket.emit(USER_CONNECTED, user);
+    }
+  };
 
-  // componentWillMount() {
-  //   this.initSocket();
-  // }
-  //
-  // //Connect to and initializes the socket.
-  // initSocket = () => {
-  //   const socket = io(socketUrl);
-  //   socket.on('connect', () => {
-  //     console.log('I am connected');
-  //   });
-  //   this.setState({ socket: socket });
-  // };
+  handleSubmit = event => {
+    const { userSignIn, socket } = this.props;
+    console.log('handlesubmit******', userSignIn.name);
+    socket.emit(VERIFY_USER, userSignIn.name, this.setUser);
+  };
+
+  setError = error => {
+    this.setState({ error });
+  };
 
   render() {
     return (

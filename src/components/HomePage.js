@@ -10,14 +10,18 @@ export default function SignInPage({
   get_userDecks,
   delete_decks,
   update_Decks,
+  userSignIn,
   signOut,
   history,
   match,
+  socket,
   location
 }) {
   return (
     <div>
       <HomeComponent
+        userSignIn={userSignIn}
+        socket={socket}
         pokemonObj={pokemonObj}
         onPokemonObj={onPokemonObj}
         defaultPokemonArray={defaultPokemonArray}

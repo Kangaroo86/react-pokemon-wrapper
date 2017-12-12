@@ -8,7 +8,8 @@ export default function SignInPage({
   history,
   userSignup,
   user_signup,
-  users
+  users,
+  socket
 }) {
   return (
     <div>
@@ -20,6 +21,7 @@ export default function SignInPage({
         userSignup={userSignup}
         user_signup={user_signup}
         users={users}
+        socket={socket}
       />
     </div>
   );

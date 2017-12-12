@@ -6,11 +6,15 @@ export default function rootReducer(
     userSignup: {},
     userSignIn: {},
     errorMessage: null,
-    users: []
+    users: [],
+    socket: null
   },
   action
 ) {
   switch (action.type) {
+    case 'FETCHED_SOCKET':
+      return { ...currentState, socket: action.socket };
+
     case 'FETCHED_USERS':
       return { ...currentState, users: action.users };
 
