@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
-//import io from 'socket.io-client';
+import {
+  MESSAGE_RECIEVED,
+  MESSAGE_SENT,
+  USER_CONNECTED,
+  USER_DISCONNECTED
+} from '../serverChat/Events';
 import bg2 from '../images/bg2.jpg';
 import jenny from '../images/jenny.jpg';
 import {
+  TextArea,
   Card,
   Grid,
   Divider,
@@ -25,13 +31,12 @@ import {
 } from 'semantic-ui-react';
 
 let colors = ['red', 'violet', 'blue', 'pink', 'green'];
-// const socketUrl = 'http://localhost:4000';
 
 export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
-    let { userDecks } = this.props;
+    let { userDecks, socket, userSignIn } = this.props;
     let p1_cards = [];
     let p2_cards = [];
 
@@ -79,6 +84,9 @@ export default class BattlePageComponent extends Component {
 
     this.state = {
       activeItem: '', //animation
+      message: '', //socet io
+      messages: [], //socket io
+      userConnected: [],
 
       p1_animation: 'shake',
       p1_duration: 500,
@@ -93,6 +101,41 @@ export default class BattlePageComponent extends Component {
       p2_battle_zone: [],
       p2_deck_zone: p1_cards.slice(0), //TODO this is hardcoded. Change me later
       p2_grave_yard: []
+    };
+
+    socket.on(USER_DISCONNECTED, data => {
+      console.log('USER_DISCONNECTED-------', data);
+    });
+
+    // socket.on(USER_CONNECTED, data => {
+    //   console.log('connectedUsers*****', data);
+    // this.setState({
+    //   userConnected: [...this.state.userConnected, data]
+    // });
+    // });
+
+    //receiving message FROM backend
+    //.on means you will receive a callback from the backend with a route called RECEIVE_MESSAGE
+    socket.on(MESSAGE_RECIEVED, data => {
+      this.setState({ messages: [...this.state.messages, data] });
+    });
+
+    //send messages TO-THE backend
+    //.emit means you are SENDING data to backend with specific a route, in this case SEND_MESSAGE
+    this.sendMessage = event => {
+      event.preventDefault();
+
+      let { messages } = this.state;
+      socket.emit(MESSAGE_SENT, {
+        author: userSignIn.name,
+        message: this.state.message
+      });
+
+      this.setState({ message: '' });
+
+      if (messages.length > 3) {
+        messages.splice(0, 1);
+      }
     };
   }
 
@@ -221,9 +264,35 @@ export default class BattlePageComponent extends Component {
     this.props.history.push(`/`);
   };
 
+  // ************************* SOCKET-IO CODES: ************************* //
+  componentDidMount() {
+    this.add_userToState();
+  }
+
+  //Chat message
+  handle_MessageInput = data => {
+    this.setState({ message: data.target.value });
+  };
+
+  add_userToState = () => {
+    const { socket } = this.props;
+    socket.on(USER_CONNECTED, data => {
+      this.setState({
+        userConnected: [...this.state.userConnected, data]
+      });
+    });
+  };
+
+  player_1 = () => {
+    const { socket } = this.props;
+  };
   render() {
+    let { userDecks, socket, userSignIn } = this.props;
     let {
       activeItem,
+      message,
+      messages,
+      userConnected,
       p1_animation,
       p1_duration,
       p1_visible,
@@ -236,7 +305,10 @@ export default class BattlePageComponent extends Component {
       p2_deck_zone
     } = this.state;
 
-    console.log('what are my props-------', this.props);
+    console.log('userConnected-------', userConnected);
+    console.log('socket battle*******', socket);
+    //console.log('messages array------', messages);
+
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -425,25 +497,35 @@ export default class BattlePageComponent extends Component {
                       </Comment.Content>
                     </Comment>
 
-                    <Comment>
-                      <Comment.Avatar src={jenny} />
-                      <Comment.Content>
-                        <Comment.Author as="a">Joe Henderson</Comment.Author>
-                        <Comment.Text>
-                          Dude, this is awesome. Thanks so much
-                        </Comment.Text>
-                      </Comment.Content>
-                    </Comment>
+                    {messages.map(message => {
+                      return (
+                        <Comment>
+                          <Comment.Content>
+                            <Comment.Avatar src={jenny} />
+                            <Comment.Author as="a">
+                              {message.author}
+                            </Comment.Author>
+                            <Comment.Text>
+                              {message.message}
+                            </Comment.Text>
+                          </Comment.Content>
+                        </Comment>
+                      );
+                    })}
 
-                    <Form reply>
-                      <Form.TextArea />
-                      <Button
-                        onClick={this.toggleVisibility}
-                        content="Add Reply"
-                        labelPosition="left"
-                        icon="edit"
-                        primary
+                    <Form>
+                      <Form.Field
+                        control={TextArea}
+                        placeholder="Message..."
+                        value={message}
+                        onChange={this.handle_MessageInput}
                       />
+                      <Button
+                        onClick={this.sendMessage}
+                        content="SEND"
+                        color="blue"
+                      />
+                      <Button onClick={this.test} content="test" color="blue" />
                     </Form>
                   </Comment.Group>
 

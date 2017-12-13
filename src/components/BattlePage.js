@@ -3,6 +3,8 @@ import BattlePageComponent from './BattlePageComponent';
 
 export default function IndexPage({
   userDecks,
+  socket,
+  userSignIn,
   pokemonArray,
   defaultPokemonArray,
   onPokemonObj,
@@ -14,6 +16,8 @@ export default function IndexPage({
   return (
     <BattlePageComponent
       userDecks={userDecks}
+      userSignIn={userSignIn}
+      socket={socket}
       signOut={signOut}
       onPokemonObj={onPokemonObj}
       defaultPokemonArray={defaultPokemonArray}

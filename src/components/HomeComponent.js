@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
-import io from 'socket.io-client';
 import { LOGOUT, USER_CONNECTED, VERIFY_USER } from '../serverChat/Events';
 import bg1 from '../images/bg1.jpg';
 import jenny from '../images/jenny.jpg';
@@ -60,7 +59,7 @@ export default class HomeComponent extends Component {
   };
 
   handle_battlePage = (event, data) => {
-    this.handleSubmit();
+    //this.handle_verifyUser();
     this.props.history.push(`/decks/${data.value.id}/battle`);
   };
 
@@ -76,20 +75,31 @@ export default class HomeComponent extends Component {
   };
 
   // ************************* SOCKET-IO CODES: ************************* //
+
+  componentDidMount() {
+    this.handle_verifyUser();
+    //this.add_userToState();
+  }
+
   setUser = ({ user, isUser }) => {
     const { socket } = this.props;
     if (isUser) {
       this.setError('User name taken');
     } else {
-      console.log('user-----', user);
       this.setError('');
       socket.emit(USER_CONNECTED, user);
     }
   };
 
-  handleSubmit = event => {
+  // add_userToState = () => {
+  //   const { socket } = this.props;
+  //   socket.on(USER_CONNECTED, data => {
+  //     console.log('USER_CONNECTED----', data);
+  //   });
+  // };
+
+  handle_verifyUser = event => {
     const { userSignIn, socket } = this.props;
-    console.log('handlesubmit******', userSignIn.name);
     socket.emit(VERIFY_USER, userSignIn.name, this.setUser);
   };
 

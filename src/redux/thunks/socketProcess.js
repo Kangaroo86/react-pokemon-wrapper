@@ -5,7 +5,7 @@ export default function initSocket() {
   return (dispatch, getState) => {
     const socket = io(socketUrl);
     socket.on('connect', () => {
-      console.log('Connected');
+      console.log('We are Connected');
     });
     dispatch({ type: 'FETCHED_SOCKET', socket: socket });
   };

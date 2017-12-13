@@ -125,7 +125,6 @@ export default class IndexComponent extends Component {
 
   handle_signin = (event, data) => {
     event.preventDefault();
-    const { socket } = this.props; //socketio
     const name = this.state.signIn_name.trim();
     const password = this.state.signIn_password.trim();
 
@@ -134,20 +133,8 @@ export default class IndexComponent extends Component {
     if (failedValidation) {
     } else {
       this.props.signIn_user({ name, password });
-      //this.setUser();
     }
   };
-
-  //***************************//
-  //**** socket-io section ****//
-  //***************************//
-  // setUser = user => {
-  //   const { userSignIn, socket } = this.props;
-  //   console.log('my socket---', socket);
-  //   console.log('my userSignIn---', userSignIn);
-  //   socket.emit(USER_CONNECTED, userSignIn.name);
-  //   this.setState({ user: user });
-  // };
 
   render() {
     if (this.props.userSignIn && this.props.userSignIn.name) {

@@ -8,7 +8,9 @@ function mapStateToProps(state, ownProps) {
   return {
     pokemonArray: state.pokemonArray,
     defaultPokemonArray: state.defaultPokemonArray,
-    userDecks: state.userDecks
+    userDecks: state.userDecks,
+    userSignIn: state.userSignIn,
+    socket: state.socket
   };
 }
 
