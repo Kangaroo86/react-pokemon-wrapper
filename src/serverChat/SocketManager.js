@@ -7,7 +7,7 @@ const {
   LOGOUT,
   COMMUNITY_CHAT,
   MESSAGE_RECIEVED,
-  MESSAGE_SENT,
+  MESSAGE_SEND,
   TYPING
 } = require('./Events');
 
@@ -63,7 +63,7 @@ module.exports = function(socket) {
     callback(communityChat);
   });
 
-  socket.on(MESSAGE_SENT, ({ chatId, message }) => {
+  socket.on(MESSAGE_SEND, ({ chatId, message }) => {
     sendMessageToChatFromUser(chatId, message);
   });
 

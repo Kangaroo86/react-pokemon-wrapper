@@ -8,10 +8,14 @@ export default function rootReducer(
     errorMessage: null,
     users: [],
     socket: null
+    //connectedPlayers: []
   },
   action
 ) {
   switch (action.type) {
+    // case 'CONNECTED_PLAYERS':
+    //   return { ...currentState, connectedPlayers: [] };
+
     case 'FETCHED_SOCKET':
       return { ...currentState, socket: action.socket };
 

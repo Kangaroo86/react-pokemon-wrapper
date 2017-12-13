@@ -90,7 +90,7 @@ export default class IndexComponent extends Component {
       return;
     } else {
       this.props.user_signup({ name: signUp_name, password: signUp_password });
-      this.props.history.push(`/`);
+      this.props.history.push(`/createdeck`);
     }
   };
 
@@ -141,7 +141,7 @@ export default class IndexComponent extends Component {
       this.props.history.push('/home');
     }
     return (
-      <Grid colums="equal">
+      <Grid columns="equal">
         <Grid.Row>
           <Grid.Column>
             <Container fluid>
@@ -209,7 +209,7 @@ export default class IndexComponent extends Component {
                     <Form.Input
                       fluid
                       icon="user"
-                      id="userId"
+                      //id="userId"
                       iconPosition="left"
                       placeholder="username"
                       onChange={this.handle_signUp_selectedName}
@@ -222,7 +222,7 @@ export default class IndexComponent extends Component {
                     <Form.Input
                       fluid
                       icon="lock"
-                      id="passwordId"
+                      //id="passwordId"
                       iconPosition="left"
                       placeholder="password"
                       type="password"

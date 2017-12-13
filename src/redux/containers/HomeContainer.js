@@ -7,6 +7,7 @@ import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import deleteDecksProcess from '../thunks/deleteDecksProcess';
 import updateDecksProcess from '../thunks/updateDecksProcess';
 import socketProcess from '../thunks/socketProcess';
+//import { USER_CONNECTED } from '../serverChat/Events';
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -16,6 +17,7 @@ function mapStateToProps(state, ownProps) {
     userDecks: state.userDecks,
     userSignIn: state.userSignIn,
     socket: state.socket
+    //connectedPlayers: state.connectedPlayers
   };
 }
 
@@ -33,6 +35,12 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
     init_socket: () => dispatch(socketProcess())
+    // add_userToStore: () => {
+    //   const { socket } = this.props;
+    //   socket.on(USER_CONNECTED, data => {
+    //     dispatch({ type: 'CONNECTED_PLAYERS', connectedPlayers: data });
+    //   });
+    // }
   };
 }
 
@@ -40,6 +48,7 @@ const withlifecycle = lifecycle({
   componentDidMount(prevProps, prevState) {
     this.props.get_userDecks();
     this.props.init_socket();
+    //this.props.add_userToStore();
   }
 });
 

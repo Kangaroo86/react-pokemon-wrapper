@@ -91,12 +91,12 @@ export default class HomeComponent extends Component {
     }
   };
 
-  // add_userToState = () => {
-  //   const { socket } = this.props;
-  //   socket.on(USER_CONNECTED, data => {
-  //     console.log('USER_CONNECTED----', data);
-  //   });
-  // };
+  add_userToState = () => {
+    const { socket } = this.props;
+    socket.on(USER_CONNECTED, data => {
+      console.log('USER_CONNECTED----', data);
+    });
+  };
 
   handle_verifyUser = event => {
     const { userSignIn, socket } = this.props;
@@ -108,6 +108,7 @@ export default class HomeComponent extends Component {
   };
 
   render() {
+    console.log('connectedPlayers*******', this.props.connectedPlayers);
     return (
       <Grid columns="equal">
         <Grid.Row>

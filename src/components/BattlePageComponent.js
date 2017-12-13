@@ -3,7 +3,7 @@ import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
 import {
   MESSAGE_RECIEVED,
-  MESSAGE_SENT,
+  MESSAGE_SEND,
   USER_CONNECTED,
   USER_DISCONNECTED
 } from '../serverChat/Events';
@@ -103,40 +103,15 @@ export default class BattlePageComponent extends Component {
       p2_grave_yard: []
     };
 
-    socket.on(USER_DISCONNECTED, data => {
-      console.log('USER_DISCONNECTED-------', data);
-    });
-
-    // socket.on(USER_CONNECTED, data => {
-    //   console.log('connectedUsers*****', data);
-    // this.setState({
-    //   userConnected: [...this.state.userConnected, data]
-    // });
-    // });
-
     //receiving message FROM backend
     //.on means you will receive a callback from the backend with a route called RECEIVE_MESSAGE
     socket.on(MESSAGE_RECIEVED, data => {
       this.setState({ messages: [...this.state.messages, data] });
     });
 
-    //send messages TO-THE backend
-    //.emit means you are SENDING data to backend with specific a route, in this case SEND_MESSAGE
-    this.sendMessage = event => {
-      event.preventDefault();
-
-      let { messages } = this.state;
-      socket.emit(MESSAGE_SENT, {
-        author: userSignIn.name,
-        message: this.state.message
-      });
-
-      this.setState({ message: '' });
-
-      if (messages.length > 3) {
-        messages.splice(0, 1);
-      }
-    };
+    socket.on('updateChat', (user, data) => {
+      console.log(user, ' and ', data);
+    });
   }
 
   // *********************** PLAYER-1 CODES: *********************** //
@@ -267,25 +242,70 @@ export default class BattlePageComponent extends Component {
   // ************************* SOCKET-IO CODES: ************************* //
   componentDidMount() {
     this.add_userToState();
+    //this.USER_DISCONNECTED();
   }
 
+  // USER_DISCONNECTED = () => {
+  //   const { socket } = this.props;
+  //   socket.on('USER_DISCONNECTED', data => {
+  //     console.log('my data******', data);
+  //   });
+  // };
+
   //Chat message
-  handle_MessageInput = data => {
+  handle_messageInput = data => {
     this.setState({ message: data.target.value });
   };
 
+  //send messages TO-THE backend
+  //.emit means you are SENDING data to backend with specific a route, in this case SEND_MESSAGE
+  handle_sendMessage = event => {
+    event.preventDefault();
+    const { socket, userSignIn } = this.props;
+    let { messages } = this.state;
+
+    socket.emit(MESSAGE_SEND, {
+      author: userSignIn.name,
+      message: this.state.message
+    });
+    this.setState({ message: '' });
+
+    if (messages.length > 3) {
+      messages.splice(0, 1);
+    }
+  };
+
+  //WIP
   add_userToState = () => {
     const { socket } = this.props;
+    let { userConnected } = this.state;
     socket.on(USER_CONNECTED, data => {
       this.setState({
-        userConnected: [...this.state.userConnected, data]
+        userConnected: [...userConnected, data]
       });
     });
   };
 
+  //WIP
   player_1 = () => {
     const { socket } = this.props;
+    const { userConnected } = this.state;
+
+    if (socket && USER_CONNECTED) {
+      this.handle_p1_specialAtk();
+    }
   };
+
+  //WIP
+  player_2 = () => {
+    const { socket } = this.props;
+    const { userConnected } = this.state;
+
+    if (socket && USER_CONNECTED) {
+      this.handle_p2_specialAtk();
+    }
+  };
+
   render() {
     let { userDecks, socket, userSignIn } = this.props;
     let {
@@ -457,7 +477,8 @@ export default class BattlePageComponent extends Component {
                               size="medium"
                               inverted
                               color="teal"
-                              onClick={this.handle_p1_specialAtk}>
+                              //onClick={this.handle_p1_specialAtk}
+                              onClick={this.player_1}>
                               <Icon name="lightning" />
                               SPEC ATK
                             </Button>
@@ -518,10 +539,10 @@ export default class BattlePageComponent extends Component {
                         control={TextArea}
                         placeholder="Message..."
                         value={message}
-                        onChange={this.handle_MessageInput}
+                        onChange={this.handle_messageInput}
                       />
                       <Button
-                        onClick={this.sendMessage}
+                        onClick={this.handle_sendMessage}
                         content="SEND"
                         color="blue"
                       />
@@ -598,7 +619,8 @@ export default class BattlePageComponent extends Component {
                               size="medium"
                               inverted
                               color="teal"
-                              onClick={this.handle_p2_specialAtk}>
+                              //onClick={this.handle_p2_specialAtk}
+                              onClick={this.player_2}>
                               <Icon name="lightning" />
                               SPEC ATK
                             </Button>

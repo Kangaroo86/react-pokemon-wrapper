@@ -15,11 +15,13 @@ export default function SignInPage({
   history,
   match,
   socket,
+  connectedPlayers,
   location
 }) {
   return (
     <div>
       <HomeComponent
+        connectedPlayers={connectedPlayers}
         userSignIn={userSignIn}
         socket={socket}
         pokemonObj={pokemonObj}
