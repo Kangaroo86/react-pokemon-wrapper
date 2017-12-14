@@ -12,6 +12,7 @@ export default function signInProcess(attribute) {
         } else {
           localStorage.setItem('token', result.token);
           localStorage.setItem('userId', result.id);
+          localStorage.setItem('userIdSocket', null);
           dispatch({
             type: 'USER_SIGNIN',
             userSignIn: result

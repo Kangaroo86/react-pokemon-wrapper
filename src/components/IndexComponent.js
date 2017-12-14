@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import cinema2 from '../images/cinema2.webm';
 import ReactPlayer from 'react-player';
-import { USER_CONNECTED, VERIFY_USER, LOGOUT } from '../serverChat/Events';
 import {
   Segment,
   Header,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
-import { LOGOUT, USER_CONNECTED, VERIFY_USER } from '../serverChat/Events';
+import { USER_CREATED, VERIFY_USER, LOGOUT } from '../serverChat/Events';
 import bg1 from '../images/bg1.jpg';
 import jenny from '../images/jenny.jpg';
 import {
@@ -24,9 +24,7 @@ export default class HomeComponent extends Component {
     super(props);
 
     this.state = {
-      socket: null, //socketIo
       user: null, //socketIo
-      error: '',
       room: '',
 
       activeItem: '',
@@ -69,8 +67,12 @@ export default class HomeComponent extends Component {
   handle_signOut = (event, { name }) => {
     event.preventDefault();
     this.setState({ activeItem: name });
+
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userIdSocket');
+
+    this.socket_disconnect();
     this.props.signOut();
     this.props.history.push(`/`);
   };
@@ -78,38 +80,35 @@ export default class HomeComponent extends Component {
   // ************************* SOCKET-IO CODES: ************************* //
 
   componentDidMount() {
-    //this.handle_verifyUser();
-    //this.add_userToState();
+    this.socket_verifyUser(); //does the 2nd user execute DidMount
   }
 
-  setUser = ({ user, isUser }) => {
-    const { socket } = this.props;
-    if (isUser) {
-      this.setError('User name taken');
-    } else {
-      this.setError('');
-      socket.emit(USER_CONNECTED, user);
+  setUser = user => {
+    localStorage.setItem('userIdSocket', user.id);
+  };
+
+  socket_verifyUser = event => {
+    const { userSignIn, socket } = this.props;
+    let userIdSocket = localStorage.getItem('userIdSocket');
+
+    socket && socket.emit(VERIFY_USER, userSignIn.name, userIdSocket);
+    if (socket && userIdSocket === 'null') {
+      socket.on(USER_CREATED, user => {
+        this.setUser(user);
+      });
     }
   };
 
-  add_userToState = () => {
-    const { socket } = this.props;
-    socket.on(USER_CONNECTED, data => {
-      console.log('USER_CONNECTED----', data);
-    });
-  };
-
-  handle_verifyUser = event => {
+  socket_disconnect = () => {
     const { userSignIn, socket } = this.props;
-    socket.emit(VERIFY_USER, userSignIn.name, this.setUser);
+    let userIdSocket = localStorage.getItem('userIdSocket');
+    if (!userIdSocket) {
+      socket.emit(LOGOUT, userSignIn.name);
+    }
   };
 
-  setError = error => {
-    this.setState({ error });
-  };
-
-  handle_room = data => {
-    console.log('my data---', data);
+  //WIP allow user to choose a room
+  socket_room = data => {
     this.setState({ room: data.target.value });
   };
 

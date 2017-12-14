@@ -105,13 +105,15 @@ export default class BattlePageComponent extends Component {
 
     //receiving message FROM backend
     //.on means you will receive a callback from the backend with a route called RECEIVE_MESSAGE
-    socket.on(MESSAGE_RECIEVED, data => {
-      this.setState({ messages: [...this.state.messages, data] });
-    });
+    socket &&
+      socket.on(MESSAGE_RECIEVED, data => {
+        this.setState({ messages: [...this.state.messages, data] });
+      });
 
-    socket.on('updateChat', (user, data) => {
-      console.log(user, ' and ', data);
-    });
+    socket &&
+      socket.on('updateChat', (user, data) => {
+        console.log(user, ' and ', data);
+      });
   }
 
   // *********************** PLAYER-1 CODES: *********************** //
@@ -244,13 +246,6 @@ export default class BattlePageComponent extends Component {
     //this.add_userToState();
     //this.USER_DISCONNECTED();
   }
-
-  // USER_DISCONNECTED = () => {
-  //   const { socket } = this.props;
-  //   socket.on('USER_DISCONNECTED', data => {
-  //     console.log('my data******', data);
-  //   });
-  // };
 
   //Chat message
   handle_messageInput = data => {

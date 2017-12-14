@@ -1,13 +1,15 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducers/rootReducer';
 import thunkMiddleware from 'redux-thunk';
-import io from 'socket.io-client';
-import env from '../env';
+import io from 'socket.io-client'; //socket-io
+import env from '../env'; //socket-io
 
 const socketUrl = `${env.API_BASE_URL}`;
 const socket = io(socketUrl);
 socket.on('connect', () => {
-  console.log('We are Connected');
+  //who is emit 'connect' on the backend
+  console.log('socket from redux----', socket.id);
+  console.log('Socket Connected. Initalized from redux store');
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

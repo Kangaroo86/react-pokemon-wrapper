@@ -11,7 +11,7 @@ import socketProcess from '../thunks/socketProcess';
 
 function mapStateToProps(state, ownProps) {
   // console.log('dispatch------', state);
-  // console.log('ownProps------', ownProps);
+  console.log('state from container------', state.socket);
   return {
     pokemonObj: state.pokemonObj,
     pokemonArray: state.pokemonArray,
@@ -35,13 +35,15 @@ function mapDispatchToProps(dispatch, ownProps) {
     update_Decks: (id, deckName, pokemonIds) => {
       dispatch(updateDecksProcess(id, deckName, pokemonIds));
     },
-    signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null })
+    signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
+    init_socket: () => dispatch(socketProcess())
   };
 }
 
 const withlifecycle = lifecycle({
   componentDidMount(prevProps, prevState) {
     this.props.get_userDecks();
+    this.props.init_socket();
   }
 });
 
