@@ -1,7 +1,7 @@
 import getRegisteredUsersObj from '../../api/getRegisteredUsersObj';
 
 export default function getRegisteredUsersObjProcess() {
-  return (dispatch, getState) => {
+  return (dispatch, getState, socket) => {
     return getRegisteredUsersObj().then(result => {
       dispatch({
         type: 'FETCHED_USERS',

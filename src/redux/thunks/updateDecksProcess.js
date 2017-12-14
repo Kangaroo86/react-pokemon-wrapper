@@ -2,7 +2,7 @@ import updateDecks from '../../api/updateDecks';
 import getPokemonObj from '../../api/getPokemonObj';
 
 export default function updateUserDeckProcess(deckObj, deckId, userId) {
-  return (dispatch, getState, env) => {
+  return (dispatch, getState, socket) => {
     let scope = {};
 
     return updateDecks(deckObj, deckId, userId)

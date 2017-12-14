@@ -241,7 +241,7 @@ export default class BattlePageComponent extends Component {
 
   // ************************* SOCKET-IO CODES: ************************* //
   componentDidMount() {
-    this.add_userToState();
+    //this.add_userToState();
     //this.USER_DISCONNECTED();
   }
 
@@ -325,8 +325,8 @@ export default class BattlePageComponent extends Component {
       p2_deck_zone
     } = this.state;
 
-    console.log('userConnected-------', userConnected);
-    console.log('socket battle*******', socket);
+    console.log('socket from Battle Comp-------', this.props.socket);
+    //console.log('socket battle*******', socket);
     //console.log('messages array------', messages);
 
     return (

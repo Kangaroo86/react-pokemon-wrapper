@@ -17,6 +17,7 @@ export default function rootReducer(
     //   return { ...currentState, connectedPlayers: [] };
 
     case 'FETCHED_SOCKET':
+      console.log('current state**********', action.socket);
       return { ...currentState, socket: action.socket };
 
     case 'FETCHED_USERS':

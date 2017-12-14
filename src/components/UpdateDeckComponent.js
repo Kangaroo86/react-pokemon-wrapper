@@ -162,7 +162,7 @@ export default class CreateDeckComponent extends Component {
             <Grid textAlign="center">
               <Header style={{ fontSize: '2em' }}>Update your Deck</Header>
               <br />
-              <Card.Group ref="pokemonDisplayed" itemsPerRow={9}>
+              <Card.Group itemsPerRow={9}>
                 {this.props.pokemonArray &&
                   this.props.pokemonArray.map(pokemonObj => {
                     return (
@@ -199,9 +199,9 @@ export default class CreateDeckComponent extends Component {
                             {userObj[0].deckname}
                           </Card.Header>
                           <List size="massive" horizontal>
-                            {userObj[0].cards.map(character => {
+                            {userObj[0].cards.map((character, i) => {
                               return (
-                                <Label size="small" image>
+                                <Label key={i} size="small" image>
                                   <Image
                                     src={character.sprites.front_default}
                                   />
@@ -245,7 +245,7 @@ export default class CreateDeckComponent extends Component {
                     <Grid>
                       <Grid.Row>
                         <Grid.Column floated="left" width={8}>
-                          <Card.Group ref="pokemonDisplayed" itemsPerRow={2}>
+                          <Card.Group itemsPerRow={2}>
                             {this.state.selectedPokemon.map(pokemonObj =>
                               <Card
                                 characterId={pokemonObj.characterId}

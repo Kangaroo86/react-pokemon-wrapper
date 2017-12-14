@@ -1,7 +1,7 @@
 import signIn from '../../api/signIn';
 
 export default function signInProcess(attribute) {
-  return (dispatch, getState) => {
+  return (dispatch, getState, socket) => {
     return signIn(attribute)
       .then(result => {
         if (result.error === 400) {

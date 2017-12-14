@@ -25,15 +25,15 @@ function mapDispatchToProps(dispatch, ownProps) {
     user_signup: attribute => {
       dispatch(signUpProcess(attribute));
     },
-    get_user: () => dispatch(getRegisteredUsersObjProcess()),
-    init_socket: () => dispatch(socketProcess())
+    get_user: () => dispatch(getRegisteredUsersObjProcess())
+    //init_socket: () => dispatch(socketProcess())
   };
 }
 
 const withlifecycle = lifecycle({
   componentDidMount() {
     this.props.get_user();
-    this.props.init_socket();
+    //this.props.init_socket();
   }
 });
 

@@ -2,7 +2,7 @@ import getUserDecks from '../../api/getUserDecks';
 import getPokemonObj from '../../api/getPokemonObj';
 
 export default function getUserDecksProcess() {
-  return (dispatch, getState, env) => {
+  return (dispatch, getState, socket) => {
     const scope = {};
     return getUserDecks()
       .then(userDecks => {
@@ -31,8 +31,8 @@ export default function getUserDecksProcess() {
             characters.find(character => character.id === id)
           );
         });
-        //console.log('my scope----', scope);
         dispatch({ type: 'FETCHED_USER_DECKS', userDecks: scope.userDecks });
+        //dispatch({ type: 'FETCHED_SOCKET', socket: socket });
       })
       .catch(error => {
         console.error('getUserDecksProcess couldnt fetch userDecks: ', error);

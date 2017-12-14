@@ -10,6 +10,8 @@ import socketProcess from '../thunks/socketProcess';
 //import { USER_CONNECTED } from '../serverChat/Events';
 
 function mapStateToProps(state, ownProps) {
+  // console.log('dispatch------', state);
+  // console.log('ownProps------', ownProps);
   return {
     pokemonObj: state.pokemonObj,
     pokemonArray: state.pokemonArray,
@@ -33,22 +35,13 @@ function mapDispatchToProps(dispatch, ownProps) {
     update_Decks: (id, deckName, pokemonIds) => {
       dispatch(updateDecksProcess(id, deckName, pokemonIds));
     },
-    signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
-    init_socket: () => dispatch(socketProcess())
-    // add_userToStore: () => {
-    //   const { socket } = this.props;
-    //   socket.on(USER_CONNECTED, data => {
-    //     dispatch({ type: 'CONNECTED_PLAYERS', connectedPlayers: data });
-    //   });
-    // }
+    signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null })
   };
 }
 
 const withlifecycle = lifecycle({
   componentDidMount(prevProps, prevState) {
     this.props.get_userDecks();
-    this.props.init_socket();
-    //this.props.add_userToStore();
   }
 });
 

@@ -1,3 +1,21 @@
+<Grid columns="equal">
+  <Grid.Row>
+    <Grid.Column>
+      <Segment inverted />
+    </Grid.Column>
+
+    <Grid.Column>
+      <Segment inverted />
+    </Grid.Column>
+  </Grid.Row>
+</Grid>
+
+
+
+
+
+
+
 import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
@@ -27,7 +45,6 @@ export default class HomeComponent extends Component {
       socket: null, //socketIo
       user: null, //socketIo
       error: '',
-      room: '',
 
       activeItem: '',
       selectedPokemon: [],
@@ -78,7 +95,7 @@ export default class HomeComponent extends Component {
   // ************************* SOCKET-IO CODES: ************************* //
 
   componentDidMount() {
-    //this.handle_verifyUser();
+    this.handle_verifyUser();
     //this.add_userToState();
   }
 
@@ -108,12 +125,8 @@ export default class HomeComponent extends Component {
     this.setState({ error });
   };
 
-  handle_room = data => {
-    console.log('my data---', data);
-    this.setState({ room: data.target.value });
-  };
-
   render() {
+    console.log('connectedPlayers*******', this.props.connectedPlayers);
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -161,21 +174,6 @@ export default class HomeComponent extends Component {
             </Grid>
 
             <br />
-
-            <Menu compact onClick={this.handle_room}>
-              <Menu.Item as="a">
-                <Icon name="mail" /> Messages
-                <Label color="red" floating>
-                  22
-                </Label>
-              </Menu.Item>
-              <Menu.Item as="a">
-                <Icon name="users" /> Friends
-                <Label color="teal" floating>
-                  22
-                </Label>
-              </Menu.Item>
-            </Menu>
 
             <Grid centered padded columns={4}>
               <Grid.Row>

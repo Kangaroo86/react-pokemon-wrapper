@@ -2,7 +2,7 @@ import getPokemonObj from '../../api/getPokemonObj';
 import getDefaultPokemon from '../../api/getDefaultPokemon';
 
 export default function getPokemonObjProcess() {
-  return (dispatch, getState) => {
+  return (dispatch, getState, socket) => {
     const scope = {};
 
     return getDefaultPokemon()

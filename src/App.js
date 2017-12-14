@@ -18,7 +18,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <Provider store={store}>
+        <Provider store={store} socket={this.props.socket}>
           <Router>
             <Switch>
               <Route
@@ -30,13 +30,19 @@ export default class App extends Component {
               <Route
                 exact
                 path="/home"
-                component={HomeContainer} //ok
+                // render={({ match, history }) =>
+                //   <HomeContainer
+                //     {...this.props}
+                //     history={history}
+                //     match={match}
+                //   />}
+                component={HomeContainer}
                 history={history}
               />
               <Route
                 exact
                 path="/decks/:deckId/update"
-                component={UpdateDeckPageContainer} //ok
+                component={UpdateDeckPageContainer}
                 history={history}
               />
               <Route
@@ -50,6 +56,12 @@ export default class App extends Component {
                 path="/decks/:deckId/battle"
                 component={BattlePageContainer} //pending
                 history={history}
+                // render={({ match, history }) =>
+                //   <BattlePageContainer
+                //     {...this.props}
+                //     history={history}
+                //     match={match}
+                //   />} //passing props socket
               />
             </Switch>
           </Router>
