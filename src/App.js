@@ -30,12 +30,6 @@ export default class App extends Component {
               <Route
                 exact
                 path="/home"
-                // render={({ match, history }) =>
-                //   <HomeContainer
-                //     {...this.props}
-                //     history={history}
-                //     match={match}
-                //   />}
                 component={HomeContainer}
                 history={history}
               />
@@ -56,12 +50,6 @@ export default class App extends Component {
                 path="/decks/:deckId/battle"
                 component={BattlePageContainer} //pending
                 history={history}
-                // render={({ match, history }) =>
-                //   <BattlePageContainer
-                //     {...this.props}
-                //     history={history}
-                //     match={match}
-                //   />} //passing props socket
               />
             </Switch>
           </Router>

@@ -7,17 +7,30 @@ export default function rootReducer(
     userSignIn: {},
     errorMessage: null,
     users: [],
-    socket: null
-    //connectedPlayers: []
+    socket: null,
+    requestBattleObj: {},
+    createBattleObj: {},
+    battleMessage: '', //delete? handled by socket
+    getMessage: [] //delete? handled by socket
   },
   action
 ) {
   switch (action.type) {
-    // case 'CONNECTED_PLAYERS':
-    //   return { ...currentState, connectedPlayers: [] };
+    case 'CREATE_BATTLE':
+      return { ...currentState, createBattleObj: action.createBattleObj };
+
+    case 'REQUEST_BATTLE':
+      return { ...currentState, requestBattleObj: action.requestBattleObj };
+
+    //delete? handled by socket
+    case 'GET_MESSAGE':
+      return { ...currentState, getMessage: action.textMessage };
+
+    //delete? handled by socket
+    case 'CREATE_MESSAGE':
+      return { ...currentState, battleMessage: action.textMessage };
 
     case 'FETCHED_SOCKET':
-      console.log('current state**********', action.socket);
       return { ...currentState, socket: action.socket };
 
     case 'FETCHED_USERS':
