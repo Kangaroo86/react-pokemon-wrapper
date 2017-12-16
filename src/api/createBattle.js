@@ -3,7 +3,7 @@ import env from '../env';
 export default function createBattle(userId) {
   const storedToken = localStorage.getItem('token');
 
-  return fetch(`${env.API_BASE_URL}/battle/battleId`, {
+  return fetch(`${env.API_BASE_URL}/battle/${userId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

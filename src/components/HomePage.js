@@ -12,15 +12,21 @@ export default function SignInPage({
   update_Decks,
   userSignIn,
   signOut,
+  createBattleObj,
   history,
   match,
   socket,
+  create_Battle,
+  request_Battle,
   connectedPlayers,
   location
 }) {
   return (
     <div>
       <HomeComponent
+        createBattleObj={createBattleObj}
+        request_Battle={request_Battle}
+        create_Battle={create_Battle}
         connectedPlayers={connectedPlayers}
         userSignIn={userSignIn}
         socket={socket}

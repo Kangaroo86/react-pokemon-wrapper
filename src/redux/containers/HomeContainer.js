@@ -7,19 +7,19 @@ import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import deleteDecksProcess from '../thunks/deleteDecksProcess';
 import updateDecksProcess from '../thunks/updateDecksProcess';
 import socketProcess from '../thunks/socketProcess';
+import createBattleProcess from '../thunks/createBattleProcess'; //wip
+import requestBattleProcess from '../thunks/requestBattleProcess';
 //import { USER_CONNECTED } from '../serverChat/Events';
 
 function mapStateToProps(state, ownProps) {
-  // console.log('dispatch------', state);
-  console.log('state from container------', state.socket);
   return {
     pokemonObj: state.pokemonObj,
     pokemonArray: state.pokemonArray,
     defaultPokemonArray: state.defaultPokemonArray,
     userDecks: state.userDecks,
     userSignIn: state.userSignIn,
-    socket: state.socket
-    //connectedPlayers: state.connectedPlayers
+    socket: state.socket,
+    createBattleObj: state.createBattleObj
   };
 }
 
@@ -36,7 +36,9 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch(updateDecksProcess(id, deckName, pokemonIds));
     },
     signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
-    init_socket: () => dispatch(socketProcess())
+    init_socket: () => dispatch(socketProcess()),
+    create_Battle: userId => dispatch(createBattleProcess(userId)), //wip
+    request_Battle: userId => dispatch(requestBattleProcess(userId))
   };
 }
 

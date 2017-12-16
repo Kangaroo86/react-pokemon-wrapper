@@ -57,8 +57,11 @@ export default class HomeComponent extends Component {
     this.setState({ redirect: true }); //current this is not doing anything
   };
 
-  handle_battlePage = (event, data) => {
-    //this.handle_verifyUser();
+  handle_createBattle = (event, data) => {
+    const { create_Battle } = this.props;
+    const userOneId = localStorage.getItem('userId');
+
+    create_Battle(userOneId);
     this.props.history.push(`/decks/${data.value.id}/battle`);
   };
 
@@ -83,10 +86,33 @@ export default class HomeComponent extends Component {
     this.socket_verifyUser(); //does the 2nd user execute DidMount
   }
 
+  // socket_createBattle = (event, data) => {
+  //   const { create_Battle, socket } = this.props;
+  //   const userOneId = localStorage.getItem('userId');
+  //   create_Battle(userOneId);
+  //
+  //   socket.emit('VERIFY_USERTWO_COLUMN', userOneId);
+  //   socket.on('USERTWO_COLUMN_STATUS', status => {
+  //     console.log('my status----', typeof status, status);
+  //     if (status === true) {
+  //       this.props.history.push(`/decks/${data.value.id}/battle`);
+  //     }
+  //   });
+  // };
+
+  //remove?
+  socket_requestBattle = () => {
+    const { request_Battle } = this.props;
+    const id = localStorage.getItem('userId');
+    request_Battle(id);
+  };
+
+  //remove?
   setUser = user => {
     localStorage.setItem('userIdSocket', user.id);
   };
 
+  //remove
   socket_verifyUser = event => {
     const { userSignIn, socket } = this.props;
     let userIdSocket = localStorage.getItem('userIdSocket');
@@ -99,6 +125,7 @@ export default class HomeComponent extends Component {
     }
   };
 
+  //remove?
   socket_disconnect = () => {
     const { userSignIn, socket } = this.props;
     let userIdSocket = localStorage.getItem('userIdSocket');
@@ -107,12 +134,14 @@ export default class HomeComponent extends Component {
     }
   };
 
-  //WIP allow user to choose a room
+  //WIP allow user to choose a room remove?
   socket_room = data => {
     this.setState({ room: data.target.value });
   };
 
   render() {
+    let { userDecks } = this.props;
+    console.log('this.props.userDecks-------', this.props.userDecks);
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -161,15 +190,16 @@ export default class HomeComponent extends Component {
 
             <br />
 
-            <Menu compact onClick={this.handle_room}>
-              <Menu.Item as="a">
-                <Icon name="mail" /> Messages
+            <Menu inverted compact onClick={this.handle_room}>
+              <Menu.Item as="a" inverted active="createBattle" color={'teal'}>
+                <Icon size="big" name="game" color={'black'} /> CREATE BATTLE
                 <Label color="red" floating>
                   22
                 </Label>
               </Menu.Item>
-              <Menu.Item as="a">
-                <Icon name="users" /> Friends
+
+              <Menu.Item as="a" onClick={this.socket_requestBattle}>
+                <Icon size="big" name="users" /> REQUEST BATTLE
                 <Label color="teal" floating>
                   22
                 </Label>
@@ -219,8 +249,8 @@ export default class HomeComponent extends Component {
                               value={deck}
                               basic
                               color="green"
-                              onClick={this.handle_battlePage}>
-                              READY
+                              onClick={this.handle_createBattle}>
+                              CREATE BATTLE
                             </Button>
                             <Button
                               value={deck}

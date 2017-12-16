@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import {
   MESSAGE_RECIEVED,
   MESSAGE_SEND,
-  USER_CONNECTED,
-  USER_DISCONNECTED
+  USER_CONNECTED
 } from '../serverChat/Events';
 import bg2 from '../images/bg2.jpg';
 import jenny from '../images/jenny.jpg';
