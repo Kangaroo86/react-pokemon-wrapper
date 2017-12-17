@@ -59,9 +59,11 @@ export default class HomeComponent extends Component {
 
   handle_createBattle = (event, data) => {
     const { create_Battle } = this.props;
-    const userOneId = localStorage.getItem('userId');
+    const id = localStorage.getItem('userId');
 
-    create_Battle(userOneId);
+    create_Battle(id);
+
+    localStorage.setItem('deckSelected', data.value.id);
     this.props.history.push(`/decks/${data.value.id}/battle`);
   };
 
@@ -71,77 +73,19 @@ export default class HomeComponent extends Component {
     event.preventDefault();
     this.setState({ activeItem: name });
 
+    localStorage.removeItem('currentBattleId');
+    localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('userIdSocket');
 
-    this.socket_disconnect();
     this.props.signOut();
     this.props.history.push(`/`);
   };
 
   // ************************* SOCKET-IO CODES: ************************* //
 
-  componentDidMount() {
-    this.socket_verifyUser(); //does the 2nd user execute DidMount
-  }
-
-  // socket_createBattle = (event, data) => {
-  //   const { create_Battle, socket } = this.props;
-  //   const userOneId = localStorage.getItem('userId');
-  //   create_Battle(userOneId);
-  //
-  //   socket.emit('VERIFY_USERTWO_COLUMN', userOneId);
-  //   socket.on('USERTWO_COLUMN_STATUS', status => {
-  //     console.log('my status----', typeof status, status);
-  //     if (status === true) {
-  //       this.props.history.push(`/decks/${data.value.id}/battle`);
-  //     }
-  //   });
-  // };
-
-  //remove?
-  socket_requestBattle = () => {
-    const { request_Battle } = this.props;
-    const id = localStorage.getItem('userId');
-    request_Battle(id);
-  };
-
-  //remove?
-  setUser = user => {
-    localStorage.setItem('userIdSocket', user.id);
-  };
-
-  //remove
-  socket_verifyUser = event => {
-    const { userSignIn, socket } = this.props;
-    let userIdSocket = localStorage.getItem('userIdSocket');
-
-    socket && socket.emit(VERIFY_USER, userSignIn.name, userIdSocket);
-    if (socket && userIdSocket === 'null') {
-      socket.on(USER_CREATED, user => {
-        this.setUser(user);
-      });
-    }
-  };
-
-  //remove?
-  socket_disconnect = () => {
-    const { userSignIn, socket } = this.props;
-    let userIdSocket = localStorage.getItem('userIdSocket');
-    if (!userIdSocket) {
-      socket.emit(LOGOUT, userSignIn.name);
-    }
-  };
-
-  //WIP allow user to choose a room remove?
-  socket_room = data => {
-    this.setState({ room: data.target.value });
-  };
-
   render() {
-    let { userDecks } = this.props;
-    console.log('this.props.userDecks-------', this.props.userDecks);
     return (
       <Grid columns="equal">
         <Grid.Row>

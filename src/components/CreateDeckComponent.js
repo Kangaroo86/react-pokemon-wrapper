@@ -79,8 +79,11 @@ export default class CreateDeckComponent extends Component {
   handle_signOut = (event, { name }) => {
     event.preventDefault();
     this.setState({ activeItem: name });
+    localStorage.removeItem('currentBattleId');
+    localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userIdSocket');
     this.props.signOut();
     this.props.history.push(`/`);
   };

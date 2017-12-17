@@ -1,21 +1,34 @@
 export default function rootReducer(
   currentState = {
-    pokemonArray: [],
+    battleMessage: '', //delete? handled by socket
+    createBattleObj: {},
     defaultPokemonArray: [],
+    errorMessage: null,
+    getMessage: [], //delete? handled by socket
+    getBattleState: {},
+    pokemonArray: [],
+    requestBattleObj: {},
+    socket: null,
+    setBattleState: {},
     userDecks: [],
     userSignup: {},
     userSignIn: {},
-    errorMessage: null,
-    users: [],
-    socket: null,
-    requestBattleObj: {},
-    createBattleObj: {},
-    battleMessage: '', //delete? handled by socket
-    getMessage: [] //delete? handled by socket
+    users: []
   },
   action
 ) {
   switch (action.type) {
+    case 'GET_BATTLE_STATE':
+      console.log('action.battleState-------', action.battleState);
+      console.log(
+        'currentState.getBattleState-------',
+        currentState.getBattleState
+      );
+      return { ...currentState, getBattleState: action.battleState };
+
+    case 'SET_BATTLE_STATE':
+      return { ...currentState, setBattleState: action.battleStateObj };
+
     case 'CREATE_BATTLE':
       return { ...currentState, createBattleObj: action.createBattleObj };
 

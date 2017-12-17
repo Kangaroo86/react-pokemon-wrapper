@@ -1,15 +1,15 @@
 import env from '../env';
 
-export default function createBattle(userId) {
+export default function getBattleState() {
   const storedToken = localStorage.getItem('token');
+  const battleId = localStorage.getItem('currentBattleId');
 
-  return fetch(`${env.API_BASE_URL}/battle/${userId}`, {
-    method: 'POST',
+  return fetch(`${env.API_BASE_URL}/battle/${battleId}/state`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${storedToken}`
-    },
-    body: JSON.stringify({ userOneId: userId })
+    }
   })
     .then(response => {
       return response.json();
@@ -17,5 +17,5 @@ export default function createBattle(userId) {
     .then(data => {
       return data;
     })
-    .catch(err => console.log('API call createBattle failed: ', err));
+    .catch(err => console.log('API call getBattleState failed:', err));
 }

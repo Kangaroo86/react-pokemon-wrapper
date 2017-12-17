@@ -1,19 +1,24 @@
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import BattlePage from '../../components/BattlePage';
+
+import createMessageProcess from '../thunks/createMessageProcess'; //wip
+import createBattleProcess from '../thunks/createBattleProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
-import createMessageProcess from '../thunks/createMessageProcess'; //wip
-import createBattleProcess from '../thunks/createBattleProcess'; //wip
+import getBattleStateProcess from '../thunks/getBattleStateProcess';
+import setBattleStateProcess from '../thunks/setBattleStateProcess';
 
 function mapStateToProps(state, ownProps) {
   return {
-    pokemonArray: state.pokemonArray,
+    createBattleObj: state.createBattleObj,
     defaultPokemonArray: state.defaultPokemonArray,
-    userDecks: state.userDecks,
+    getBattleState: state.getBattleState,
+    pokemonArray: state.pokemonArray,
     userSignIn: state.userSignIn,
-    socket: state.socket,
-    createBattleObj: state.createBattleObj
+    userDecks: state.userDecks,
+    setBattleState: state.setBattleState,
+    socket: state.socket
   };
 }
 
@@ -25,7 +30,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
     get_userDecks: () => dispatch(getUserDecksProcess()),
     create_Message: () => dispatch(createMessageProcess()), //wip
-    create_Battle: () => dispatch(createBattleProcess()) //wip
+    create_Battle: userId => dispatch(createBattleProcess()),
+    get_BattleState: () => dispatch(getBattleStateProcess()),
+    set_BattleState: (battleId, stateObj) => dispatch(setBattleStateProcess())
   };
 }
 

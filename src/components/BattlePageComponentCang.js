@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
-import { MESSAGE_RECIEVED, MESSAGE_SEND } from '../serverChat/Events';
+import pokeball2 from '../images/pokeball2.png';
 import bg2 from '../images/bg2.jpg';
 import jenny from '../images/jenny.jpg';
+import { MESSAGE_SEND, USER_CONNECTED } from '../serverChat/Events';
 import {
   TextArea,
   Card,
@@ -31,52 +31,9 @@ export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
-    let { userDecks, socket, userSignIn, get_BattleState } = this.props;
-    let p1_cards = [];
-    let p2_cards = [];
+    let { getBattleState, get_BattleState } = this.props;
 
     get_BattleState();
-    userDecks.filter(deck => {
-      if (deck.id === Number(this.props.match.params.deckId)) {
-        p1_cards = deck.cards.map((pokeObj, i) => {
-          let updatedStats = {};
-          pokeObj.stats.forEach(statObj => {
-            switch (statObj.stat.name) {
-              case 'hp':
-                updatedStats.hp = statObj.base_stat;
-                updatedStats.total_hp = statObj.base_stat;
-                break;
-              case 'special-defense':
-                updatedStats.spec_def = statObj.base_stat;
-                updatedStats.total_hp = statObj.base_stat;
-                break;
-              case 'special-attack':
-                updatedStats.spec_atk = statObj.base_stat;
-                break;
-              case 'defense':
-                updatedStats.def = statObj.base_stat;
-                break;
-              case 'attack':
-                updatedStats.atk = statObj.base_stat;
-                break;
-              case 'speed':
-                updatedStats.spd = statObj.base_stat;
-                break;
-              default:
-                updatedStats = {};
-            }
-          });
-          return {
-            id: pokeObj.id,
-            name: pokeObj.name,
-            moves: pokeObj.moves,
-            image: pokeObj.sprites.front_default,
-            types: pokeObj.types,
-            stats: updatedStats
-          };
-        });
-      }
-    });
 
     this.state = {
       activeItem: '', //animation
@@ -84,38 +41,28 @@ export default class BattlePageComponent extends Component {
       messages: [], //socket io
       userConnected: [],
 
-      p1_animation: 'shake',
-      p1_duration: 500,
-      p1_visible: true,
+      p1_animation: 'shake', //animation
+      p1_duration: 500, //animation
+      p1_visible: true, //animation
       p1_battle_zone: [],
-      p1_deck_zone: p1_cards,
+      p1_deck_zone: getBattleState.p1_deck_zone,
       p1_grave_yard: [],
+      p1_turn: false,
+      p1_initialized: false,
 
       p2_animation: 'shake',
       p2_duration: 500,
       p2_visible: true,
       p2_battle_zone: [],
-      p2_deck_zone: p1_cards.slice(0), //TODO this is hardcoded. Change me later
-      p2_grave_yard: []
+      p2_deck_zone: getBattleState.p2_deck_zone,
+      p2_grave_yard: [],
+      p2_turn: false,
+      p2_initialized: false
     };
-
-    console.log('p1_cards----------------', p1_cards);
-
-    //receiving message FROM backend
-    //.on means you will receive a callback from the backend with a route called RECEIVE_MESSAGE
-    socket &&
-      socket.on(MESSAGE_RECIEVED, data => {
-        this.setState({ messages: [...this.state.messages, data] });
-      });
-
-    socket &&
-      socket.on('updateChat', (user, data) => {
-        console.log(user, ' and ', data);
-      });
   }
 
   // *********************** PLAYER-1 CODES: *********************** //
-  //p1 select card to battle zone
+  //p1 select a card from deckzone to battlezone
   handle_p1_battle_zone = (event, data) => {
     let { p1_battle_zone, p1_deck_zone } = this.state;
 
@@ -233,40 +180,16 @@ export default class BattlePageComponent extends Component {
   handle_signOut = (event, { name }) => {
     event.preventDefault();
     this.setState({ activeItem: name });
+    localStorage.removeItem('currentBattleId');
+    localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userIdSocket');
     this.props.signOut();
     this.props.history.push(`/`);
   };
 
   // ************************* SOCKET-IO CODES: ************************* //
-
-  //Chat message
-  handle_messageInput = data => {
-    this.setState({ message: data.target.value });
-  };
-
-  //send messages TO-THE backend
-  //.emit means you are SENDING data to backend with specific a route, in this case SEND_MESSAGE
-  handle_sendMessage = event => {
-    event.preventDefault();
-    const { socket, userSignIn } = this.props;
-    let { messages } = this.state;
-
-    socket.emit(MESSAGE_SEND, {
-      author: userSignIn.name,
-      message: this.state.message
-    });
-    this.setState({ message: '' });
-
-    if (messages.length > 3) {
-      messages.splice(0, 1);
-    }
-  };
-
-  // componentDidMount() {
-  //   this.props.get_BattleState();
-  // }
 
   render() {
     let {
@@ -285,8 +208,7 @@ export default class BattlePageComponent extends Component {
       p2_deck_zone
     } = this.state;
 
-    console.log('this.props.getBattleState-------', this.props.getBattleState);
-
+    console.log('p1_deck_zone----------------', p1_deck_zone);
     return (
       <Grid columns="equal">
         <Grid.Row>
