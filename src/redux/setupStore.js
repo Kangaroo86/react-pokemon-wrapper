@@ -7,8 +7,7 @@ import env from '../env'; //socket-io
 const socketUrl = `${env.API_BASE_URL}`;
 const socket = io(socketUrl);
 socket.on('connect', () => {
-  //who is emit 'connect' on the backend
-  console.log('socket from redux----', socket.id);
+  //who emit 'connect' on the backend
   console.log('Socket Connected. Initalized from redux store');
 });
 

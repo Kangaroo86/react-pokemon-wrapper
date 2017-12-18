@@ -1,4 +1,5 @@
 import getBattleState from '../../api/getBattleState';
+import setBattleState from '../../api/setBattleState';
 import getPokemonObj from '../../api/getPokemonObj';
 import getUserDecks from '../../api/getUserDecks';
 
@@ -39,7 +40,7 @@ export default function getBattleStateProcess() {
           let playerNum = Number(localStorage.getItem('playerNum'));
           let deckId = Number(localStorage.getItem('deckSelected'));
 
-          if (battleState === null) {
+          if (!battleState) {
             processDeck = true;
           } else {
             if (playerNum === 1) {
@@ -84,12 +85,11 @@ export default function getBattleStateProcess() {
                         updatedStats = {};
                     }
                   });
+                  //future development. Add more stats to the list
                   return {
                     id: pokeObj.id,
                     name: pokeObj.name,
-                    moves: pokeObj.moves,
                     image: pokeObj.sprites.front_default,
-                    types: pokeObj.types,
                     stats: updatedStats
                   };
                 });
@@ -97,7 +97,9 @@ export default function getBattleStateProcess() {
             });
           }
 
-          if (battleState === null) {
+          console.log('battleState From thunk before----', battleState);
+
+          if (!battleState) {
             battleState = {
               activeItem: '', //animation
               message: '', //socet io
@@ -123,25 +125,24 @@ export default function getBattleStateProcess() {
               p2_initialized: false
             };
           }
-
           if (processDeck) {
             if (playerNum === 1) {
               battleState.p1_deck_zone = playerCards;
               battleState.p1_initialized = true;
+              if (battleState.p2_initialized === true) {
+                battleState.p1_turn = true;
+              }
             } else {
               battleState.p2_deck_zone = playerCards;
               battleState.p2_initialized = true;
+              if (battleState.p1_initialized === true) {
+                battleState.p1_turn = true;
+              }
             }
+            setBattleState(battleState);
           }
-
-          // console.log('playerCards---------', playerCards);
-          // console.log('battleState.........', battleState);
-          // dispatch({ type: 'GET_BATTLE_STATE', getBattleState: battleState });
-        })
-        .then(() => {
-          return getUserDecks().then(result => {
-            console.log('my result--------', result);
-          });
+          console.log('battleState From thunk after----', battleState);
+          dispatch({ type: 'GET_BATTLE_STATE', getBattleState: battleState });
         });
     });
   };

@@ -19,12 +19,7 @@ export default function rootReducer(
 ) {
   switch (action.type) {
     case 'GET_BATTLE_STATE':
-      console.log('action.battleState-------', action.battleState);
-      console.log(
-        'currentState.getBattleState-------',
-        currentState.getBattleState
-      );
-      return { ...currentState, getBattleState: action.battleState };
+      return { ...currentState, getBattleState: action.getBattleState };
 
     case 'SET_BATTLE_STATE':
       return { ...currentState, setBattleState: action.battleStateObj };

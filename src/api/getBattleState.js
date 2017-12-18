@@ -12,9 +12,15 @@ export default function getBattleState() {
     }
   })
     .then(response => {
+      console.log(
+        'response from getState******************',
+        typeof response,
+        response
+      );
       return response.json();
     })
     .then(data => {
+      console.log('data from getState******************', typeof data, data);
       return data;
     })
     .catch(err => console.log('API call getBattleState failed:', err));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
-import { USER_CREATED, VERIFY_USER, LOGOUT } from '../serverChat/Events';
+import {} from '../serverChat/Events';
 import bg1 from '../images/bg1.jpg';
 import jenny from '../images/jenny.jpg';
 import {
@@ -133,9 +133,9 @@ export default class HomeComponent extends Component {
             </Grid>
 
             <br />
-
+            {/*
             <Menu inverted compact onClick={this.handle_room}>
-              <Menu.Item as="a" inverted active="createBattle" color={'teal'}>
+              <Menu.Item as="a" active="createBattle" color={'teal'}>
                 <Icon size="big" name="game" color={'black'} /> CREATE BATTLE
                 <Label color="red" floating>
                   22
@@ -148,7 +148,7 @@ export default class HomeComponent extends Component {
                   22
                 </Label>
               </Menu.Item>
-            </Menu>
+            </Menu> */}
 
             <Grid centered padded columns={4}>
               <Grid.Row>
