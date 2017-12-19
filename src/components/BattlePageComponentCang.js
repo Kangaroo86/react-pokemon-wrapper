@@ -148,6 +148,8 @@ export default class BattlePageComponent extends Component {
       //.on means you will receive a callback from the backend with a route called RECEIVE_MESSAGE
       socket &&
         socket.on(MESSAGE_RECIEVED, data => {
+          // fire thunk process to keep battle in redux state; that way user can leave battle page and come back
+          // without further network interactions
           this.setState({ messages: [...this.state.messages, data] });
         });
 

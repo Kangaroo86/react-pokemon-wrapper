@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import pokeball2 from '../images/pokeball2.png';
 import bg2 from '../images/bg2.jpg';
 import jenny from '../images/jenny.jpg';
-import {} from '../serverChat/Events';
 import {
   TextArea,
   Card,
@@ -32,13 +31,21 @@ export default class BattlePageComponent extends Component {
     super(props);
 
     let {
-      getBattleState
+      getBattleState,
+      socket
       // setBattleState,
       // get_BattleState,
       // set_BattleState
     } = this.props;
 
-    // get_BattleState(); DONT DO THIS
+    //receiving message FROM backend
+    //.on means you will receive a callback from the backend with a route called RECEIVE_MESSAGE
+    socket &&
+      socket.on('MESSAGE_RESPONSE', data => {
+        // fire thunk process to keep battle in redux state; that way user can leave battle page and come back
+        // without further network interactions
+        this.setState({ messages: [...this.state.messages, data] });
+      });
 
     this.state = {
       activeItem: '', //animation
@@ -70,7 +77,7 @@ export default class BattlePageComponent extends Component {
   //p1 select a card from deckzone to battlezone
   handle_p1_select_card = (event, data) => {
     let { p1_battle_zone, p1_deck_zone } = this.state;
-    let { set_BattleState, get_BattleState } = this.props;
+    let { set_BattleState } = this.props;
 
     if (p1_battle_zone.length < 1) {
       this.setState({ p1_battle_zone: [data] });
@@ -84,15 +91,13 @@ export default class BattlePageComponent extends Component {
       this.setState({ p1_deck_zone: updatedDeckZone });
 
       set_BattleState(this.state);
-      get_BattleState();
     }
   };
 
   //p1 inflicts special atks to p2  TODO add more complex battle phase
   handle_p1_specialAtk = (event, data) => {
-    //let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
     let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
-    let { set_BattleState, get_BattleState } = this.props;
+    let { set_BattleState } = this.props;
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
 
@@ -109,13 +114,12 @@ export default class BattlePageComponent extends Component {
 
     this.setState({ p1_turn: false, p2_turn: true });
     set_BattleState(this.state);
-    //get_BattleState(); does p2 see the update if this is not used after p1 atk?
   };
 
   //P1 inflicts normal atk to P2
   handle_p1_atk = (event, data) => {
     let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
-    let { set_BattleState, get_BattleState } = this.props;
+    let { set_BattleState } = this.props;
 
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
@@ -131,14 +135,13 @@ export default class BattlePageComponent extends Component {
 
     this.setState({ p1_turn: false, p2_turn: true });
     set_BattleState(this.state);
-    //get_BattleState(); does p2 see the update if this is not used after p1 atk?
   };
 
   // *********************** PLAYER-2 CODES: *********************** //
   //p2 select card to battle zone
   handle_p2_select_card = (event, data) => {
     let { p2_battle_zone, p2_deck_zone } = this.state;
-    let { set_BattleState, get_BattleState } = this.props;
+    let { set_BattleState } = this.props;
 
     if (p2_battle_zone.length < 1) {
       this.setState({ p2_battle_zone: [data] });
@@ -151,14 +154,13 @@ export default class BattlePageComponent extends Component {
       this.setState({ p2_deck_zone: updatedDeckZone });
 
       set_BattleState(this.state);
-      get_BattleState();
     }
   };
 
   //p2 atks p1 w/ special atk TODO add more complex battle phase
   handle_p2_specialAtk = (event, data) => {
     let { p2_battle_zone, p1_battle_zone, p1_grave_yard } = this.state;
-    let { set_BattleState, get_BattleState } = this.props;
+    let { set_BattleState } = this.props;
 
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
@@ -174,13 +176,12 @@ export default class BattlePageComponent extends Component {
 
     this.setState({ p1_turn: true, p2_turn: false });
     set_BattleState(this.state);
-    //get_BattleState(); does p2 see the update if this is not used after p1 atk?
   };
 
   //P2 inflicts normal atk to P1
   handle_p2_atk = (event, data) => {
     let { p2_battle_zone, p1_battle_zone, p1_grave_yard } = this.state;
-    let { set_BattleState, get_BattleState } = this.props;
+    let { set_BattleState } = this.props;
 
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
@@ -196,7 +197,11 @@ export default class BattlePageComponent extends Component {
 
     this.setState({ p1_turn: true, p2_turn: false });
     set_BattleState(this.state);
-    //get_BattleState(); does p2 see the update if this is not used after p1 atk?
+  };
+
+  handle_ready = (event, data) => {
+    let { listen_For_Updates } = this.props;
+    listen_For_Updates();
   };
 
   // *********************** CSS ANIMATION CODES: *********************** //
@@ -232,13 +237,29 @@ export default class BattlePageComponent extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if(prevProps.getBattleState !== this.props.getBattleState) {
-  //     this.setState({...nextProps.get})
-  //   }
-  // }
-
   // ************************* SOCKET-IO CODES: ************************* //
+
+  //send messages TO-THE backend
+  //.emit means you are SENDING data to backend with specific a route, in this case SEND_MESSAGE
+  handle_sendMessage = event => {
+    event.preventDefault();
+    const battleId = localStorage.getItem('currentBattleId');
+    const userId = localStorage.getItem('userId');
+    const { socket, userSignIn } = this.props;
+    let { messages } = this.state;
+
+    socket.emit('MESSAGE_CREATE', {
+      userId: userId,
+      battleId: battleId,
+      message: this.state.message,
+      author: userSignIn.name
+    });
+    this.setState({ message: '' });
+
+    if (messages.length > 3) {
+      messages.splice(0, 1);
+    }
+  };
 
   render() {
     let {
@@ -250,14 +271,17 @@ export default class BattlePageComponent extends Component {
       p1_visible,
       p1_battle_zone,
       p1_deck_zone,
+      p1_turn,
       p2_animation,
       p2_duration,
       p2_visible,
       p2_battle_zone,
-      p2_deck_zone
+      p2_deck_zone,
+      p2_turn
     } = this.state;
 
     console.log('this.state from BattlePageComponent------------', this.state);
+    console.log('this.props from BattlePageComponent------------', this.props);
 
     return (
       <Grid columns="equal">
@@ -431,9 +455,10 @@ export default class BattlePageComponent extends Component {
                               compact
                               size="medium"
                               inverted
-                              color="brown">
+                              color="brown"
+                              onClick={!p1_turn ? this.handle_ready : {}}>
                               <Icon name="shield" />
-                              DEF
+                              READY
                             </Button>
                           </Button.Group>
                         </Segment>
@@ -579,9 +604,10 @@ export default class BattlePageComponent extends Component {
                               compact
                               size="medium"
                               inverted
-                              color="brown">
+                              color="brown"
+                              onClick={!p2_turn ? this.handle_ready : {}}>
                               <Icon name="shield" />
-                              DEF
+                              READY
                             </Button>
                           </Button.Group>
                         </Segment>

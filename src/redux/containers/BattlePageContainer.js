@@ -8,6 +8,7 @@ import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getBattleStateProcess from '../thunks/getBattleStateProcess';
 import setBattleStateProcess from '../thunks/setBattleStateProcess';
+import listenForUpdatesProcess from '../thunks/listenForUpdatesProcess';
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -32,7 +33,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     create_Message: () => dispatch(createMessageProcess()), //wip
     create_Battle: userId => dispatch(createBattleProcess()),
     get_BattleState: () => dispatch(getBattleStateProcess()),
-    set_BattleState: stateObj => dispatch(setBattleStateProcess())
+    set_BattleState: stateObj => dispatch(setBattleStateProcess()),
+    listen_For_Updates: () => dispatch(listenForUpdatesProcess())
   };
 }
 

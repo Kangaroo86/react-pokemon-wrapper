@@ -1,11 +1,10 @@
-/**how localstorage.getItem work is that we set it with localStorage.setItem().
-Look at SiginInProcess file **/
 import env from '../env';
 
-export default function getMessage(battleId) {
+export default function getMessage() {
   const storedToken = localStorage.getItem('token');
+  const battleId = localStorage.getItem('currentBattleId');
 
-  return fetch(`${env.API_BASE_URL}/message/${battleId}`, {
+  return fetch(`${env.API_BASE_URL}/message/battle/${battleId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

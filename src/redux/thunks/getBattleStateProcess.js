@@ -1,20 +1,19 @@
 import getBattleState from '../../api/getBattleState';
 import setBattleState from '../../api/setBattleState';
-// import getPokemonObj from '../../api/getPokemonObj';
-// import getUserDecks from '../../api/getUserDecks';
 
 export default function getBattleStateProcess() {
   return (dispatch, getState, socket) => {
     const scope = {};
     return getBattleState()
       .then(battleState => {
-        const userDecks = getState().userDecks;
+        const userDecks = getState().userDecks; //you can actually getState from the store this way. wtf?
 
         let processDeck = false;
         let playerCards = [];
         let playerNum = Number(localStorage.getItem('playerNum'));
         let deckId = Number(localStorage.getItem('deckSelected'));
 
+        //initialize deck will battleState is undefine
         if (!battleState) {
           processDeck = true;
         } else {
@@ -29,6 +28,7 @@ export default function getBattleStateProcess() {
           }
         }
 
+        //initializing deck & parsing the data, then push it to playerCards
         if (processDeck) {
           const deck = userDecks.find(deck => deck.id === deckId);
 
@@ -70,9 +70,7 @@ export default function getBattleStateProcess() {
           });
         }
 
-        console.log('battleState From thunk before----', battleState);
-        console.log('playerCards-----------------', playerCards);
-
+        //when battleState is undefine, set it to default
         if (!battleState) {
           battleState = {
             activeItem: '', //animation
@@ -100,6 +98,7 @@ export default function getBattleStateProcess() {
           };
         }
 
+        //initialize P1 & P2 deck to the default battleState above
         if (processDeck) {
           if (playerNum === 1) {
             battleState.p1_deck_zone = playerCards;
@@ -116,10 +115,9 @@ export default function getBattleStateProcess() {
           }
         }
 
-        console.log('battleState middle+++++++++++++++++++', battleState);
-
         scope.battleState = battleState; //need this to make it into an obj since setBattleState returns an array
-        return setBattleState(battleState);
+        console.log('what process deck value-------------', processDeck);
+        return processDeck ? setBattleState(battleState) : {};
       })
       .then(() => {
         const battleState = scope.battleState;
