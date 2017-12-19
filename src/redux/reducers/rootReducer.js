@@ -4,7 +4,7 @@ export default function rootReducer(
     createBattleObj: {},
     defaultPokemonArray: [],
     errorMessage: null,
-    getMessage: [], //delete? handled by socket
+    getTextMessage: [], //delete? handled by socket
     getBattleState: {},
     pokemonArray: [],
     requestBattleObj: {},
@@ -19,10 +19,6 @@ export default function rootReducer(
 ) {
   switch (action.type) {
     case 'GET_BATTLE_STATE':
-      console.log(
-        'GET_BATTLE_STATE----------------FROM ROOT',
-        action.getBattleState
-      );
       return { ...currentState, getBattleState: action.getBattleState };
 
     case 'SET_BATTLE_STATE':
@@ -36,7 +32,7 @@ export default function rootReducer(
 
     //delete? handled by socket
     case 'GET_MESSAGE':
-      return { ...currentState, getMessage: action.textMessage };
+      return { ...currentState, getTextMessage: action.getTextMessage };
 
     //delete? handled by socket
     case 'CREATE_MESSAGE':

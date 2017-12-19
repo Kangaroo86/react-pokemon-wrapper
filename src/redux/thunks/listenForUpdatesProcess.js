@@ -1,21 +1,12 @@
-//import requestBattle from '../../api/requestBattle';
-//import io from 'socket.io-client'; //socket-io
-//import env from '../env'; //socket-io
-//import getBattleStateProcess from './getBattleStateProcess';
 import getBattleState from '../../api/getBattleState';
 
 export default function listenForUpdatesProcess() {
   return (dispatch, getState, socket) => {
-    console.log('socket--------------', socket);
-
     socket.on('REFRESH_STATE', () => {
-      console.log('do i get the MESAGE AT all **************');
+      console.log('handle_ready was clicked');
       getBattleState().then(battleState => {
         socket.emit('REFRESH_DONE');
-        console.log(
-          'battleState  from listendforUpdate----------',
-          battleState
-        );
+        console.log('REFRESH_DONE: ', battleState);
         dispatch({ type: 'GET_BATTLE_STATE', getBattleState: battleState });
       });
     });

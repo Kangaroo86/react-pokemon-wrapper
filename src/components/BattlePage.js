@@ -7,9 +7,11 @@ export default function IndexPage({
   defaultPokemonArray,
   getBattleState,
   get_BattleState,
+  getTextMessage,
   history,
   location,
   listen_For_Updates,
+  listen_For_Message_Update,
   match,
   onPokemonObj,
   pokemonArray,
@@ -27,9 +29,11 @@ export default function IndexPage({
       defaultPokemonArray={defaultPokemonArray}
       getBattleState={getBattleState}
       get_BattleState={get_BattleState}
+      getTextMessage={getTextMessage}
       history={history}
       location={location}
       listen_For_Updates={listen_For_Updates}
+      listen_For_Message_Update={listen_For_Message_Update}
       match={match}
       onPokemonObj={onPokemonObj}
       pokemonArray={pokemonArray}

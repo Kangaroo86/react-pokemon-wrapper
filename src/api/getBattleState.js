@@ -15,7 +15,6 @@ export default function getBattleState() {
       return response.json();
     })
     .then(data => {
-      //console.log('data from getState******************', typeof data, data);
       return data;
     })
     .catch(err => console.log('API call getBattleState failed:', err));

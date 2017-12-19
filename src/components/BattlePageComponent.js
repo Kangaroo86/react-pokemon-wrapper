@@ -31,8 +31,7 @@ export default class BattlePageComponent extends Component {
     super(props);
 
     let {
-      getBattleState,
-      socket
+      getBattleState
       // setBattleState,
       // get_BattleState,
       // set_BattleState
@@ -40,12 +39,12 @@ export default class BattlePageComponent extends Component {
 
     //receiving message FROM backend
     //.on means you will receive a callback from the backend with a route called RECEIVE_MESSAGE
-    socket &&
-      socket.on('MESSAGE_RESPONSE', data => {
-        // fire thunk process to keep battle in redux state; that way user can leave battle page and come back
-        // without further network interactions
-        this.setState({ messages: [...this.state.messages, data] });
-      });
+    // socket &&
+    //   socket.on('MESSAGE_RESPONSE', data => {
+    //     // fire thunk process to keep battle in redux state; that way user can leave battle page and come back
+    //     // without further network interactions
+    //     this.setState({ messages: [...this.state.messages, data] });
+    //   });
 
     this.state = {
       activeItem: '', //animation
@@ -229,7 +228,7 @@ export default class BattlePageComponent extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps********insde Props', nextProps);
+    //console.log('nextProps********insde Props', nextProps);
     if (nextProps.getBattleState !== this.props.getBattleState) {
       this.setState({
         ...nextProps.getBattleState
@@ -241,24 +240,31 @@ export default class BattlePageComponent extends Component {
 
   //send messages TO-THE backend
   //.emit means you are SENDING data to backend with specific a route, in this case SEND_MESSAGE
+  handle_messageInput = data => {
+    this.setState({ message: data.target.value });
+  };
+
   handle_sendMessage = event => {
     event.preventDefault();
     const battleId = localStorage.getItem('currentBattleId');
     const userId = localStorage.getItem('userId');
-    const { socket, userSignIn } = this.props;
-    let { messages } = this.state;
+    const { userSignIn, listen_For_Message_Update } = this.props;
+    let { message } = this.state;
 
-    socket.emit('MESSAGE_CREATE', {
+    console.log('what is my messages*******', message);
+
+    listen_For_Message_Update({
       userId: userId,
       battleId: battleId,
-      message: this.state.message,
+      message: message,
       author: userSignIn.name
     });
+
     this.setState({ message: '' });
 
-    if (messages.length > 3) {
-      messages.splice(0, 1);
-    }
+    // if (message.length > 3) {
+    //   message.splice(0, 1);
+    // }
   };
 
   render() {
@@ -280,9 +286,10 @@ export default class BattlePageComponent extends Component {
       p2_turn
     } = this.state;
 
-    console.log('this.state from BattlePageComponent------------', this.state);
-    console.log('this.props from BattlePageComponent------------', this.props);
+    let { getTextMessage } = this.props;
 
+    console.log('this.state from BattlePageComponent------------', this.state);
+    console.log('my props for Battle**********', this.props);
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -479,16 +486,16 @@ export default class BattlePageComponent extends Component {
                       </Comment.Content>
                     </Comment>
 
-                    {messages.map(message => {
+                    {getTextMessage.map(message => {
                       return (
                         <Comment>
                           <Comment.Content>
                             <Comment.Avatar src={jenny} />
                             <Comment.Author as="a">
-                              {message.author}
+                              {message.userId}
                             </Comment.Author>
                             <Comment.Text>
-                              {message.message}
+                              {message.text}
                             </Comment.Text>
                           </Comment.Content>
                         </Comment>
