@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
-import {} from '../serverChat/Events';
 import bg1 from '../images/bg1.jpg';
 import jenny from '../images/jenny.jpg';
 import {
@@ -38,7 +37,12 @@ export default class HomeComponent extends Component {
   handle_deleteDecks = data => {
     let deckId = data.target.id;
     this.props.delete_decks(deckId);
+    //this.forceUpdateHandler();
   };
+
+  // forceUpdateHandler = () => {
+  //   this.forceUpdate();
+  // };
 
   onChange_selectedPokemon = data => {
     this.setState({ selectedPokemon: data.target.value });
@@ -80,6 +84,13 @@ export default class HomeComponent extends Component {
     this.props.signOut();
     this.props.history.push(`/`);
   };
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('nextProps********insde Props', nextProps);
+  //   if (nextProps.userDecks !== this.props.userDecks) {
+  //     this.render();
+  //   }
+  // }
 
   // ************************* SOCKET-IO CODES: ************************* //
 

@@ -75,8 +75,7 @@ export default function getBattleStateProcess() {
           battleState = {
             activeItem: '', //animation
             message: '', //socet io
-            messages: [], //socket io
-            userConnected: [],
+            receivedMessages: [], //socket io
 
             p1_animation: 'shake', //animation
             p1_duration: 500, //animation

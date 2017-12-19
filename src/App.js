@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import setupStore from './redux/setupStore';
+import setupStore, { socket } from './redux/setupStore';
+import io from 'socket.io-client'; //socket-io
 
 import CreateDeckContainer from './redux/containers/CreateDeckContainer';
 import BattlePageContainer from './redux/containers/BattlePageContainer';
@@ -13,6 +14,22 @@ import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory();
 
 const store = setupStore();
+socket.on('MESSAGE_RESPONSE', textMessages => {
+  console.log('>>>>>>>>>>>> textmessage', textMessages);
+  store.dispatch({ type: 'GET_MESSAGE', receiveTextMessages: textMessages });
+});
+
+//CREATING A ROOM
+let sockets = io.connect();
+let room = '001';
+
+sockets.on('connect', () => {
+  sockets.emit('room', room);
+});
+
+sockets.on('message', data => {
+  console.log('Income message: ', data);
+});
 
 export default class App extends Component {
   render() {

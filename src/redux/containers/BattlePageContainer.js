@@ -2,7 +2,6 @@ import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import BattlePage from '../../components/BattlePage';
 
-import createMessageProcess from '../thunks/createMessageProcess'; //wip
 import createBattleProcess from '../thunks/createBattleProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
@@ -27,7 +26,6 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    create_Message: () => dispatch(createMessageProcess()), //wip
     create_Battle: userId => dispatch(createBattleProcess(userId)),
     get_userDecks: () => dispatch(getUserDecksProcess()),
     get_BattleState: () => dispatch(getBattleStateProcess()),

@@ -1,14 +1,12 @@
 export default function rootReducer(
   currentState = {
-    battleMessage: '', //delete? handled by socket
     createBattleObj: {},
     defaultPokemonArray: [],
     errorMessage: null,
-    getTextMessage: [], //delete? handled by socket
+    receiveTextMessages: [], //WIP
     getBattleState: {},
     pokemonArray: [],
     requestBattleObj: {},
-    socket: null,
     setBattleState: {},
     userDecks: [],
     userSignup: {},
@@ -30,13 +28,19 @@ export default function rootReducer(
     case 'REQUEST_BATTLE':
       return { ...currentState, requestBattleObj: action.requestBattleObj };
 
-    //delete? handled by socket
+    //WIP
     case 'GET_MESSAGE':
-      return { ...currentState, getTextMessage: action.getTextMessage };
+      return {
+        ...currentState,
+        receiveTextMessages: action.receiveTextMessages
+      };
 
-    //delete? handled by socket
-    case 'CREATE_MESSAGE':
-      return { ...currentState, battleMessage: action.textMessage };
+    //dont need this
+    case 'MESSAGE_CREATED':
+      return {
+        ...currentState,
+        getTextMessage: [...currentState.getTextMessage, action.messageObj]
+      };
 
     case 'FETCHED_SOCKET':
       return { ...currentState, socket: action.socket };
@@ -69,13 +73,17 @@ export default function rootReducer(
       };
 
     case 'CREATE_USER_DECK':
+      console.log(currentState.userDecks, action.deckObj); //it is not returing. TODO
       return {
         ...currentState,
         userDecks: [...currentState.userDecks, action.deckObj]
       };
 
     case 'DELETE_USER_DECK':
-      let deleteDeck = currentState.userDecks.filter(deckObj => {
+      console.log(action.deckId); //it is not return. TODO
+
+      let newDeck = [...currentState.userDecks];
+      let deleteDeck = newDeck.filter(deckObj => {
         return deckObj.id !== action.deckId;
       });
       return {

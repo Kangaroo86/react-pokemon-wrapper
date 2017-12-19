@@ -30,45 +30,13 @@ export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
-    let {
-      getBattleState
-      // setBattleState,
-      // get_BattleState,
-      // set_BattleState
-    } = this.props;
-
-    //receiving message FROM backend
-    //.on means you will receive a callback from the backend with a route called RECEIVE_MESSAGE
-    // socket &&
-    //   socket.on('MESSAGE_RESPONSE', data => {
-    //     // fire thunk process to keep battle in redux state; that way user can leave battle page and come back
-    //     // without further network interactions
-    //     this.setState({ messages: [...this.state.messages, data] });
-    //   });
+    let { getBattleState } = this.props;
 
     this.state = {
       activeItem: '', //animation
       message: '', //socet io
-      messages: [], //socket io
-      userConnected: [],
+      receivedMessages: [], //socket io
       ...getBattleState
-      // p1_animation: getBattleState.p1_animation, //animation
-      // p1_duration: getBattleState.p1_duration, //animation
-      // p1_visible: getBattleState.p1_visible, //animation
-      // p1_battle_zone: getBattleState.p1_battle_zone,
-      // p1_deck_zone: getBattleState.p1_deck_zone,
-      // p1_grave_yard: getBattleState.p1_grave_yard,
-      // p1_turn: getBattleState.p1_turn,
-      // p1_initialized: getBattleState.p1_initialized,
-      //
-      // p2_animation: getBattleState.p2_animation, //animation
-      // p2_duration: getBattleState.p2_duration, //animation
-      // p2_visible: getBattleState.p2_visible, //animation
-      // p2_battle_zone: getBattleState.p2_battle_zone,
-      // p2_deck_zone: getBattleState.p2_deck_zone,
-      // p2_grave_yard: getBattleState.p2_grave_yard,
-      // p2_turn: getBattleState.p2_turn,
-      // p2_initialized: getBattleState.p2_initialized
     };
   }
 
@@ -228,16 +196,17 @@ export default class BattlePageComponent extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    //console.log('nextProps********insde Props', nextProps);
     if (nextProps.getBattleState !== this.props.getBattleState) {
       this.setState({
         ...nextProps.getBattleState
       });
     }
+    if (nextProps.receivedMessages !== this.props.getTextMessage) {
+      this.setState({ receivedMessages: [...nextProps.getTextMessage] });
+    }
   }
 
   // ************************* SOCKET-IO CODES: ************************* //
-
   //send messages TO-THE backend
   //.emit means you are SENDING data to backend with specific a route, in this case SEND_MESSAGE
   handle_messageInput = data => {
@@ -251,27 +220,21 @@ export default class BattlePageComponent extends Component {
     const { userSignIn, listen_For_Message_Update } = this.props;
     let { message } = this.state;
 
-    console.log('what is my messages*******', message);
-
     listen_For_Message_Update({
       userId: userId,
       battleId: battleId,
       message: message,
-      author: userSignIn.name
+      name: userSignIn.name
     });
 
     this.setState({ message: '' });
-
-    // if (message.length > 3) {
-    //   message.splice(0, 1);
-    // }
   };
 
   render() {
     let {
       activeItem,
       message,
-      messages,
+      receivedMessages,
       p1_animation,
       p1_duration,
       p1_visible,
@@ -286,9 +249,7 @@ export default class BattlePageComponent extends Component {
       p2_turn
     } = this.state;
 
-    let { getTextMessage } = this.props;
-
-    console.log('this.state from BattlePageComponent------------', this.state);
+    //console.log('this.state from BattlePageComponent------------', this.state);
     console.log('my props for Battle**********', this.props);
     return (
       <Grid columns="equal">
@@ -478,21 +439,13 @@ export default class BattlePageComponent extends Component {
                       Chat Room
                     </Header>
 
-                    <Comment>
-                      <Comment.Avatar src={jenny} />
-                      <Comment.Content>
-                        <Comment.Author as="a">Matt</Comment.Author>
-                        <Comment.Text>How artistic!</Comment.Text>
-                      </Comment.Content>
-                    </Comment>
-
-                    {getTextMessage.map(message => {
+                    {receivedMessages.map(message => {
                       return (
                         <Comment>
                           <Comment.Content>
                             <Comment.Avatar src={jenny} />
                             <Comment.Author as="a">
-                              {message.userId}
+                              {message.name ? message.name : 'anonymous'}
                             </Comment.Author>
                             <Comment.Text>
                               {message.text}
@@ -514,7 +467,6 @@ export default class BattlePageComponent extends Component {
                         content="SEND"
                         color="blue"
                       />
-                      <Button onClick={this.test} content="test" color="blue" />
                     </Form>
                   </Comment.Group>
 

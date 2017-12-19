@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import pokeball2 from '../images/pokeball2.png';
+import { Link } from 'react-router-dom';
+import { MESSAGE_RECIEVED, MESSAGE_SEND } from '../serverChat/Events';
 import bg2 from '../images/bg2.jpg';
 import jenny from '../images/jenny.jpg';
-import {
-  MESSAGE_RECIEVED,
-  MESSAGE_SEND,
-  USER_CONNECTED
-} from '../serverChat/Events';
 import {
   TextArea,
   Card,
@@ -35,133 +31,91 @@ export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
-    let { userDecks, socket, get_BattleState, set_BattleState } = this.props;
+    let { userDecks, socket, userSignIn, get_BattleState } = this.props;
+    let p1_cards = [];
+    let p2_cards = [];
 
-    let playerCards = [];
-
-    //let battleId = Number(localStorage.getItem('currentBattleId'));
-    let playerNum = Number(localStorage.getItem('playerNum'));
-
-    get_BattleState(28).then(battleState => {
-      let processDeck = false;
-
-      if (battleState === null) {
-        processDeck = true;
-      } else {
-        if (playerNum === 1) {
-          if (!battleState.p1_initialized) {
-            processDeck = true;
-          }
-        } else {
-          if (!battleState.p2_initialized) {
-            processDeck = true;
-          }
-        }
-      }
-
-      if (processDeck) {
-        userDecks.filter(deck => {
-          if (deck.id === Number(this.props.match.params.deckId)) {
-            playerCards = deck.cards.map((pokeObj, i) => {
-              let updatedStats = {};
-              pokeObj.stats.forEach(statObj => {
-                switch (statObj.stat.name) {
-                  case 'hp':
-                    updatedStats.hp = statObj.base_stat;
-                    updatedStats.total_hp = statObj.base_stat;
-                    break;
-                  case 'special-defense':
-                    updatedStats.spec_def = statObj.base_stat;
-                    updatedStats.total_hp = statObj.base_stat;
-                    break;
-                  case 'special-attack':
-                    updatedStats.spec_atk = statObj.base_stat;
-                    break;
-                  case 'defense':
-                    updatedStats.def = statObj.base_stat;
-                    break;
-                  case 'attack':
-                    updatedStats.atk = statObj.base_stat;
-                    break;
-                  case 'speed':
-                    updatedStats.spd = statObj.base_stat;
-                    break;
-                  default:
-                    updatedStats = {};
-                }
-              });
-              return {
-                id: pokeObj.id,
-                name: pokeObj.name,
-                moves: pokeObj.moves,
-                image: pokeObj.sprites.front_default,
-                types: pokeObj.types,
-                stats: updatedStats
-              };
-            });
-          }
+    get_BattleState();
+    userDecks.filter(deck => {
+      if (deck.id === Number(this.props.match.params.deckId)) {
+        p1_cards = deck.cards.map((pokeObj, i) => {
+          let updatedStats = {};
+          pokeObj.stats.forEach(statObj => {
+            switch (statObj.stat.name) {
+              case 'hp':
+                updatedStats.hp = statObj.base_stat;
+                updatedStats.total_hp = statObj.base_stat;
+                break;
+              case 'special-defense':
+                updatedStats.spec_def = statObj.base_stat;
+                updatedStats.total_hp = statObj.base_stat;
+                break;
+              case 'special-attack':
+                updatedStats.spec_atk = statObj.base_stat;
+                break;
+              case 'defense':
+                updatedStats.def = statObj.base_stat;
+                break;
+              case 'attack':
+                updatedStats.atk = statObj.base_stat;
+                break;
+              case 'speed':
+                updatedStats.spd = statObj.base_stat;
+                break;
+              default:
+                updatedStats = {};
+            }
+          });
+          return {
+            id: pokeObj.id,
+            name: pokeObj.name,
+            moves: pokeObj.moves,
+            image: pokeObj.sprites.front_default,
+            types: pokeObj.types,
+            stats: updatedStats
+          };
         });
       }
-
-      if (battleState === null) {
-        battleState = {
-          activeItem: '', //animation
-          message: '', //socet io
-          messages: [], //socket io
-          userConnected: [],
-
-          p1_animation: 'shake', //animation
-          p1_duration: 500, //animation
-          p1_visible: true, //animation
-          p1_battle_zone: [],
-          p1_deck_zone: [],
-          p1_grave_yard: [],
-          p1_turn: false,
-          p1_initialized: false,
-
-          p2_animation: 'shake',
-          p2_duration: 500,
-          p2_visible: true,
-          p2_battle_zone: [],
-          p2_deck_zone: [],
-          p2_grave_yard: [],
-          p2_turn: false,
-          p2_initialized: false
-        };
-      }
-
-      if (processDeck) {
-        if (playerNum === 1) {
-          battleState.p1_deck_zone = playerCards;
-          battleState.p1_initialized = true;
-        } else {
-          battleState.p2_deck_zone = playerCards;
-          battleState.p2_initialized = true;
-        }
-      }
-
-      this.state = battleState;
-
-      console.log('my state----------', this.state);
-
-      //receiving message FROM backend
-      //.on means you will receive a callback from the backend with a route called RECEIVE_MESSAGE
-      socket &&
-        socket.on(MESSAGE_RECIEVED, data => {
-          // fire thunk process to keep battle in redux state; that way user can leave battle page and come back
-          // without further network interactions
-          this.setState({ messages: [...this.state.messages, data] });
-        });
-
-      socket &&
-        socket.on('updateChat', (user, data) => {
-          console.log(user, ' and ', data);
-        });
     });
+
+    this.state = {
+      activeItem: '', //animation
+      message: '', //socet io
+      messages: [], //socket io
+      userConnected: [],
+
+      p1_animation: 'shake',
+      p1_duration: 500,
+      p1_visible: true,
+      p1_battle_zone: [],
+      p1_deck_zone: p1_cards,
+      p1_grave_yard: [],
+
+      p2_animation: 'shake',
+      p2_duration: 500,
+      p2_visible: true,
+      p2_battle_zone: [],
+      p2_deck_zone: p1_cards.slice(0), //TODO this is hardcoded. Change me later
+      p2_grave_yard: []
+    };
+
+    console.log('p1_cards----------------', p1_cards);
+
+    //receiving message FROM backend
+    //.on means you will receive a callback from the backend with a route called RECEIVE_MESSAGE
+    socket &&
+      socket.on(MESSAGE_RECIEVED, data => {
+        this.setState({ messages: [...this.state.messages, data] });
+      });
+
+    socket &&
+      socket.on('updateChat', (user, data) => {
+        console.log(user, ' and ', data);
+      });
   }
 
   // *********************** PLAYER-1 CODES: *********************** //
-  //p1 select a card from deckzone to battlezone
+  //p1 select card to battle zone
   handle_p1_battle_zone = (event, data) => {
     let { p1_battle_zone, p1_deck_zone } = this.state;
 
@@ -279,20 +233,13 @@ export default class BattlePageComponent extends Component {
   handle_signOut = (event, { name }) => {
     event.preventDefault();
     this.setState({ activeItem: name });
-    localStorage.removeItem('currentBattleId');
-    localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
-    localStorage.removeItem('userIdSocket');
     this.props.signOut();
     this.props.history.push(`/`);
   };
 
   // ************************* SOCKET-IO CODES: ************************* //
-  componentDidMount() {
-    //this.add_userToState();
-    //this.USER_DISCONNECTED();
-  }
 
   //Chat message
   handle_messageInput = data => {
@@ -317,16 +264,9 @@ export default class BattlePageComponent extends Component {
     }
   };
 
-  //WIP
-  add_userToState = () => {
-    const { socket } = this.props;
-    let { userConnected } = this.state;
-    socket.on(USER_CONNECTED, data => {
-      this.setState({
-        userConnected: [...userConnected, data]
-      });
-    });
-  };
+  // componentDidMount() {
+  //   this.props.get_BattleState();
+  // }
 
   render() {
     let {
@@ -344,7 +284,7 @@ export default class BattlePageComponent extends Component {
       p2_battle_zone,
       p2_deck_zone
     } = this.state;
-    //console.log('this.props.userDecks----------------', this.props.userDecks);
+
     return (
       <Grid columns="equal">
         <Grid.Row>
