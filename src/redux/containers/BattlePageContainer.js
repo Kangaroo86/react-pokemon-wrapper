@@ -10,7 +10,6 @@ import getBattleStateProcess from '../thunks/getBattleStateProcess';
 import setBattleStateProcess from '../thunks/setBattleStateProcess';
 
 function mapStateToProps(state, ownProps) {
-  console.log('getBattleState FROM Container-------', state.getBattleState);
   return {
     createBattleObj: state.createBattleObj,
     defaultPokemonArray: state.defaultPokemonArray,
@@ -41,8 +40,9 @@ const connectToStore = connect(mapStateToProps, mapDispatchToProps);
 
 const withlifecycle = lifecycle({
   componentDidMount() {
-    this.props.get_userDecks();
-    //this.props.get_BattleState();
+    this.props.get_userDecks().then(() => {
+      this.props.get_BattleState();
+    });
   }
 });
 

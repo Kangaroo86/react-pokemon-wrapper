@@ -59,9 +59,7 @@ export default class HomeComponent extends Component {
 
   handle_createBattle = (event, data) => {
     const { create_Battle } = this.props;
-    const id = localStorage.getItem('userId');
-
-    create_Battle(id);
+    create_Battle();
 
     localStorage.setItem('deckSelected', data.value.id);
     this.props.history.push(`/decks/${data.value.id}/battle`);

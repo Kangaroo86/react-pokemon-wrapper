@@ -1,8 +1,8 @@
 import createBattle from '../../api/createBattle';
 
-export default function createBattleProcess(userId) {
+export default function createBattleProcess() {
   return (dispatch, getState, socket) => {
-    return createBattle(userId)
+    return createBattle()
       .then(createBattleObj => {
         localStorage.setItem('playerNum', createBattleObj.playerNum);
         localStorage.setItem('currentBattleId', createBattleObj.battleId);

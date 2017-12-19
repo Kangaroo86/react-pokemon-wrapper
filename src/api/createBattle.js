@@ -1,15 +1,14 @@
 import env from '../env';
 
-export default function createBattle(userId) {
+export default function createBattle() {
   const storedToken = localStorage.getItem('token');
 
-  return fetch(`${env.API_BASE_URL}/battle/${userId}`, {
+  return fetch(`${env.API_BASE_URL}/battle`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${storedToken}`
-    },
-    body: JSON.stringify({ userOneId: userId })
+    }
   })
     .then(response => {
       return response.json();

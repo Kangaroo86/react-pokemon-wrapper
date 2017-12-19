@@ -32,37 +32,37 @@ export default class BattlePageComponent extends Component {
     super(props);
 
     let {
-      getBattleState,
-      setBattleState,
-      get_BattleState,
-      set_BattleState
+      getBattleState
+      // setBattleState,
+      // get_BattleState,
+      // set_BattleState
     } = this.props;
 
-    get_BattleState();
+    // get_BattleState(); DONT DO THIS
 
     this.state = {
       activeItem: '', //animation
       message: '', //socet io
       messages: [], //socket io
       userConnected: [],
-
-      p1_animation: getBattleState.p1_animation, //animation
-      p1_duration: getBattleState.p1_duration, //animation
-      p1_visible: getBattleState.p1_visible, //animation
-      p1_battle_zone: getBattleState.p1_battle_zone,
-      p1_deck_zone: getBattleState.p1_deck_zone,
-      p1_grave_yard: getBattleState.p1_grave_yard,
-      p1_turn: getBattleState.p1_turn,
-      p1_initialized: getBattleState.p1_initialized,
-
-      p2_animation: getBattleState.p2_animation, //animation
-      p2_duration: getBattleState.p2_duration, //animation
-      p2_visible: getBattleState.p2_visible, //animation
-      p2_battle_zone: getBattleState.p2_battle_zone,
-      p2_deck_zone: getBattleState.p2_deck_zone,
-      p2_grave_yard: getBattleState.p2_grave_yard,
-      p2_turn: getBattleState.p2_turn,
-      p2_initialized: getBattleState.p2_initialized
+      ...getBattleState
+      // p1_animation: getBattleState.p1_animation, //animation
+      // p1_duration: getBattleState.p1_duration, //animation
+      // p1_visible: getBattleState.p1_visible, //animation
+      // p1_battle_zone: getBattleState.p1_battle_zone,
+      // p1_deck_zone: getBattleState.p1_deck_zone,
+      // p1_grave_yard: getBattleState.p1_grave_yard,
+      // p1_turn: getBattleState.p1_turn,
+      // p1_initialized: getBattleState.p1_initialized,
+      //
+      // p2_animation: getBattleState.p2_animation, //animation
+      // p2_duration: getBattleState.p2_duration, //animation
+      // p2_visible: getBattleState.p2_visible, //animation
+      // p2_battle_zone: getBattleState.p2_battle_zone,
+      // p2_deck_zone: getBattleState.p2_deck_zone,
+      // p2_grave_yard: getBattleState.p2_grave_yard,
+      // p2_turn: getBattleState.p2_turn,
+      // p2_initialized: getBattleState.p2_initialized
     };
   }
 
@@ -223,6 +223,21 @@ export default class BattlePageComponent extends Component {
     this.props.history.push(`/`);
   };
 
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps********insde Props', nextProps);
+    if (nextProps.getBattleState !== this.props.getBattleState) {
+      this.setState({
+        ...nextProps.getBattleState
+      });
+    }
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if(prevProps.getBattleState !== this.props.getBattleState) {
+  //     this.setState({...nextProps.get})
+  //   }
+  // }
+
   // ************************* SOCKET-IO CODES: ************************* //
 
   render() {
@@ -242,10 +257,7 @@ export default class BattlePageComponent extends Component {
       p2_deck_zone
     } = this.state;
 
-    console.log(
-      'BattleState FROM battlePage Comp****************',
-      this.props.getBattleState
-    );
+    console.log('this.state from BattlePageComponent------------', this.state);
 
     return (
       <Grid columns="equal">
