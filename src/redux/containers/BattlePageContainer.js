@@ -15,12 +15,11 @@ function mapStateToProps(state, ownProps) {
     createBattleObj: state.createBattleObj,
     defaultPokemonArray: state.defaultPokemonArray,
     getBattleState: state.getBattleState,
-    getTextMessage: state.getTextMessage,
+    receiveTextMessages: state.receiveTextMessages,
     pokemonArray: state.pokemonArray,
     userSignIn: state.userSignIn,
     userDecks: state.userDecks,
-    setBattleState: state.setBattleState,
-    socket: state.socket
+    setBattleState: state.setBattleState
   };
 }
 

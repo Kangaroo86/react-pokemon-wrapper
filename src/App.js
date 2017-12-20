@@ -14,22 +14,26 @@ import createBrowserHistory from 'history/createBrowserHistory';
 const history = createBrowserHistory();
 
 const store = setupStore();
+
 socket.on('MESSAGE_RESPONSE', textMessages => {
   console.log('>>>>>>>>>>>> textmessage', textMessages);
-  store.dispatch({ type: 'GET_MESSAGE', receiveTextMessages: textMessages });
+  store.dispatch({
+    type: 'RECEIVE_MESSAGE',
+    receiveTextMessages: textMessages
+  });
 });
 
 //CREATING A ROOM
-let sockets = io.connect();
-let room = '001';
-
-sockets.on('connect', () => {
-  sockets.emit('room', room);
-});
-
-sockets.on('message', data => {
-  console.log('Income message: ', data);
-});
+//let socket = io.connect();
+// let room = 'testroom';
+//
+// socket.on('connect', () => {
+//   socket.emit('room', room);
+// });
+//
+// socket.on('message', data => {
+//   console.log('Income message: ', data);
+// });
 
 export default class App extends Component {
   render() {

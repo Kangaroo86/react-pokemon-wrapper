@@ -201,8 +201,8 @@ export default class BattlePageComponent extends Component {
         ...nextProps.getBattleState
       });
     }
-    if (nextProps.receivedMessages !== this.props.getTextMessage) {
-      this.setState({ receivedMessages: [...nextProps.getTextMessage] });
+    if (nextProps.receivedMessages !== this.props.receiveTextMessages) {
+      this.setState({ receivedMessages: [...nextProps.receiveTextMessages] });
     }
   }
 
@@ -250,7 +250,7 @@ export default class BattlePageComponent extends Component {
     } = this.state;
 
     //console.log('this.state from BattlePageComponent------------', this.state);
-    console.log('my props for Battle**********', this.props);
+    console.log('my props for Battle COMP**********', this.props);
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -420,11 +420,11 @@ export default class BattlePageComponent extends Component {
                               ATK
                             </Button>
                             <Button
+                              onClick={!p1_turn ? this.handle_ready : null}
                               compact
                               size="medium"
                               inverted
-                              color="brown"
-                              onClick={!p1_turn ? this.handle_ready : {}}>
+                              color="brown">
                               <Icon name="shield" />
                               READY
                             </Button>
@@ -560,11 +560,11 @@ export default class BattlePageComponent extends Component {
                               ATK
                             </Button>
                             <Button
+                              onClick={!p2_turn ? this.handle_ready : null}
                               compact
                               size="medium"
                               inverted
-                              color="brown"
-                              onClick={!p2_turn ? this.handle_ready : {}}>
+                              color="brown">
                               <Icon name="shield" />
                               READY
                             </Button>

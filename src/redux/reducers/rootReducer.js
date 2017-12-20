@@ -29,7 +29,7 @@ export default function rootReducer(
       return { ...currentState, requestBattleObj: action.requestBattleObj };
 
     //WIP
-    case 'GET_MESSAGE':
+    case 'RECEIVE_MESSAGE':
       return {
         ...currentState,
         receiveTextMessages: action.receiveTextMessages
