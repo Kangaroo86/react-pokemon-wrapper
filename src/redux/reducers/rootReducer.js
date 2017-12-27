@@ -3,7 +3,7 @@ export default function rootReducer(
     createBattleObj: {},
     defaultPokemonArray: [],
     errorMessage: null,
-    receiveTextMessages: [], //WIP
+    messages: [], //WIP
     getBattleState: {},
     pokemonArray: [],
     requestBattleObj: {},
@@ -29,10 +29,10 @@ export default function rootReducer(
       return { ...currentState, requestBattleObj: action.requestBattleObj };
 
     //WIP
-    case 'RECEIVE_MESSAGE':
+    case 'GET_ALL_MESSAGES':
       return {
         ...currentState,
-        receiveTextMessages: action.receiveTextMessages
+        messages: action.messages
       };
 
     //dont need this

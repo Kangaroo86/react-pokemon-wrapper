@@ -1,6 +1,6 @@
 import env from '../env';
 
-export default function getMessage() {
+export default function getAllMessages() {
   const storedToken = localStorage.getItem('token');
   const battleId = localStorage.getItem('currentBattleId');
 

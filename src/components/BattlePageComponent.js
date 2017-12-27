@@ -201,9 +201,21 @@ export default class BattlePageComponent extends Component {
         ...nextProps.getBattleState
       });
     }
-    if (nextProps.receivedMessages !== this.props.receiveTextMessages) {
-      this.setState({ receivedMessages: [...nextProps.receiveTextMessages] });
+    if (this.props.messages !== nextProps.receivedMessages) {
+      this.setState({
+        receivedMessages: [...this.state.receivedMessages, nextProps.messages]
+      });
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('componentWillUpdate nextProps----------', nextProps);
+    console.log('componentWillUpdate nextState----------', nextState);
+    // if (this.props.messages !== nextProps.receivedMessages) {
+    //   this.setState({
+    //     receivedMessages: [...this.state.receivedMessages, nextProps.messages]
+    //   });
+    // }
   }
 
   // ************************* SOCKET-IO CODES: ************************* //
@@ -223,7 +235,7 @@ export default class BattlePageComponent extends Component {
     listen_For_Message_Update({
       userId: userId,
       battleId: battleId,
-      message: message,
+      text: message,
       name: userSignIn.name
     });
 
@@ -248,6 +260,8 @@ export default class BattlePageComponent extends Component {
       p2_deck_zone,
       p2_turn
     } = this.state;
+
+    let { messages } = this.props;
 
     //console.log('this.state from BattlePageComponent------------', this.state);
     console.log('my props for Battle COMP**********', this.props);
@@ -439,22 +453,22 @@ export default class BattlePageComponent extends Component {
                       Chat Room
                     </Header>
 
-                    {receivedMessages.map(message => {
-                      return (
-                        <Comment>
-                          <Comment.Content>
-                            <Comment.Avatar src={jenny} />
-                            <Comment.Author as="a">
-                              {message.name ? message.name : 'anonymous'}
-                            </Comment.Author>
-                            <Comment.Text>
-                              {message.text}
-                            </Comment.Text>
-                          </Comment.Content>
-                        </Comment>
-                      );
-                    })}
-
+                    {receivedMessages &&
+                      receivedMessages.map(message => {
+                        return (
+                          <Comment>
+                            <Comment.Content>
+                              <Comment.Avatar src={jenny} />
+                              <Comment.Author as="a">
+                                {message.name ? message.name : 'anonymous'}
+                              </Comment.Author>
+                              <Comment.Text>
+                                {message.text}
+                              </Comment.Text>
+                            </Comment.Content>
+                          </Comment>
+                        );
+                      })}
                     <Form>
                       <Form.Field
                         control={TextArea}

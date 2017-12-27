@@ -4,6 +4,7 @@ import BattlePage from '../../components/BattlePage';
 
 import createBattleProcess from '../thunks/createBattleProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
+import getAllMessagesProcess from '../thunks/getAllMessagesProcess';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getBattleStateProcess from '../thunks/getBattleStateProcess';
 import setBattleStateProcess from '../thunks/setBattleStateProcess';
@@ -15,7 +16,7 @@ function mapStateToProps(state, ownProps) {
     createBattleObj: state.createBattleObj,
     defaultPokemonArray: state.defaultPokemonArray,
     getBattleState: state.getBattleState,
-    receiveTextMessages: state.receiveTextMessages,
+    messages: state.messages,
     pokemonArray: state.pokemonArray,
     userSignIn: state.userSignIn,
     userDecks: state.userDecks,
@@ -28,6 +29,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     create_Battle: userId => dispatch(createBattleProcess(userId)),
     get_userDecks: () => dispatch(getUserDecksProcess()),
     get_BattleState: () => dispatch(getBattleStateProcess()),
+    get_All_Messages: () => dispatch(getAllMessagesProcess()),
     listen_For_Updates: () => dispatch(listenForUpdatesProcess()),
     listen_For_Message_Update: messageObj => {
       return dispatch(listenForMessageUpdateProcess(messageObj));
@@ -47,6 +49,8 @@ const withlifecycle = lifecycle({
     this.props.get_userDecks().then(() => {
       this.props.get_BattleState();
     });
+
+    //this.props.get_All_Messages();
   }
 });
 

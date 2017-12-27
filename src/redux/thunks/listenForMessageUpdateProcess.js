@@ -2,6 +2,7 @@
 
 export default function listenForMessageUpdateProcess(messageObj) {
   return (dispatch, getState, socket) => {
+    console.log('my socket---------', socket);
     socket.emit('MESSAGE_CREATE', messageObj);
     // missing dispatch
     // dispatch({ type: 'MESSAGE_CREATED', messageObj });//dont need this

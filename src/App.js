@@ -15,11 +15,14 @@ const history = createBrowserHistory();
 
 const store = setupStore();
 
-socket.on('MESSAGE_RESPONSE', textMessages => {
-  console.log('>>>>>>>>>>>> textmessage', textMessages);
+socket.on('MESSAGE_RESPONSE', messageObj => {
+  if (messageObj === null) {
+    messageObj = {};
+  }
+  console.log('>>>>>>>>>>>> textmessage', messageObj);
   store.dispatch({
-    type: 'RECEIVE_MESSAGE',
-    receiveTextMessages: textMessages
+    type: 'GET_ALL_MESSAGES',
+    messages: messageObj
   });
 });
 
