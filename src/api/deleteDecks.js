@@ -2,6 +2,7 @@ import env from '../env';
 
 export default function deleteUserDeck(deckId) {
   const storedToken = localStorage.getItem('token');
+
   return fetch(`${env.API_BASE_URL}/decks/${deckId}`, {
     method: 'DELETE',
     headers: {
@@ -13,7 +14,7 @@ export default function deleteUserDeck(deckId) {
       return response.json();
     })
     .then(result => {
-      return result.deleted;
+      return result;
     })
     .catch(err => console.log('API call deleteDeck failed:', err));
 }

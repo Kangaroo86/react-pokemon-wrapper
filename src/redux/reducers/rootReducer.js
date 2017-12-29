@@ -73,19 +73,19 @@ export default function rootReducer(
       };
 
     case 'CREATE_USER_DECK':
-      console.log(currentState.userDecks, action.deckObj); //it is not returing. TODO
       return {
         ...currentState,
-        userDecks: [...currentState.userDecks, action.deckObj]
+        userDecks: [...currentState.userDecks, action.userDecks]
       };
 
     case 'DELETE_USER_DECK':
-      console.log(action.deckId); //it is not return. TODO
-
-      let newDeck = [...currentState.userDecks];
-      let deleteDeck = newDeck.filter(deckObj => {
+      console.log('DELETE_USER_DECK*********', action.deckId); //it is not return. TODO
+      console.log('currentState.userDecks--------', currentState.userDecks);
+      let currentDecks = [...currentState.userDecks];
+      let deleteDeck = currentDecks.filter(deckObj => {
         return deckObj.id !== action.deckId;
       });
+      console.log('deleteDeck----------', deleteDeck);
       return {
         ...currentState,
         userDecks: deleteDeck

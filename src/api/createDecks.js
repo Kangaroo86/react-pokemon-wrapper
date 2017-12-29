@@ -1,6 +1,12 @@
 import env from '../env';
 
-export default function createUserDeck(deckObj, userId) {
+export default function createUserDeck(
+  deckName,
+  wins,
+  losses,
+  pokemonIds,
+  userId
+) {
   const storedToken = localStorage.getItem('token');
 
   return fetch(`${env.API_BASE_URL}/users/${userId}/decks/`, {
@@ -9,7 +15,13 @@ export default function createUserDeck(deckObj, userId) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${storedToken}`
     },
-    body: JSON.stringify(deckObj)
+    body: JSON.stringify({
+      deckName,
+      wins,
+      losses,
+      pokemonIds,
+      userId
+    })
     /*
     {
       name: 'some name',
@@ -20,8 +32,8 @@ export default function createUserDeck(deckObj, userId) {
     .then(response => {
       return response.json();
     })
-    .then(response => {
-      return response;
+    .then(newDeckObj => {
+      return newDeckObj;
     })
     .catch(err => console.log('API call createDeck failed: ', err));
 }

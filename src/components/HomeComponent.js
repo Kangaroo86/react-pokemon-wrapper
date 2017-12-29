@@ -88,7 +88,7 @@ export default class HomeComponent extends Component {
   // componentWillReceiveProps(nextProps) {
   //   console.log('nextProps********insde Props', nextProps);
   //   if (nextProps.userDecks !== this.props.userDecks) {
-  //     this.render();
+  //     this.props.get_userDecks();
   //   }
   // }
 
@@ -245,7 +245,7 @@ export default class HomeComponent extends Component {
             <Segment inverted vertical style={{ padding: '2em 0em' }}>
               <Container textAlign="center">
                 <Image centered size="mini" src={pokeball2} />
-                <List horizontal inverted divided link>
+                <List horizontal inverted divided>
                   <List.Item>gotta catch em all</List.Item>
                 </List>
               </Container>

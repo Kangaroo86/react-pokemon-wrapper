@@ -46,6 +46,10 @@ const withlifecycle = lifecycle({
   componentDidMount(prevProps, prevState) {
     this.props.get_userDecks();
     this.props.init_socket();
+  },
+  componentDidCatch(error, info) {
+    console.log('error--------', error);
+    console.log('info--------', info);
   }
 });
 

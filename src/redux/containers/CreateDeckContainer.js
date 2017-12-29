@@ -21,8 +21,8 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch(getPokemonObjProcess());
     },
     get_default_pokemon: () => dispatch(getDefaultPokemonProcess()),
-    create_decks: (deckName, pokemonIds, userId) => {
-      dispatch(createDecksProcess(deckName, pokemonIds, userId));
+    create_decks: (deckName, wins, losses, pokemonIds, userId) => {
+      dispatch(createDecksProcess(deckName, wins, losses, pokemonIds, userId));
     },
     signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null })
   };

@@ -62,16 +62,23 @@ export default class CreateDeckComponent extends Component {
 
   //**Create Deck**//
   handle_createDeck = event => {
-    const deckName = this.state.selectedDeckName.trim();
-    const pokemonIds = this.state.selectedPokemon.map(pokemon => pokemon.id);
+    event.preventDefault();
+    let { selectedDeckName, selectedPokemon } = this.state;
+    let { create_decks } = this.props;
+
+    const deckName = selectedDeckName.trim();
+    const wins = 0; //default to 0
+    const losses = 0; //default to 0
+    const pokemonIds = selectedPokemon.map(pokemon => pokemon.id);
     const userId = localStorage.getItem('userId');
-    this.props.create_decks({
-      deckName,
-      pokemonIds,
-      userId
-    });
+
+    create_decks(deckName, wins, losses, pokemonIds, userId);
+
     this.setState({ redirect: true });
-    this.props.history.push(`/home`);
+    this.setState({ selectedPokemon: [] });
+    this.setState({ selectedDeckName: '' });
+
+    //this.props.history.push(`/home`);
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -79,16 +86,22 @@ export default class CreateDeckComponent extends Component {
   handle_signOut = (event, { name }) => {
     event.preventDefault();
     this.setState({ activeItem: name });
+    let { signOut, history } = this.props;
+
     localStorage.removeItem('currentBattleId');
     localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('userIdSocket');
-    this.props.signOut();
-    this.props.history.push(`/`);
+
+    signOut();
+    history.push(`/`);
   };
 
   render() {
+    let { activeItem, selectedPokemon, selectedDeckName } = this.state;
+    let { pokemonArray } = this.props;
+
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -102,7 +115,7 @@ export default class CreateDeckComponent extends Component {
                 <Menu.Item
                   fitted="vertically"
                   name="home"
-                  active={this.state.activeItem === 'home'}
+                  active={activeItem === 'home'}
                   onClick={this.handleItemClick}>
                   <Image
                     size="mini"
@@ -114,14 +127,14 @@ export default class CreateDeckComponent extends Component {
                 <Menu.Item
                   fitted="vertically"
                   name="Create Deck"
-                  active={this.state.activeItem === 'Create Deck'}
+                  active={activeItem === 'Create Deck'}
                   onClick={this.handleItemClick}>
                   <Link to="/createdeck">Create Deck</Link>
                 </Menu.Item>
                 <Menu.Item
                   fitted="vertically"
                   name="signout"
-                  active={this.state.activeItem === 'signout'}
+                  active={activeItem === 'signout'}
                   onClick={this.handle_signOut}>
                   Sign-out
                 </Menu.Item>
@@ -134,8 +147,8 @@ export default class CreateDeckComponent extends Component {
             </Grid>
             <br />
             <Card.Group itemsPerRow={9}>
-              {this.props.pokemonArray &&
-                this.props.pokemonArray.map((character, i) => {
+              {pokemonArray &&
+                pokemonArray.map((character, i) => {
                   //console.log('character--------', character);
                   return (
                     <Card
@@ -146,25 +159,6 @@ export default class CreateDeckComponent extends Component {
                       onClick={this.handle_selectedPokemon}
                     />
                   );
-                  //   <Card
-                  //     key={i}
-                  //     color="red"
-                  //     name={character.name}
-                  //     id={character.id}
-                  //     moves={character.moves
-                  //       .slice(0, 2)
-                  //       .map(result => result.move.name)}
-                  //     stats={character.stats.map(result => {
-                  //       let newState = {};
-                  //       newState.base_stat = result.base_stat;
-                  //       newState.name = result.stat.name;
-                  //       return newState;
-                  //     })}
-                  //     types={character.types.map(result => result.type.name)}
-                  //     image={character.sprites.front_default}
-                  //     onClick={this.handle_selectedPokemon}
-                  //   />
-                  // );
                 })}
             </Card.Group>
             <Divider section />
@@ -180,11 +174,11 @@ export default class CreateDeckComponent extends Component {
                       padding: '2em'
                     }}
                     trigger={<Image src={professorOak} size="medium" />}>
-                    {this.state.selectedPokemon.length < 6
+                    {selectedPokemon.length < 6
                       ? <Popup.Header>- Select at least 6 pokemon</Popup.Header>
                       : 'got your pokemon!!'}
 
-                    {this.state.selectedDeckName === ''
+                    {selectedDeckName === ''
                       ? <Popup.Header>- Provide a deck name</Popup.Header>
                       : 'Good job!!'}
                   </Popup>
@@ -194,13 +188,15 @@ export default class CreateDeckComponent extends Component {
                         <Form.Group widths="equal">
                           <Form.Input
                             label="Deck Name"
+                            type="text"
+                            value={selectedDeckName}
                             onChange={this.handle_selectedDeckName}
                             placeholder="Deck Name"
                             width={2}
                           />
                         </Form.Group>
                         <Form.Checkbox label="I agree to use pokemon for good, not evil" />
-                        <Button type="submit" onClick={this.handle_createDeck}>
+                        <Button type="button" onClick={this.handle_createDeck}>
                           CREATE
                         </Button>
                       </Form>
@@ -208,9 +204,10 @@ export default class CreateDeckComponent extends Component {
                   </Grid.Column>
                   <Grid.Column floated="right" width={6}>
                     <Card.Group itemsPerRow={2}>
-                      {this.state.selectedPokemon.map(character => {
+                      {selectedPokemon.map((character, i) => {
                         return (
                           <Card
+                            key={i}
                             color="blue"
                             image={character.image}
                             id={character.id}
