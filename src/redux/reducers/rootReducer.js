@@ -85,7 +85,7 @@ export default function rootReducer(
       let deleteDeck = currentDecks.filter(deckObj => {
         return deckObj.id !== action.deckId;
       });
-      console.log('deleteDeck----------', deleteDeck);
+      console.log('deleteDeck----------ok', deleteDeck);
       return {
         ...currentState,
         userDecks: deleteDeck
