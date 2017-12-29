@@ -201,22 +201,23 @@ export default class BattlePageComponent extends Component {
         ...nextProps.getBattleState
       });
     }
-    if (this.props.messages !== nextProps.receivedMessages) {
+    if (nextProps.receivedMessages !== this.props.messages) {
       this.setState({
-        receivedMessages: [...this.state.receivedMessages, nextProps.messages]
+        //receivedMessages: [...this.state.receivedMessages, nextProps.messages]
+        receivedMessages: nextProps.messages
       });
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('componentWillUpdate nextProps----------', nextProps);
-    console.log('componentWillUpdate nextState----------', nextState);
-    // if (this.props.messages !== nextProps.receivedMessages) {
-    //   this.setState({
-    //     receivedMessages: [...this.state.receivedMessages, nextProps.messages]
-    //   });
-    // }
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('componentWillUpdate nextProps----------', nextProps);
+  //   console.log('componentWillUpdate nextState----------', nextState);
+  //   if (nextProps.messages === []) {
+  //     this.setState({
+  //       receivedMessages: false
+  //     });
+  //   }
+  // }
 
   // ************************* SOCKET-IO CODES: ************************* //
   //send messages TO-THE backend
@@ -225,7 +226,7 @@ export default class BattlePageComponent extends Component {
     this.setState({ message: data.target.value });
   };
 
-  handle_sendMessage = event => {
+  handle_submitMessage = event => {
     event.preventDefault();
     const battleId = localStorage.getItem('currentBattleId');
     const userId = localStorage.getItem('userId');
@@ -260,8 +261,6 @@ export default class BattlePageComponent extends Component {
       p2_deck_zone,
       p2_turn
     } = this.state;
-
-    let { messages } = this.props;
 
     //console.log('this.state from BattlePageComponent------------', this.state);
     console.log('my props for Battle COMP**********', this.props);
@@ -460,7 +459,7 @@ export default class BattlePageComponent extends Component {
                             <Comment.Content>
                               <Comment.Avatar src={jenny} />
                               <Comment.Author as="a">
-                                {message.name ? message.name : 'anonymous'}
+                                {message.name ? message.name : 'Anonymous'}
                               </Comment.Author>
                               <Comment.Text>
                                 {message.text}
@@ -477,7 +476,7 @@ export default class BattlePageComponent extends Component {
                         onChange={this.handle_messageInput}
                       />
                       <Button
-                        onClick={this.handle_sendMessage}
+                        onClick={this.handle_submitMessage}
                         content="SEND"
                         color="blue"
                       />

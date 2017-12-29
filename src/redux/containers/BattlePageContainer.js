@@ -29,10 +29,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     create_Battle: userId => dispatch(createBattleProcess(userId)),
     get_userDecks: () => dispatch(getUserDecksProcess()),
     get_BattleState: () => dispatch(getBattleStateProcess()),
-    get_All_Messages: () => dispatch(getAllMessagesProcess()),
+    get_All_Messages: () => dispatch(getAllMessagesProcess()), //get all msg from the B/E. dont need it? GET_ALL_MESSAGES taken care of it
     listen_For_Updates: () => dispatch(listenForUpdatesProcess()),
     listen_For_Message_Update: messageObj => {
-      return dispatch(listenForMessageUpdateProcess(messageObj));
+      return dispatch(listenForMessageUpdateProcess(messageObj)); //to send message to the B/E
     },
     onPokemonObj: pokemonId => {
       dispatch(getPokemonObjProcess(pokemonId));
@@ -50,7 +50,7 @@ const withlifecycle = lifecycle({
       this.props.get_BattleState();
     });
 
-    //this.props.get_All_Messages();
+    this.props.get_All_Messages(); //do we need to call it?
   }
 });
 

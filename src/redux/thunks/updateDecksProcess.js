@@ -3,11 +3,11 @@ import getPokemonObj from '../../api/getPokemonObj';
 
 export default function updateUserDeckProcess(deckObj, deckId, userId) {
   return (dispatch, getState, socket) => {
-    let scope = {};
+    let scope = {}; //to manage new data structure
 
     return updateDecks(deckObj, deckId, userId)
       .then(decks => {
-        scope.userDecks = decks;
+        scope.userDecks = decks; //create new property to scope
         const promises = [];
 
         let newUserDeck = decks.map(userDecks => {
@@ -21,11 +21,11 @@ export default function updateUserDeckProcess(deckObj, deckId, userId) {
           const ids = userDeck.cards;
           userDeck.cards = ids;
           ids.forEach(id => {
-            promises.push(getPokemonObj(id));
+            promises.push(getPokemonObj(id)); //insert pokemonId to getPokemonObj
           });
         });
 
-        return Promise.all(promises);
+        return Promise.all(promises); //return pokemon obj as a promises, characters(see below)
       })
       .then(characters => {
         scope.userDecks.forEach(decks => {

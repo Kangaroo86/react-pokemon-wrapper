@@ -32,7 +32,7 @@ export default function rootReducer(
     case 'GET_ALL_MESSAGES':
       return {
         ...currentState,
-        messages: action.messages
+        messages: [...currentState.messages, action.messages]
       };
 
     //dont need this

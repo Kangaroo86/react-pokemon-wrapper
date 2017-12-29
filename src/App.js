@@ -16,9 +16,6 @@ const history = createBrowserHistory();
 const store = setupStore();
 
 socket.on('MESSAGE_RESPONSE', messageObj => {
-  if (messageObj === null) {
-    messageObj = {};
-  }
   console.log('>>>>>>>>>>>> textmessage', messageObj);
   store.dispatch({
     type: 'GET_ALL_MESSAGES',
