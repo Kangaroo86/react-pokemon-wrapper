@@ -8,7 +8,6 @@ import {
   Card,
   Header,
   Grid,
-  Icon,
   List,
   Image,
   Button,
@@ -84,12 +83,14 @@ export default class CreateDeckComponent extends Component {
 
   //**Update Deck**//
   handle_updateDeck = event => {
-    const characterIdArray = this.state.selectedPokemon.map(pokemon => {
+    let { selectedPokemon } = this.state;
+    let { match, update_decks } = this.props;
+    const characterIdArray = selectedPokemon.map(pokemon => {
       return pokemon.id;
     });
-    const deckId = this.props.match.params.deckId;
+    const deckId = match.params.deckId;
     const userId = localStorage.getItem('userId');
-    this.props.update_decks(
+    update_decks(
       {
         characterIdArray,
         userId
@@ -119,9 +120,24 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
-    let userObj = this.props.userDecks.filter(
-      result => result.id === parseInt(this.props.match.params.deckId, 10)
+    let { userDecks, match, pokemonArray } = this.props;
+    let { activeItem, selectedPokemon } = this.state;
+
+    let userObj = userDecks.filter(
+      result => result.id === parseInt(match.params.deckId, 10)
     );
+    let numWin = userDecks.forEach((deck, i) => {
+      return parseInt(
+        Math.round(deck.wins / (deck.wins + deck.losses) * 100),
+        10
+      );
+    });
+    let numLose = userDecks.forEach((deck, i) => {
+      return parseInt(
+        Math.round(deck.losses / (deck.wins + deck.losses) * 100),
+        10
+      );
+    });
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -135,7 +151,7 @@ export default class CreateDeckComponent extends Component {
                 <Menu.Item
                   fitted="vertically"
                   name="home"
-                  active={this.state.activeItem === 'home'}
+                  active={activeItem === 'home'}
                   onClick={this.handleItemClick}>
                   <Image
                     size="mini"
@@ -147,14 +163,14 @@ export default class CreateDeckComponent extends Component {
                 <Menu.Item
                   fitted="vertically"
                   name="Create Deck"
-                  active={this.state.activeItem === 'Create Deck'}
+                  active={activeItem === 'Create Deck'}
                   onClick={this.handleItemClick}>
                   <Link to="/createdeck">Create Deck</Link>
                 </Menu.Item>
                 <Menu.Item
                   fitted="vertically"
                   name="signout"
-                  active={this.state.activeItem === 'signout'}
+                  active={activeItem === 'signout'}
                   onClick={this.handle_signOut}>
                   Sign-out
                 </Menu.Item>
@@ -166,8 +182,8 @@ export default class CreateDeckComponent extends Component {
               <Header style={{ fontSize: '2em' }}>Update your Deck</Header>
               <br />
               <Card.Group itemsPerRow={9}>
-                {this.props.pokemonArray &&
-                  this.props.pokemonArray.map(pokemonObj => {
+                {pokemonArray &&
+                  pokemonArray.map(pokemonObj => {
                     return (
                       <Card
                         id={pokemonObj.id}
@@ -188,12 +204,6 @@ export default class CreateDeckComponent extends Component {
                     {userObj &&
                       userObj[0] &&
                       <Card id={userObj[0].id} name="deckId">
-                        <Icon
-                          id={userObj[0].id}
-                          floated="left"
-                          name="delete"
-                          onClick={this.handle_deleteDecks}
-                        />
                         <Card.Content>
                           <Image floated="right" size="mini" src={jenny} />
                           <Card.Header
@@ -232,10 +242,18 @@ export default class CreateDeckComponent extends Component {
                           </Link>
                         </Card.Content>
                         <Segment inverted>
-                          <Progress percent={50} inverted progress success>
+                          <Progress
+                            percent={numWin ? numWin : 0}
+                            inverted
+                            progress
+                            success>
                             WINS
                           </Progress>
-                          <Progress percent={50} inverted progress warning>
+                          <Progress
+                            percent={numLose ? numLose : 0}
+                            inverted
+                            progress
+                            warning>
                             LOSSES
                           </Progress>
                         </Segment>
@@ -249,7 +267,7 @@ export default class CreateDeckComponent extends Component {
                       <Grid.Row>
                         <Grid.Column floated="left" width={8}>
                           <Card.Group itemsPerRow={2}>
-                            {this.state.selectedPokemon.map(pokemonObj =>
+                            {selectedPokemon.map(pokemonObj =>
                               <Card
                                 characterId={pokemonObj.characterId}
                                 color="blue"

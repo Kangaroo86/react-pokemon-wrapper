@@ -79,13 +79,10 @@ export default function rootReducer(
       };
 
     case 'DELETE_USER_DECK':
-      console.log('DELETE_USER_DECK*********', action.deckId); //it is not return. TODO
-      console.log('currentState.userDecks--------', currentState.userDecks);
       let currentDecks = [...currentState.userDecks];
       let deleteDeck = currentDecks.filter(deckObj => {
-        return deckObj.id !== action.deckId;
+        return deckObj.id !== Number(action.deckId);
       });
-      console.log('deleteDeck----------ok', deleteDeck);
       return {
         ...currentState,
         userDecks: deleteDeck

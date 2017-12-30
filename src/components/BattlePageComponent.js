@@ -34,6 +34,12 @@ export default class BattlePageComponent extends Component {
 
     this.state = {
       activeItem: '', //animation
+      p1_animation: 'shake', //animation
+      p1_duration: 500, //animation
+      p1_visible: true, //animation
+      p2_animation: 'shake', //animation
+      p2_duration: 500, //animation
+      p2_visible: true, //animation
       message: '', //socet io
       receivedMessages: [], //socket io
       ...getBattleState

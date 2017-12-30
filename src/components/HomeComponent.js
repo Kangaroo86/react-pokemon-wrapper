@@ -95,6 +95,7 @@ export default class HomeComponent extends Component {
   // ************************* SOCKET-IO CODES: ************************* //
 
   render() {
+    console.log('this props************', this.props);
     return (
       <Grid columns="equal">
         <Grid.Row>

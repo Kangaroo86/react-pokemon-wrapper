@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
 import professorOak from '../images/professorOak.png';
 import pokeball2 from '../images/pokeball2.png';
@@ -15,7 +16,8 @@ import {
   Container,
   List,
   Image,
-  Popup
+  Popup,
+  Transition
 } from 'semantic-ui-react';
 
 export default class CreateDeckComponent extends Component {
@@ -23,8 +25,14 @@ export default class CreateDeckComponent extends Component {
     super(props);
 
     this.state = {
-      activeItem: '',
-      requirements: 'hover',
+      activeItem: '', //animation
+      requirements: 'hover', //animation
+      isOpen: true, //animation
+      oakMessages: 'Hi there!!', //animation
+      animation: 'fly down',
+      duration: 500,
+      visible: true,
+
       selectedPokemon: [],
       selectedDeckName: '',
       redirect: false
@@ -33,7 +41,6 @@ export default class CreateDeckComponent extends Component {
 
   //**setState select pokemon**//
   handle_selectedPokemon = (event, data) => {
-    //let currentState = this.state.selectedPokemon.slice(0);
     let { selectedPokemon } = this.state;
     let duplicate = false;
     selectedPokemon.forEach(pokeArray => {
@@ -44,6 +51,7 @@ export default class CreateDeckComponent extends Component {
     if (!duplicate && selectedPokemon.length < 6) {
       this.setState({ selectedPokemon: [...selectedPokemon, data] });
     }
+    //this.handle_Visibility();
   };
 
   //**delete state Pokemon**//
@@ -72,13 +80,19 @@ export default class CreateDeckComponent extends Component {
     const pokemonIds = selectedPokemon.map(pokemon => pokemon.id);
     const userId = localStorage.getItem('userId');
 
-    create_decks(deckName, wins, losses, pokemonIds, userId);
+    if (selectedPokemon.length >= 0 || selectedDeckName === '') {
+      this.handle_Popup();
+    }
+    if (selectedDeckName !== '' && selectedPokemon.length >= 1) {
+      create_decks(deckName, wins, losses, pokemonIds, userId);
 
-    this.setState({ redirect: true });
-    this.setState({ selectedPokemon: [] });
-    this.setState({ selectedDeckName: '' });
+      this.setState({ redirect: true });
+      this.setState({ selectedPokemon: [] });
+      this.setState({ selectedDeckName: '' });
+      //this.handle_Popup();
+    }
 
-    //this.props.history.push(`/home`);
+    //this.props.history.push(`/home`); //this is causing the homeComp not to re-render
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -98,8 +112,57 @@ export default class CreateDeckComponent extends Component {
     history.push(`/`);
   };
 
+  // *********************** CSS ANIMATION CODES: *********************** //
+
+  // handle_Open = () => {
+  //   let { selectedPokemon, selectedDeckName } = this.state;
+  //   if (selectedPokemon.length < 6 && selectedDeckName === '') {
+  //     this.setState({ isOpen: true });
+  //   } else {
+  //     this.setState({ isOpen: false });
+  //   }
+  // };
+  //
+  // handle_Close = () => {
+  //   let { selectedPokemon, selectedDeckName } = this.state;
+  //   if (selectedPokemon.length === 6 && selectedDeckName !== '') {
+  //     this.setState({ isOpen: false });
+  //   }
+  // };
+
+  handle_Visibility = () => this.setState({ visible: !this.state.visible });
+
+  handle_Popup = () => {
+    let { selectedPokemon, selectedDeckName } = this.state;
+
+    if (selectedPokemon.length <= 0) {
+      this.setState({
+        oakMessages: <Popup.Header>- Select at least one pokemon</Popup.Header>
+      });
+    } else if (selectedDeckName === '') {
+      this.setState({
+        oakMessages: <Popup.Header>- Give your deck a name</Popup.Header>
+      });
+    } else {
+      this.setState({
+        oakMessages: (
+          <Popup.Header>
+            - {selectedDeckName} deck was created!!
+          </Popup.Header>
+        )
+      });
+    }
+  };
+
   render() {
-    let { activeItem, selectedPokemon, selectedDeckName } = this.state;
+    let {
+      activeItem,
+      selectedPokemon,
+      selectedDeckName,
+      animation,
+      duration,
+      visible
+    } = this.state;
     let { pokemonArray } = this.props;
 
     return (
@@ -149,7 +212,6 @@ export default class CreateDeckComponent extends Component {
             <Card.Group itemsPerRow={9}>
               {pokemonArray &&
                 pokemonArray.map((character, i) => {
-                  //console.log('character--------', character);
                   return (
                     <Card
                       key={i}
@@ -163,27 +225,24 @@ export default class CreateDeckComponent extends Component {
             </Card.Group>
             <Divider section />
             <Segment style={{ padding: '5em 0em' }} vertical>
-              <Grid container stackable verticalAlign="middle">
+              <Grid container stackable verticalAlign="middle" columns="equal">
                 <Grid.Row>
-                  <Popup
-                    inverted
-                    position="top center"
-                    style={{
-                      borderRadius: '0',
-                      opacity: '0.7',
-                      padding: '2em'
-                    }}
-                    trigger={<Image src={professorOak} size="medium" />}>
-                    {selectedPokemon.length < 6
-                      ? <Popup.Header>- Select at least 6 pokemon</Popup.Header>
-                      : 'got your pokemon!!'}
-
-                    {selectedDeckName === ''
-                      ? <Popup.Header>- Provide a deck name</Popup.Header>
-                      : 'Good job!!'}
-                  </Popup>
-                  <Grid.Column width={5} floated="right">
-                    <Segment inverted width={2}>
+                  <Grid.Column floated="right" width={3}>
+                    <Popup
+                      inverted
+                      position="top center"
+                      hideOnScroll
+                      content={this.state.oakMessages}
+                      style={{
+                        borderRadius: '0',
+                        opacity: '0.7',
+                        padding: '2em'
+                      }}
+                      trigger={<Image src={professorOak} size="medium" />}
+                    />
+                  </Grid.Column>
+                  <Grid.Column width={5}>
+                    <Segment inverted>
                       <Form inverted>
                         <Form.Group widths="equal">
                           <Form.Input
@@ -202,7 +261,7 @@ export default class CreateDeckComponent extends Component {
                       </Form>
                     </Segment>
                   </Grid.Column>
-                  <Grid.Column floated="right" width={6}>
+                  <Grid.Column floated="right">
                     <Card.Group itemsPerRow={2}>
                       {selectedPokemon.map((character, i) => {
                         return (

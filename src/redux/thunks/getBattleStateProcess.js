@@ -77,18 +77,18 @@ export default function getBattleStateProcess() {
             message: '', //socet io
             receivedMessages: [], //socket io
 
-            p1_animation: 'shake', //animation
-            p1_duration: 500, //animation
-            p1_visible: true, //animation
+            // p1_animation: 'shake', //animation
+            // p1_duration: 500, //animation
+            // p1_visible: true, //animation
             p1_battle_zone: [],
             p1_deck_zone: [],
             p1_grave_yard: [],
             p1_turn: false,
             p1_initialized: false,
 
-            p2_animation: 'shake',
-            p2_duration: 500,
-            p2_visible: true,
+            // p2_animation: 'shake',
+            // p2_duration: 500,
+            // p2_visible: true,
             p2_battle_zone: [],
             p2_deck_zone: [],
             p2_grave_yard: [],
