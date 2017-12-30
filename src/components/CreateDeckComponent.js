@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
 import professorOak from '../images/professorOak.png';
 import pokeball2 from '../images/pokeball2.png';
@@ -16,8 +15,7 @@ import {
   Container,
   List,
   Image,
-  Popup,
-  Transition
+  Popup
 } from 'semantic-ui-react';
 
 export default class CreateDeckComponent extends Component {

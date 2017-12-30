@@ -95,7 +95,6 @@ export default class HomeComponent extends Component {
   // ************************* SOCKET-IO CODES: ************************* //
 
   render() {
-    console.log('this props************', this.props);
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -143,8 +142,8 @@ export default class HomeComponent extends Component {
             </Grid>
 
             <br />
-            {/*
-            <Menu inverted compact onClick={this.handle_room}>
+
+            {/* <Menu inverted compact onClick={this.handle_room}>
               <Menu.Item as="a" active="createBattle" color={'teal'}>
                 <Icon size="big" name="game" color={'black'} /> CREATE BATTLE
                 <Label color="red" floating>
