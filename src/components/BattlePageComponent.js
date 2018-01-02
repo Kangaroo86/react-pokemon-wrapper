@@ -24,6 +24,11 @@ import {
   Segment
 } from 'semantic-ui-react';
 
+import io from 'socket.io-client'; //socket-io
+import env from '../env'; //socket-io
+const socketUrl = `${env.API_BASE_URL}`; //socket-io
+export const socket = io(socketUrl); //exported to battlePageContainer
+
 let colors = ['red', 'violet', 'blue', 'pink', 'green'];
 
 export default class BattlePageComponent extends Component {
@@ -31,6 +36,18 @@ export default class BattlePageComponent extends Component {
     super(props);
 
     let { getBattleState } = this.props;
+
+    socket.on('connect', () => {
+      console.log(
+        'Socket Connected. Initalized from BattleComponent ',
+        socket.id
+      );
+    });
+
+    socket.on('MESSAGE_RESPONSE', messageObj => {
+      console.log('>>>>>>textmessage & SocketId', messageObj, socket.id);
+      this.props.updateMessagesProcess(messageObj);
+    });
 
     this.state = {
       activeItem: '', //animation
@@ -42,6 +59,7 @@ export default class BattlePageComponent extends Component {
       p2_visible: true, //animation
       message: '', //socet io
       receivedMessages: [], //socket io
+      socketMessages: [],
       ...getBattleState
     };
   }
@@ -191,12 +209,14 @@ export default class BattlePageComponent extends Component {
   handle_signOut = (event, { name }) => {
     event.preventDefault();
     this.setState({ activeItem: name });
+
     localStorage.removeItem('currentBattleId');
     localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('userIdSocket');
     localStorage.removeItem('deckSelected');
+
     this.props.signOut();
     this.props.history.push(`/`);
   };
@@ -207,14 +227,29 @@ export default class BattlePageComponent extends Component {
         ...nextProps.getBattleState
       });
     }
-    if (nextProps.receivedMessages !== this.props.messages) {
-      this.setState({
-        //receivedMessages: [...this.state.receivedMessages, nextProps.messages]
-        receivedMessages: nextProps.messages
-      });
-    }
+    // if (nextProps.messages !== this.props.messages) {
+    //   this.setState({
+    //     receivedMessages: nextProps.messages
+    //   });
+    // }
   }
 
+  // componentDidMount() {
+  //   // let { socket } = this.props;
+  //   // console.log('socket---------------', socket);
+  //
+  //   socket.on('connect', () => {
+  //     console.log(
+  //       'Socket Connected. Initalized from BattleComponent ',
+  //       socket.id
+  //     );
+  //   });
+  //
+  //   socket.on('MESSAGE_RESPONSE', messageObj => {
+  //     console.log('>>>>>>textmessage & SocketId', messageObj, socket.id);
+  //     this.props.updateMessagesProcess(messageObj);
+  //   });
+  // }
   // shouldComponentUpdate(nextProps, nextState) {
   //   console.log('componentWillUpdate nextProps----------', nextProps);
   //   console.log('componentWillUpdate nextState----------', nextState);
@@ -236,15 +271,24 @@ export default class BattlePageComponent extends Component {
     event.preventDefault();
     const battleId = localStorage.getItem('currentBattleId');
     const userId = localStorage.getItem('userId');
-    const { userSignIn, listen_For_Message_Update } = this.props;
+    const { userSignIn } = this.props;
     let { message } = this.state;
 
-    listen_For_Message_Update({
+    // listen_For_Message_Update({
+    //   userId: userId,
+    //   battleId: battleId,
+    //   text: message,
+    //   name: userSignIn.name
+    // });
+
+    let messageInputed = {
       userId: userId,
       battleId: battleId,
       text: message,
       name: userSignIn.name
-    });
+    };
+
+    socket.emit('MESSAGE_CREATE', messageInputed);
 
     this.setState({ message: '' });
   };
@@ -253,7 +297,6 @@ export default class BattlePageComponent extends Component {
     let {
       activeItem,
       message,
-      receivedMessages,
       p1_animation,
       p1_duration,
       p1_visible,
@@ -268,8 +311,11 @@ export default class BattlePageComponent extends Component {
       p2_turn
     } = this.state;
 
+    let { messages } = this.props;
+
     //console.log('this.state from BattlePageComponent------------', this.state);
-    console.log('my props for Battle COMP**********', this.props);
+    console.log('my props from BattlePageComponen------------', this.props);
+
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -458,10 +504,10 @@ export default class BattlePageComponent extends Component {
                       Chat Room
                     </Header>
 
-                    {receivedMessages &&
-                      receivedMessages.map(message => {
+                    {messages &&
+                      messages.map((message, i) => {
                         return (
-                          <Comment>
+                          <Comment key={i}>
                             <Comment.Content>
                               <Comment.Avatar src={jenny} />
                               <Comment.Author as="a">
@@ -474,6 +520,7 @@ export default class BattlePageComponent extends Component {
                           </Comment>
                         );
                       })}
+
                     <Form>
                       <Form.Field
                         control={TextArea}

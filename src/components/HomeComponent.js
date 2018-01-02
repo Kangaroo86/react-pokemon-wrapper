@@ -14,9 +14,31 @@ import {
   Label,
   Grid,
   Header,
+  Modal,
   Container,
   Menu
 } from 'semantic-ui-react';
+
+let colors = [
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green',
+  'teal',
+  'blue',
+  'violet',
+  'purple',
+  'pink',
+  'brown',
+  'grey',
+  'black',
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green'
+];
 
 export default class HomeComponent extends Component {
   constructor(props) {
@@ -65,8 +87,14 @@ export default class HomeComponent extends Component {
     const { create_Battle } = this.props;
     create_Battle();
 
+    let deckId = localStorage.getItem('deckSelected');
+    //localStorage.setItem('deckSelected', data.value.id);
+    //this.props.history.push(`/decks/${data.value.id}/battle`);
+    this.props.history.push(`/decks/${deckId}/battle`);
+  };
+
+  handle_selectDeck = (event, data) => {
     localStorage.setItem('deckSelected', data.value.id);
-    this.props.history.push(`/decks/${data.value.id}/battle`);
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -80,11 +108,35 @@ export default class HomeComponent extends Component {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('userIdSocket');
+    localStorage.removeItem('deckSelected');
 
     this.props.signOut();
     this.props.history.push(`/`);
   };
 
+  handle_Modal = () => {
+    return (
+      <Modal
+        trigger={
+          <Button basic color="green" onClick={this.handle_createBattle}>
+            CREATE BATTLE
+          </Button>
+        }>
+        <Modal.Header>Select a Photo</Modal.Header>
+        <Modal.Content image>
+          <Image wrapped size="medium" src={jenny} />
+          <Modal.Description>
+            <Header>Default Profile Image</Header>
+            <p>
+              We've found the following gravatar image associated with your
+              e-mail address.
+            </p>
+            <p>Is it okay to use this photo?</p>
+          </Modal.Description>
+        </Modal.Content>
+      </Modal>
+    );
+  };
   // componentWillReceiveProps(nextProps) {
   //   console.log('nextProps********insde Props', nextProps);
   //   if (nextProps.userDecks !== this.props.userDecks) {
@@ -95,6 +147,11 @@ export default class HomeComponent extends Component {
   // ************************* SOCKET-IO CODES: ************************* //
 
   render() {
+    let { activeItem } = this.state;
+    let { userDecks } = this.props;
+
+    //console.log('my props***********************', this.props);
+
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -108,7 +165,7 @@ export default class HomeComponent extends Component {
                 <Menu.Item
                   fitted="vertically"
                   name="home"
-                  active={this.state.activeItem === 'home'}
+                  active={activeItem === 'home'}
                   onClick={this.handleItemClick}>
                   <Image
                     size="mini"
@@ -120,14 +177,14 @@ export default class HomeComponent extends Component {
                 <Menu.Item
                   fitted="vertically"
                   name="Create Deck"
-                  active={this.state.activeItem === 'Create Deck'}
+                  active={activeItem === 'Create Deck'}
                   onClick={this.handleItemClick}>
                   <Link to="/createdeck">Create Deck</Link>
                 </Menu.Item>
                 <Menu.Item
                   fitted="vertically"
                   name="signout"
-                  active={this.state.activeItem === 'signout'}
+                  active={activeItem === 'signout'}
                   onClick={this.handle_signOut}>
                   Sign-out
                 </Menu.Item>
@@ -159,9 +216,32 @@ export default class HomeComponent extends Component {
               </Menu.Item>
             </Menu> */}
 
+            <Modal
+              trigger={
+                <Button basic color="green">
+                  CREATE BATTLE
+                </Button>
+              }>
+              <Modal.Header>Select a Photo</Modal.Header>
+              <Modal.Content image>
+                <Image wrapped size="medium" src={jenny} />
+                <Modal.Description>
+                  <Header>Default Profile Image</Header>
+                  <p>
+                    We've found the following gravatar image associated with
+                    your e-mail address.
+                  </p>
+                  <p>Is it okay to use this photo?</p>
+                </Modal.Description>
+                <Button basic color="green" onClick={this.handle_createBattle}>
+                  CREATE BATTLE
+                </Button>
+              </Modal.Content>
+            </Modal>
+
             <Grid centered padded columns={4}>
               <Grid.Row>
-                {this.props.userDecks.map((deck, i) => {
+                {userDecks.map((deck, i) => {
                   let numWin = parseInt(
                     Math.round(deck.wins / (deck.wins + deck.losses) * 100),
                     10
@@ -173,7 +253,11 @@ export default class HomeComponent extends Component {
                   return (
                     <Grid.Column key={i} textAlign="center" stretched>
                       <Card.Group>
-                        <Card id={deck.id} name="deckId">
+                        <Card
+                          id={deck.id}
+                          name="deckId"
+                          fluid
+                          color={colors[i]}>
                           <Icon
                             id={deck.id}
                             name="delete"
@@ -202,9 +286,10 @@ export default class HomeComponent extends Component {
                               value={deck}
                               basic
                               color="green"
-                              onClick={this.handle_createBattle}>
-                              CREATE BATTLE
+                              onClick={this.handle_selectDeck}>
+                              SELECT DECK
                             </Button>
+
                             <Button
                               value={deck}
                               basic

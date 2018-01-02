@@ -17,6 +17,27 @@ import {
   Label
 } from 'semantic-ui-react';
 
+let colors = [
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green',
+  'teal',
+  'blue',
+  'violet',
+  'purple',
+  'pink',
+  'brown',
+  'grey',
+  'black',
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green'
+];
+
 export default class CreateDeckComponent extends Component {
   constructor(props) {
     super(props);
@@ -110,11 +131,14 @@ export default class CreateDeckComponent extends Component {
   handle_signOut = (event, { name }) => {
     event.preventDefault();
     this.setState({ activeItem: name });
+
     localStorage.removeItem('currentBattleId');
     localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('userIdSocket');
+    localStorage.removeItem('deckSelected');
+
     this.props.signOut();
     this.props.history.push(`/`);
   };
@@ -183,11 +207,11 @@ export default class CreateDeckComponent extends Component {
               <br />
               <Card.Group itemsPerRow={9}>
                 {pokemonArray &&
-                  pokemonArray.map(pokemonObj => {
+                  pokemonArray.map((pokemonObj, i) => {
                     return (
                       <Card
                         id={pokemonObj.id}
-                        color="red"
+                        color={colors[i]}
                         name={pokemonObj.name}
                         image={pokemonObj.sprites.front_default}
                         onClick={this.handle_selectedPokemon}
@@ -267,10 +291,10 @@ export default class CreateDeckComponent extends Component {
                       <Grid.Row>
                         <Grid.Column floated="left" width={8}>
                           <Card.Group itemsPerRow={2}>
-                            {selectedPokemon.map(pokemonObj =>
+                            {selectedPokemon.map((pokemonObj, i) =>
                               <Card
                                 characterId={pokemonObj.characterId}
-                                color="blue"
+                                color={colors[i]}
                                 image={pokemonObj.image}
                                 id={pokemonObj.id}
                                 onClick={this.handle_deletePokemon}

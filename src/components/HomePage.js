@@ -16,6 +16,7 @@ export default function SignInPage({
   history,
   match,
   socket,
+  socketID, //wip, currently not using
   create_Battle,
   request_Battle,
   connectedPlayers,
@@ -30,6 +31,7 @@ export default function SignInPage({
         connectedPlayers={connectedPlayers}
         userSignIn={userSignIn}
         socket={socket}
+        socketID={socketID}
         pokemonObj={pokemonObj}
         onPokemonObj={onPokemonObj}
         defaultPokemonArray={defaultPokemonArray}

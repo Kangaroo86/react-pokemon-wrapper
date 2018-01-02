@@ -1,8 +1,8 @@
 import getBattleState from '../../api/getBattleState';
 import setBattleState from '../../api/setBattleState';
 
-export default function getBattleStateProcess() {
-  return (dispatch, getState, socket) => {
+export default function getBattleStateProcess(socket) {
+  return (dispatch, getState) => {
     const scope = {};
     return getBattleState()
       .then(battleState => {

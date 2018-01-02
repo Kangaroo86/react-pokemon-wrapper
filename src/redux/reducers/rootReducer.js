@@ -8,6 +8,8 @@ export default function rootReducer(
     pokemonArray: [],
     requestBattleObj: {},
     setBattleState: {},
+    socket: null,
+    //socketID: null,
     userDecks: [],
     userSignup: {},
     userSignIn: {},
@@ -17,12 +19,23 @@ export default function rootReducer(
 ) {
   switch (action.type) {
     case 'GET_BATTLE_STATE':
+      //console.log('GET_BATTLE_STATE***********', currentState.getBattleState);
       return { ...currentState, getBattleState: action.getBattleState };
 
     case 'SET_BATTLE_STATE':
       return { ...currentState, setBattleState: action.battleStateObj };
 
+    // case 'RECEIVED_SOCKET_ID':
+    //   console.log('currentState-------------', currentState);
+    //   console.log('action.socketID -------------', action.socketID);
+    //   return { ...currentState, socketID: action.socketID };
+
     case 'CREATE_BATTLE':
+      //console.log('action.createBattleObj***********', action.createBattleObj);
+      // console.log(
+      //   'currentState.createBattleObj***********',
+      //   currentState.createBattleObj
+      // );//this return empty {}
       return { ...currentState, createBattleObj: action.createBattleObj };
 
     case 'REQUEST_BATTLE':
@@ -30,9 +43,10 @@ export default function rootReducer(
 
     //WIP
     case 'GET_ALL_MESSAGES':
+      let combinedMessages = currentState.messages.concat(action.messages);
       return {
         ...currentState,
-        messages: [...currentState.messages, action.messages]
+        messages: combinedMessages
       };
 
     //dont need this

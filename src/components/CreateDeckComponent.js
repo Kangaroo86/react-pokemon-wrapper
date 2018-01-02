@@ -18,6 +18,27 @@ import {
   Popup
 } from 'semantic-ui-react';
 
+let colors = [
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green',
+  'teal',
+  'blue',
+  'violet',
+  'purple',
+  'pink',
+  'brown',
+  'grey',
+  'black',
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green'
+];
+
 export default class CreateDeckComponent extends Component {
   constructor(props) {
     super(props);
@@ -87,7 +108,6 @@ export default class CreateDeckComponent extends Component {
       this.setState({ redirect: true });
       this.setState({ selectedPokemon: [] });
       this.setState({ selectedDeckName: '' });
-      //this.handle_Popup();
     }
 
     //this.props.history.push(`/home`); //this is causing the homeComp not to re-render
@@ -153,14 +173,7 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
-    let {
-      activeItem,
-      selectedPokemon,
-      selectedDeckName,
-      animation,
-      duration,
-      visible
-    } = this.state;
+    let { activeItem, selectedPokemon, selectedDeckName } = this.state;
     let { pokemonArray } = this.props;
 
     return (
@@ -214,7 +227,7 @@ export default class CreateDeckComponent extends Component {
                     <Card
                       key={i}
                       id={character.id}
-                      color="red"
+                      color={colors[i]}
                       image={character.sprites.front_default}
                       onClick={this.handle_selectedPokemon}
                     />
@@ -265,7 +278,7 @@ export default class CreateDeckComponent extends Component {
                         return (
                           <Card
                             key={i}
-                            color="blue"
+                            color={colors[i]}
                             image={character.image}
                             id={character.id}
                             onClick={this.handle_deletePokemon}

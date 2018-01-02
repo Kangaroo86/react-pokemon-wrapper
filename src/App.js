@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import setupStore, { socket } from './redux/setupStore';
-import io from 'socket.io-client'; //socket-io
+import setupStore from './redux/setupStore';
+//import setupStore, { socket } from './redux/setupStore';
+//import io from 'socket.io-client'; //socket-io
 
 import CreateDeckContainer from './redux/containers/CreateDeckContainer';
 import BattlePageContainer from './redux/containers/BattlePageContainer';
@@ -15,13 +16,25 @@ const history = createBrowserHistory();
 
 const store = setupStore();
 
-socket.on('MESSAGE_RESPONSE', messageObj => {
-  console.log('>>>>>>>>>>>> textmessage', messageObj);
-  store.dispatch({
-    type: 'GET_ALL_MESSAGES',
-    messages: messageObj
-  });
-});
+// socket.on('connect', () => {
+//   console.log('Socket Connected. Initalized from App ', socket.id);
+// });
+
+// socket.on('RECEIVE_SOCKET', socketID => {
+//   console.log('RECEIVE_SOCKET-------------', socketID);
+//   store.dispatch({
+//     type: 'RECEIVED_SOCKET_ID',
+//     socketID: socketID
+//   });
+// });
+
+// socket.on('MESSAGE_RESPONSE', messageObj => {
+//   console.log('>>>>>>textmessage & SocketId', messageObj, socket.id);
+//   store.dispatch({
+//     type: 'GET_ALL_MESSAGES',
+//     messages: messageObj
+//   });
+// });
 
 //CREATING A ROOM
 //let socket = io.connect();
@@ -51,13 +64,13 @@ export default class App extends Component {
               <Route
                 exact
                 path="/home"
-                component={HomeContainer}
+                component={HomeContainer} //ok
                 history={history}
               />
               <Route
                 exact
                 path="/decks/:deckId/update"
-                component={UpdateDeckPageContainer}
+                component={UpdateDeckPageContainer} //ok
                 history={history}
               />
               <Route

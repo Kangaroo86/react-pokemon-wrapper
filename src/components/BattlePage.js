@@ -9,6 +9,7 @@ export default function IndexPage({
   get_BattleState,
   get_All_Messages,
   history,
+  //init_socket,
   location,
   listen_For_Updates,
   listen_For_Message_Update,
@@ -21,7 +22,8 @@ export default function IndexPage({
   signOut,
   socket,
   userDecks,
-  userSignIn
+  userSignIn,
+  updateMessagesProcess
 }) {
   return (
     <BattlePageComponent
@@ -32,6 +34,7 @@ export default function IndexPage({
       get_BattleState={get_BattleState}
       get_All_Messages={get_All_Messages}
       history={history}
+      //init_socket={init_socket}
       location={location}
       listen_For_Updates={listen_For_Updates}
       listen_For_Message_Update={listen_For_Message_Update}
@@ -45,6 +48,7 @@ export default function IndexPage({
       socket={socket}
       userDecks={userDecks}
       userSignIn={userSignIn}
+      updateMessagesProcess={updateMessagesProcess}
     />
   );
 }
