@@ -1,11 +1,9 @@
 //import getBattleState from '../../api/getBattleState';
+import { socket } from '../../components/BattlePageComponent';
 
 export default function listenForMessageUpdateProcess(messageObj) {
-  return (dispatch, getState, socket) => {
-    console.log('my socket---------', socket);
+  return (dispatch, getState) => {
     socket.emit('MESSAGE_CREATE', messageObj);
-    // missing dispatch
-    // dispatch({ type: 'MESSAGE_CREATED', messageObj });//dont need this
   };
 }
 

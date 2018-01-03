@@ -1,4 +1,3 @@
-import recordToPokemon from './utils/recordToPokemon';
 import env from '../env';
 
 export default function getDefaultPokemon() {
@@ -7,7 +6,7 @@ export default function getDefaultPokemon() {
       return response.json();
     })
     .then(data => {
-      return data.map(recordToPokemon);
+      return data;
     })
     .catch(err => console.log('API call createDeck failed: ', err));
 }

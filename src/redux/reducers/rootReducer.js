@@ -1,7 +1,7 @@
 export default function rootReducer(
   currentState = {
     createBattleObj: {},
-    deleteBattleState: null,
+    //deleteBattleState: null,
     defaultPokemonArray: [],
     errorMessage: null,
     messages: [],
@@ -17,22 +17,16 @@ export default function rootReducer(
   action
 ) {
   switch (action.type) {
-    case 'DELETE_BATTLE_STATE':
-      return { ...currentState, deleteBattleState: action.deleteBattleState };
+    // case 'DELETE_BATTLE_STATE':
+    //   return { ...currentState, deleteBattleState: action.deleteBattleState };
 
     case 'GET_BATTLE_STATE':
-      //console.log('GET_BATTLE_STATE***********', currentState.getBattleState);
       return { ...currentState, getBattleState: action.getBattleState };
 
     case 'SET_BATTLE_STATE':
       return { ...currentState, setBattleState: action.battleStateObj };
 
     case 'CREATE_BATTLE':
-      //console.log('action.createBattleObj***********', action.createBattleObj);
-      // console.log(
-      //   'currentState.createBattleObj***********',
-      //   currentState.createBattleObj
-      // );//this return empty {}
       return { ...currentState, createBattleObj: action.createBattleObj };
 
     case 'REQUEST_BATTLE':

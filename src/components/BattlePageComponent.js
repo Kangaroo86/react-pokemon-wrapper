@@ -38,7 +38,7 @@ export default class BattlePageComponent extends Component {
 
     //initalized socket & created room
     socket.on('connect', () => {
-      //console.log('Socket initalized from BattleComponent ', socket.id);
+      console.log('Socket initalized from BattleComponent ');
       const battleId = localStorage.getItem('currentBattleId');
       socket.emit('CREATE_ROOM', battleId);
     });
@@ -230,23 +230,6 @@ export default class BattlePageComponent extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   // let { socket } = this.props;
-  //   // console.log('socket---------------', socket);
-  //
-  //   socket.on('connect', () => {
-  //     console.log(
-  //       'Socket Connected. Initalized from BattleComponent ',
-  //       socket.id
-  //     );
-  //   });
-  //
-  //   socket.on('MESSAGE_RESPONSE', messageObj => {
-  //     console.log('>>>>>>textmessage & SocketId', messageObj, socket.id);
-  //     this.props.updateMessagesProcess(messageObj);
-  //   });
-  // }
-
   // ************************* SOCKET-IO CODES: ************************* //
   //send messages TO-THE backend
   handle_messageInput = event => {
@@ -294,8 +277,8 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
-    //console.log('this.state from BattlePageComponent------------', this.state);
     console.log('my props from BattlePageComponen------------', this.props);
+    //console.log('battleComp State:----------------->', this.state);
 
     return (
       <Grid columns="equal">
@@ -657,8 +640,6 @@ export default class BattlePageComponent extends Component {
                               color={colors[i]}
                               name={pokeObj.name}
                               id={pokeObj.id}
-                              moves={pokeObj.moves}
-                              stats={pokeObj.stats}
                               types={pokeObj.types}
                               image={pokeObj.image}
                               onClick={this.handle_p2_select_card}

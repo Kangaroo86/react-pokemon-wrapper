@@ -295,7 +295,8 @@ export default class CreateDeckComponent extends Component {
                           <Card.Group itemsPerRow={2}>
                             {selectedPokemon.map((pokemonObj, i) =>
                               <Card
-                                characterId={pokemonObj.characterId}
+                                key={i}
+                                //characterId={pokemonObj.characterId}
                                 color={colors[i]}
                                 image={pokemonObj.image}
                                 id={pokemonObj.id}
