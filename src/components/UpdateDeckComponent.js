@@ -133,11 +133,12 @@ export default class CreateDeckComponent extends Component {
     this.setState({ activeItem: name });
 
     localStorage.removeItem('currentBattleId');
+    localStorage.removeItem('deckSelected');
     localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
     localStorage.removeItem('userIdSocket');
-    localStorage.removeItem('deckSelected');
 
     this.props.signOut();
     this.props.history.push(`/`);
@@ -210,6 +211,7 @@ export default class CreateDeckComponent extends Component {
                   pokemonArray.map((pokemonObj, i) => {
                     return (
                       <Card
+                        key={i}
                         id={pokemonObj.id}
                         color={colors[i]}
                         name={pokemonObj.name}
@@ -249,13 +251,13 @@ export default class CreateDeckComponent extends Component {
                           </List>
                         </Card.Content>
                         <Card.Content extra>
-                          <Button
+                          {/* <Button
                             value={userObj}
                             basic
                             color="green"
                             onClick={this.handle_battlePage}>
                             READY
-                          </Button>
+                          </Button> */}
                           <Link to="/home">
                             <Button
                               basic

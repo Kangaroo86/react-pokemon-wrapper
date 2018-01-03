@@ -1,15 +1,14 @@
 export default function rootReducer(
   currentState = {
     createBattleObj: {},
+    deleteBattleState: null,
     defaultPokemonArray: [],
     errorMessage: null,
-    messages: [], //WIP
+    messages: [],
     getBattleState: {},
     pokemonArray: [],
     requestBattleObj: {},
     setBattleState: {},
-    //socket: null,
-    //socketID: null,
     userDecks: [],
     userSignup: {},
     userSignIn: {},
@@ -18,17 +17,15 @@ export default function rootReducer(
   action
 ) {
   switch (action.type) {
+    case 'DELETE_BATTLE_STATE':
+      return { ...currentState, deleteBattleState: action.deleteBattleState };
+
     case 'GET_BATTLE_STATE':
       //console.log('GET_BATTLE_STATE***********', currentState.getBattleState);
       return { ...currentState, getBattleState: action.getBattleState };
 
     case 'SET_BATTLE_STATE':
       return { ...currentState, setBattleState: action.battleStateObj };
-
-    // case 'RECEIVED_SOCKET_ID':
-    //   console.log('currentState-------------', currentState);
-    //   console.log('action.socketID -------------', action.socketID);
-    //   return { ...currentState, socketID: action.socketID };
 
     case 'CREATE_BATTLE':
       //console.log('action.createBattleObj***********', action.createBattleObj);
@@ -41,25 +38,17 @@ export default function rootReducer(
     case 'REQUEST_BATTLE':
       return { ...currentState, requestBattleObj: action.requestBattleObj };
 
-    //WIP
     case 'GET_ALL_MESSAGES':
       let combinedMessages = currentState.messages.concat(action.messages);
-      console.log('combinedMessages>>>>>>>>>>>>>>>>>>????', combinedMessages);
+
+      while (combinedMessages.length > 8) {
+        combinedMessages.splice(0, 1);
+      }
+
       return {
         ...currentState,
         messages: combinedMessages
       };
-
-    //dont need this
-    case 'MESSAGE_CREATED':
-      return {
-        ...currentState,
-        getTextMessage: [...currentState.getTextMessage, action.messageObj]
-      };
-
-    //not used in production
-    // case 'FETCHED_SOCKET':
-    //   return { ...currentState, socket: action.socket };
 
     case 'FETCHED_USERS':
       return { ...currentState, users: action.users };

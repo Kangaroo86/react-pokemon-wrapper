@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import BattlePage from '../../components/BattlePage';
 
 import createBattleProcess from '../thunks/createBattleProcess';
+import deleteBattleStateProcess from '../thunks/deleteBattleStateProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import getAllMessagesProcess from '../thunks/getAllMessagesProcess';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
@@ -32,6 +33,9 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     create_Battle: userId => dispatch(createBattleProcess(userId)),
+    delete_Battle_state: battleId => {
+      return dispatch(deleteBattleStateProcess(battleId)); //when a user logouts, the battleState will be deleted
+    },
     get_userDecks: () => dispatch(getUserDecksProcess()),
     get_BattleState: socket => dispatch(getBattleStateProcess(socket)),
     get_All_Messages: () => dispatch(getAllMessagesProcess()), //get all msg from the B/E. dont need it? GET_ALL_MESSAGES taken care of it

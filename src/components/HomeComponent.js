@@ -104,11 +104,12 @@ export default class HomeComponent extends Component {
     this.setState({ activeItem: name });
 
     localStorage.removeItem('currentBattleId');
+    localStorage.removeItem('deckSelected');
     localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
     localStorage.removeItem('userIdSocket');
-    localStorage.removeItem('deckSelected');
 
     this.props.signOut();
     this.props.history.push(`/`);

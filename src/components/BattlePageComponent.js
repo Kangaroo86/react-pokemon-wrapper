@@ -4,7 +4,6 @@ import pokeball2 from '../images/pokeball2.png';
 import bg2 from '../images/bg2.jpg';
 import jenny from '../images/jenny.jpg';
 import {
-  TextArea,
   Card,
   Grid,
   Divider,
@@ -13,7 +12,7 @@ import {
   List,
   Menu,
   Transition,
-  Form,
+  Input,
   Icon,
   Label,
   Image,
@@ -37,19 +36,14 @@ export default class BattlePageComponent extends Component {
 
     let { getBattleState } = this.props;
 
+    //initalized socket & created room
     socket.on('connect', () => {
+      //console.log('Socket initalized from BattleComponent ', socket.id);
       const battleId = localStorage.getItem('currentBattleId');
-      socket.emit('createdRoom', battleId);
-      console.log(
-        'Socket Connected. Initalized from BattleComponent ',
-        socket.id,
-        'battle id >>>>>>>>>',
-        battleId
-      );
+      socket.emit('CREATE_ROOM', battleId);
     });
 
     socket.on('MESSAGE_RESPONSE', messageObj => {
-      console.log('>>>>>>textmessage & SocketId', messageObj, socket.id);
       this.props.updateMessagesProcess(messageObj);
     });
 
@@ -62,8 +56,6 @@ export default class BattlePageComponent extends Component {
       p2_duration: 500, //animation
       p2_visible: true, //animation
       message: '', //socet io
-      receivedMessages: [], //socket io
-      socketMessages: [],
       ...getBattleState
     };
   }
@@ -212,14 +204,19 @@ export default class BattlePageComponent extends Component {
 
   handle_signOut = (event, { name }) => {
     event.preventDefault();
+    let { delete_Battle_state } = this.props;
+    let battleId = localStorage.getItem('currentBattleId');
+
     this.setState({ activeItem: name });
+    delete_Battle_state(battleId);
 
     localStorage.removeItem('currentBattleId');
+    localStorage.removeItem('deckSelected');
     localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
     localStorage.removeItem('userIdSocket');
-    localStorage.removeItem('deckSelected');
 
     this.props.signOut();
     this.props.history.push(`/`);
@@ -231,11 +228,6 @@ export default class BattlePageComponent extends Component {
         ...nextProps.getBattleState
       });
     }
-    // if (nextProps.messages !== this.props.messages) {
-    //   this.setState({
-    //     receivedMessages: nextProps.messages
-    //   });
-    // }
   }
 
   // componentDidMount() {
@@ -254,46 +246,32 @@ export default class BattlePageComponent extends Component {
   //     this.props.updateMessagesProcess(messageObj);
   //   });
   // }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log('componentWillUpdate nextProps----------', nextProps);
-  //   console.log('componentWillUpdate nextState----------', nextState);
-  //   if (nextProps.messages === []) {
-  //     this.setState({
-  //       receivedMessages: false
-  //     });
-  //   }
-  // }
 
   // ************************* SOCKET-IO CODES: ************************* //
   //send messages TO-THE backend
-  //.emit means you are SENDING data to backend with specific a route, in this case SEND_MESSAGE
-  handle_messageInput = data => {
-    this.setState({ message: data.target.value });
+  handle_messageInput = event => {
+    this.setState({ message: event.target.value });
   };
 
   handle_submitMessage = event => {
-    event.preventDefault();
-    const battleId = localStorage.getItem('currentBattleId');
-    const userId = localStorage.getItem('userId');
-    const { userSignIn } = this.props;
     let { message } = this.state;
 
-    // listen_For_Message_Update({
-    //   userId: userId,
-    //   battleId: battleId,
-    //   text: message,
-    //   name: userSignIn.name
-    // });
+    if (event.which === 13) {
+      event.preventDefault();
+      const battleId = localStorage.getItem('currentBattleId');
+      const userId = localStorage.getItem('userId');
+      const userName = localStorage.getItem('userName');
 
-    let messageInputed = {
-      userId: userId,
-      battleId: battleId,
-      text: message,
-      name: userSignIn.name
-    };
-    console.log('messageInputed---------------', messageInputed);
-    socket.emit('MESSAGE_CREATE', messageInputed);
-    this.setState({ message: '' });
+      let messageInputed = {
+        userId: userId,
+        battleId: battleId,
+        text: message,
+        name: userName
+      };
+
+      socket.emit('CREATE_MESSAGE', messageInputed);
+      this.setState({ message: '' });
+    }
   };
 
   render() {
@@ -508,9 +486,7 @@ export default class BattlePageComponent extends Component {
                     </Header>
 
                     {messages &&
-                      messages.length > 0 &&
                       messages.map((message, i) => {
-                        console.log('message------------------', message);
                         return (
                           <Comment key={i}>
                             <Comment.Content>
@@ -526,7 +502,7 @@ export default class BattlePageComponent extends Component {
                         );
                       })}
 
-                    <Form>
+                    {/* <Form>
                       <Form.Field
                         control={TextArea}
                         placeholder="Message..."
@@ -534,11 +510,37 @@ export default class BattlePageComponent extends Component {
                         onChange={this.handle_messageInput}
                       />
                       <Button
-                        onClick={this.handle_submitMessage}
                         content="SEND"
                         color="blue"
+                        onClick={this.handle_submitMessage}
                       />
-                    </Form>
+                    </Form> */}
+                    <div
+                      style={{
+                        zIndex: '52',
+                        left: '21.1rem',
+                        right: '1rem',
+                        width: '100%',
+                        flexShrink: '0',
+                        order: '2',
+                        marginTop: '0.5em'
+                      }}>
+                      <Input
+                        style={{
+                          height: '1%',
+                          fontSize: '2em',
+                          marginBottom: '1em'
+                        }}
+                        type="textarea"
+                        name="message"
+                        ref="BattlePageComponent"
+                        autoFocus="true"
+                        placeholder="message"
+                        value={message}
+                        onChange={this.handle_messageInput}
+                        onKeyDown={this.handle_submitMessage}
+                      />
+                    </div>
                   </Comment.Group>
 
                   {/* 2nd Player */}

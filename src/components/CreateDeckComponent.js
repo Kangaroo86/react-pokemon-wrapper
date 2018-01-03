@@ -121,9 +121,11 @@ export default class CreateDeckComponent extends Component {
     let { signOut, history } = this.props;
 
     localStorage.removeItem('currentBattleId');
+    localStorage.removeItem('deckSelected');
     localStorage.removeItem('playerNum');
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
     localStorage.removeItem('userIdSocket');
 
     signOut();

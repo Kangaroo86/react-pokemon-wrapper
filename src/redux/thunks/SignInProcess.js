@@ -10,10 +10,9 @@ export default function signInProcess(attribute) {
             errorMessage: 'Invalid Password'
           });
         } else {
-          localStorage.setItem('token', result.token);
           localStorage.setItem('userId', result.id);
-          //localStorage.setItem('userIdSocket', null);
-          //socket.emit('CHAT_MOUNTED', result.id);
+          localStorage.setItem('userName', result.name);
+          localStorage.setItem('token', result.token);
           dispatch({
             type: 'USER_SIGNIN',
             userSignIn: result
