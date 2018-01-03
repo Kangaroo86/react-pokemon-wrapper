@@ -8,7 +8,7 @@ export default function rootReducer(
     pokemonArray: [],
     requestBattleObj: {},
     setBattleState: {},
-    socket: null,
+    //socket: null,
     //socketID: null,
     userDecks: [],
     userSignup: {},
@@ -44,6 +44,7 @@ export default function rootReducer(
     //WIP
     case 'GET_ALL_MESSAGES':
       let combinedMessages = currentState.messages.concat(action.messages);
+      console.log('combinedMessages>>>>>>>>>>>>>>>>>>????', combinedMessages);
       return {
         ...currentState,
         messages: combinedMessages
@@ -56,8 +57,9 @@ export default function rootReducer(
         getTextMessage: [...currentState.getTextMessage, action.messageObj]
       };
 
-    case 'FETCHED_SOCKET':
-      return { ...currentState, socket: action.socket };
+    //not used in production
+    // case 'FETCHED_SOCKET':
+    //   return { ...currentState, socket: action.socket };
 
     case 'FETCHED_USERS':
       return { ...currentState, users: action.users };

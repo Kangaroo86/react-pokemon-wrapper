@@ -38,9 +38,13 @@ export default class BattlePageComponent extends Component {
     let { getBattleState } = this.props;
 
     socket.on('connect', () => {
+      const battleId = localStorage.getItem('currentBattleId');
+      socket.emit('createdRoom', battleId);
       console.log(
         'Socket Connected. Initalized from BattleComponent ',
-        socket.id
+        socket.id,
+        'battle id >>>>>>>>>',
+        battleId
       );
     });
 
@@ -287,9 +291,8 @@ export default class BattlePageComponent extends Component {
       text: message,
       name: userSignIn.name
     };
-
+    console.log('messageInputed---------------', messageInputed);
     socket.emit('MESSAGE_CREATE', messageInputed);
-
     this.setState({ message: '' });
   };
 
@@ -505,7 +508,9 @@ export default class BattlePageComponent extends Component {
                     </Header>
 
                     {messages &&
+                      messages.length > 0 &&
                       messages.map((message, i) => {
+                        console.log('message------------------', message);
                         return (
                           <Comment key={i}>
                             <Comment.Content>

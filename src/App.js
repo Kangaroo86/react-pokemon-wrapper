@@ -36,18 +36,6 @@ const store = setupStore();
 //   });
 // });
 
-//CREATING A ROOM
-//let socket = io.connect();
-// let room = 'testroom';
-//
-// socket.on('connect', () => {
-//   socket.emit('room', room);
-// });
-//
-// socket.on('message', data => {
-//   console.log('Income message: ', data);
-// });
-
 export default class App extends Component {
   render() {
     return (
