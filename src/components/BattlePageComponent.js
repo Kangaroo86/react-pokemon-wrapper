@@ -69,11 +69,9 @@ export default class BattlePageComponent extends Component {
     if (p1_battle_zone.length < 1) {
       this.setState({ p1_battle_zone: [data] });
 
-      let updatedDeckZone = p1_deck_zone.filter(pokeObj => {
-        if (pokeObj.id !== data.id) {
-          return pokeObj;
-        }
-      });
+      let updatedDeckZone = p1_deck_zone.filter(
+        pokeObj => pokeObj.id !== data.id
+      );
 
       this.setState({ p1_deck_zone: updatedDeckZone });
 
@@ -132,11 +130,9 @@ export default class BattlePageComponent extends Component {
 
     if (p2_battle_zone.length < 1) {
       this.setState({ p2_battle_zone: [data] });
-      let updatedDeckZone = p2_deck_zone.filter(pokeObj => {
-        if (pokeObj.id !== data.id) {
-          return pokeObj;
-        }
-      });
+      let updatedDeckZone = p2_deck_zone.filter(
+        pokeObj => pokeObj.id !== data.id
+      );
 
       this.setState({ p2_deck_zone: updatedDeckZone });
 
@@ -277,7 +273,7 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
-    console.log('my props from BattlePageComponen------------', this.props);
+    //console.log('my props from BattlePageComponen------------', this.props);
     //console.log('battleComp State:----------------->', this.state);
 
     return (
@@ -475,10 +471,12 @@ export default class BattlePageComponent extends Component {
                             <Comment.Content>
                               <Comment.Avatar src={jenny} />
                               <Comment.Author as="a">
-                                {message.name ? message.name : 'Anonymous'}
+                                {message && message.name
+                                  ? message.name
+                                  : 'Anonymous'}
                               </Comment.Author>
                               <Comment.Text>
-                                {message.text}
+                                {message && message.text}
                               </Comment.Text>
                             </Comment.Content>
                           </Comment>

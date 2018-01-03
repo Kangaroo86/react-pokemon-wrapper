@@ -34,10 +34,23 @@ export default function rootReducer(
 
     case 'GET_ALL_MESSAGES':
       let combinedMessages = currentState.messages.concat(action.messages);
+      console.log(
+        'combinedMessages before-------------->>>>>>>>>',
+        combinedMessages
+      );
+
+      if (combinedMessages.length < 0) {
+        return [];
+      }
 
       while (combinedMessages.length > 8) {
         combinedMessages.splice(0, 1);
       }
+
+      console.log(
+        'combinedMessages after-------------->>>>>>>>>',
+        combinedMessages
+      );
 
       return {
         ...currentState,
