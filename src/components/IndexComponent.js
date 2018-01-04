@@ -91,9 +91,13 @@ export default class IndexComponent extends Component {
       //return;
     } else {
       user_signup({ name: name, password: password });
-      this.setState({ signupStatus: true });
-      this.setState({ signUp_name: '' }); //not working
-      this.setState({ signUp_password: '' }); //not working
+      this.setState({
+        signupStatus: true,
+        signUp_name: '',
+        signUp_password: ''
+      });
+      //this.setState({ signUp_name: '' }); //not working
+      //this.setState({ signUp_password: '' }); //not working
       history.push(`/`);
     }
   };
@@ -217,6 +221,7 @@ export default class IndexComponent extends Component {
                     <Form.Input
                       fluid
                       icon="user"
+                      value={this.state.signUp_name}
                       //id="userId"
                       iconPosition="left"
                       placeholder="username"
@@ -231,6 +236,7 @@ export default class IndexComponent extends Component {
                     <Form.Input
                       fluid
                       icon="lock"
+                      value={this.state.signUp_password}
                       //id="passwordId"
                       iconPosition="left"
                       placeholder="password"
