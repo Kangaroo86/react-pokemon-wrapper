@@ -19,9 +19,8 @@ export default class IndexComponent extends Component {
     super(props);
 
     this.state = {
-      socket: null, //socketio
-      error: '', //socketio
       user: '',
+      signupStatus: false,
 
       signIn_name: '',
       signIn_password: '',
@@ -33,12 +32,12 @@ export default class IndexComponent extends Component {
   //*************************//
   //**** sign-up section ****//
   //*************************//
-  handle_signUp_selectedName = data => {
-    this.setState({ signUp_name: data.target.value });
+  handle_signUp_selectedName = event => {
+    this.setState({ signUp_name: event.target.value });
   };
 
-  handle_signUp_selectedPassword = data => {
-    this.setState({ signUp_password: data.target.value });
+  handle_signUp_selectedPassword = event => {
+    this.setState({ signUp_password: event.target.value });
   };
 
   signUp_validate = (signUp_name, signUp_password) => {
@@ -80,16 +79,22 @@ export default class IndexComponent extends Component {
 
   handle_signup = (event, data) => {
     event.preventDefault();
-    const signUp_name = this.state.signUp_name.trim();
-    const signUp_password = this.state.signUp_password.trim();
-    const errorPass = this.signUp_validate(signUp_name, signUp_password);
+    let { signUp_name, signUp_password } = this.state;
+    let { user_signup, history } = this.props;
+
+    let name = signUp_name.trim();
+    let password = signUp_password.trim();
+    let errorPass = this.signUp_validate(name, password);
 
     if (errorPass !== true) {
       this.setState(errorPass);
-      return;
+      //return;
     } else {
-      this.props.user_signup({ name: signUp_name, password: signUp_password });
-      this.props.history.push(`/createdeck`);
+      user_signup({ name: name, password: password });
+      this.setState({ signupStatus: true });
+      this.setState({ signUp_name: '' }); //not working
+      this.setState({ signUp_password: '' }); //not working
+      history.push(`/`);
     }
   };
 
@@ -203,7 +208,11 @@ export default class IndexComponent extends Component {
                   </Form>
 
                   <Divider horizontal>OR</Divider>
-
+                  {this.state.signupStatus
+                    ? <p style={{ color: 'Green' }}>
+                        {'Successfully Registered'}
+                      </p>
+                    : null}
                   <Form size="large">
                     <Form.Input
                       fluid
@@ -218,6 +227,7 @@ export default class IndexComponent extends Component {
                           {this.state.signUp_errorName}
                         </p>
                       : null}
+
                     <Form.Input
                       fluid
                       icon="lock"
