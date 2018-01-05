@@ -20,12 +20,14 @@ export default class IndexComponent extends Component {
 
     this.state = {
       user: '',
-      signupStatus: false,
 
       signIn_name: '',
       signIn_password: '',
       signUp_name: '',
-      signUp_password: ''
+      signUp_password: '',
+      signupStatus: false,
+      signUp_errorName: '',
+      signUP_errorPassword: ''
     };
   }
 
@@ -88,13 +90,14 @@ export default class IndexComponent extends Component {
 
     if (errorPass !== true) {
       this.setState(errorPass);
-      //return;
     } else {
       user_signup({ name: name, password: password });
       this.setState({
         signupStatus: true,
         signUp_name: '',
-        signUp_password: ''
+        signUp_password: '',
+        signUp_errorName: '',
+        signUP_errorPassword: ''
       });
       history.push(`/`);
     }
