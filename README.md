@@ -4,13 +4,12 @@ This is a Pokemon CRUD app that revolves around users building their own Pokemon
 ![screenshot](./src/images/giphy.gif?raw=true)
 
 ## Frontend Technology:
--React Redux,
--Semantic CSS,
--Socket.io,
--Webpack
+- React Redux
+- Semantic CSS
+- Socket.io
 
 ## Backend Technology:
--PostgreSQL,
--Express,
--Node.js
--Knex
+- Node.js
+- Express
+- Knex
+- PostgreSQL
