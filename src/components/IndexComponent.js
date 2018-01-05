@@ -96,8 +96,6 @@ export default class IndexComponent extends Component {
         signUp_name: '',
         signUp_password: ''
       });
-      //this.setState({ signUp_name: '' }); //not working
-      //this.setState({ signUp_password: '' }); //not working
       history.push(`/`);
     }
   };
