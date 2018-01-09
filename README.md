@@ -3,6 +3,8 @@ This is a Pokemon CRUD app that revolves around users building their own Pokemon
 
 ![screenshot](./src/images/giphy.gif?raw=true)
 
+- http://pokemon-capstone.s3-website-us-west-1.amazonaws.com
+
 ## Frontend Technology:
 - React Redux
 - Semantic CSS
