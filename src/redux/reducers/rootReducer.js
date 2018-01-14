@@ -16,7 +16,7 @@ export default function rootReducer(
   action
 ) {
   switch (action.type) {
-    case 'CLEAR_CURRENT_STATES':
+    case 'CLEAR_ROOT_REDUCER':
       return {
         ...currentState,
         createBattleObj: {},
@@ -36,6 +36,7 @@ export default function rootReducer(
     case 'GET_BATTLE_STATE':
       return { ...currentState, getBattleState: action.getBattleState };
 
+    //why do we even need this? this should be updating GET_BATTLE_STATE
     case 'SET_BATTLE_STATE':
       return { ...currentState, setBattleState: action.battleStateObj };
 
@@ -45,7 +46,7 @@ export default function rootReducer(
     case 'REQUEST_BATTLE':
       return { ...currentState, requestBattleObj: action.requestBattleObj };
 
-    case 'GET_ALL_MESSAGES':
+    case 'UPDATE_MESSAGES':
       console.log('current Messages---------', currentState);
       let combinedMessages = currentState.messages.concat(action.messages);
 
@@ -59,7 +60,6 @@ export default function rootReducer(
       };
 
     case 'FETCHED_USERS':
-      console.log('current Messages---------', currentState);
       return { ...currentState, users: action.users };
 
     case 'USER_SIGNUP':

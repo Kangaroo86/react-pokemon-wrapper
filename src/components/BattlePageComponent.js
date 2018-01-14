@@ -42,6 +42,7 @@ export default class BattlePageComponent extends Component {
     });
 
     socket.on('MESSAGE_RESPONSE', messageObj => {
+      console.log('messageObj++++++++', messageObj);
       update_messages(messageObj);
     });
 
@@ -59,6 +60,16 @@ export default class BattlePageComponent extends Component {
   }
 
   // *********************** PLAYER-1 CODES: *********************** //
+
+  //
+  handle_ready = (event, data) => {
+    let { listen_for_updates, set_battleState } = this.props;
+
+    console.log('myState-------', this.state);
+    set_battleState(this.state);
+    //listen_for_updates();
+  };
+
   //p1 select a card from deckzone to battlezone
   handle_p1_select_card = (event, data) => {
     let { p1_battle_zone, p1_deck_zone } = this.state;
@@ -72,9 +83,9 @@ export default class BattlePageComponent extends Component {
       );
 
       this.setState({ p1_deck_zone: updatedDeckZone });
-
-      set_battleState(this.state);
     }
+    // console.log('myState-------', this.state);
+    // set_battleState(this.state);
   };
 
   //p1 inflicts special atks to p2  TODO add more complex battle phase
@@ -180,11 +191,6 @@ export default class BattlePageComponent extends Component {
     set_battleState(this.state);
   };
 
-  handle_ready = (event, data) => {
-    let { listen_for_updates } = this.props;
-    listen_for_updates();
-  };
-
   // *********************** CSS ANIMATION CODES: *********************** //
   //image toggle when p1 get atked
   p1_toggleVisibility = () =>
@@ -274,8 +280,9 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
-    console.log('props from BattlePageComponen------------', this.props);
-    //console.log('battleComp State:----------------->', this.state);
+    //console.log('props from BattlePageComponen------------', this.props);
+    console.log('battleComp State:----------------->', this.state);
+    //console.log('socket----', socket);
 
     return (
       <Grid columns="equal">

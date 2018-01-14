@@ -1,7 +1,7 @@
 export default function updateMessagesProcess(messageObj) {
   return (dispatch, getState, socket) => {
     dispatch({
-      type: 'GET_ALL_MESSAGES',
+      type: 'UPDATE_MESSAGES',
       messages: [messageObj]
     });
   };

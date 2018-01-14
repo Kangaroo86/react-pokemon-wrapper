@@ -109,7 +109,7 @@ export default function getBattleStateProcess(socket) {
             battleState.p2_deck_zone = playerCards;
             battleState.p2_initialized = true;
             if (battleState.p1_initialized === true) {
-              battleState.p1_turn = true;
+              battleState.p1_turn = true; //Q's should this be false?
             }
           }
         }

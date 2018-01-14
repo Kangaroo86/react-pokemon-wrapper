@@ -5,10 +5,14 @@ export default function setBattleStateProcess(stateObj) {
   return (dispatch, getState) => {
     return setBattleState(stateObj).then(battleStateObj => {
       socket.emit('STATE_UPDATED');
-      console.log('setBattleState----', setBattleState);
+      console.log('setBattleState----', battleStateObj);
+      // dispatch({
+      //   type: 'SET_BATTLE_STATE',
+      //   setBattleState: battleStateObj
+      // });
       dispatch({
-        type: 'SET_BATTLE_STATE',
-        setBattleState: battleStateObj
+        type: 'GET_BATTLE_STATE',
+        getBattleState: battleStateObj
       });
     });
   };

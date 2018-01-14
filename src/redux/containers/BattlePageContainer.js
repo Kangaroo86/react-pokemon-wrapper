@@ -35,9 +35,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     get_userDecks: () => dispatch(getUserDecksProcess()),
     get_battleState: socket => dispatch(getBattleStateProcess(socket)),
     listen_for_updates: () => dispatch(listenForUpdatesProcess()),
-    onPokemonObj: pokemonId => {
-      dispatch(getPokemonObjProcess(pokemonId));
-    },
+    onPokemonObj: pokemonId => dispatch(getPokemonObjProcess(pokemonId)),
     set_battleState: stateObj => dispatch(setBattleStateProcess(stateObj)),
     signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
     update_messages: messageObj => dispatch(updateMessagesProcess(messageObj))

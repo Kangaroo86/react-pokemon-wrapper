@@ -1,7 +1,7 @@
 export default function clearRootReducerProcess() {
   return (dispatch, getState, socket) => {
     dispatch({
-      type: 'CLEAR_CURRENT_STATES',
+      type: 'CLEAR_ROOT_REDUCER',
       createBattleObj: {},
       defaultPokemonArray: [],
       errorMessage: null,
