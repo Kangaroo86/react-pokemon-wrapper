@@ -8,7 +8,6 @@ export default function IndexPage({
   defaultPokemonArray,
   getBattleState,
   get_BattleState,
-  get_All_Messages,
   history,
   location,
   listen_For_Updates,
@@ -33,7 +32,6 @@ export default function IndexPage({
       defaultPokemonArray={defaultPokemonArray}
       getBattleState={getBattleState}
       get_BattleState={get_BattleState}
-      get_All_Messages={get_All_Messages}
       history={history}
       location={location}
       listen_For_Updates={listen_For_Updates}

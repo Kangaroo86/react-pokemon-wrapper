@@ -5,7 +5,7 @@ import BattlePage from '../../components/BattlePage';
 import createBattleProcess from '../thunks/createBattleProcess';
 import deleteBattleStateProcess from '../thunks/deleteBattleStateProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
-import getAllMessagesProcess from '../thunks/getAllMessagesProcess';
+//import getAllMessagesProcess from '../thunks/getAllMessagesProcess';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getBattleStateProcess from '../thunks/getBattleStateProcess';
 import socketProcess from '../thunks/socketProcess';
@@ -38,7 +38,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     get_userDecks: () => dispatch(getUserDecksProcess()),
     get_BattleState: socket => dispatch(getBattleStateProcess(socket)),
-    get_All_Messages: () => dispatch(getAllMessagesProcess()), //get all msg from the B/E. dont need it? GET_ALL_MESSAGES taken care of it
+    //get_All_Messages: () => dispatch(getAllMessagesProcess()), //get all msg from the B/E. dont need it? GET_ALL_MESSAGES taken care of it
     init_socket: () => dispatch(socketProcess()),
     listen_For_Updates: () => dispatch(listenForUpdatesProcess()),
     listen_For_Message_Update: messageObj => {
@@ -63,7 +63,7 @@ const withlifecycle = lifecycle({
     });
     //this.props.init_socket();
 
-    this.props.get_All_Messages(); //do we need to call it?
+    //this.props.get_All_Messages(); //do we need to call it?
   }
 });
 

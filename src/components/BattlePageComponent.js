@@ -39,8 +39,9 @@ export default class BattlePageComponent extends Component {
     //initalized socket & created room
     socket.on('connect', () => {
       console.log('Socket initalized from BattleComponent ');
-      const battleId = localStorage.getItem('currentBattleId');
-      socket.emit('CREATE_ROOM', battleId);
+      //const battleId = localStorage.getItem('currentBattleId');
+      //console.log('my battle id--------', battleId);
+      //socket.emit('CREATE_ROOM', battleId);
     });
 
     socket.on('MESSAGE_RESPONSE', messageObj => {
@@ -214,6 +215,8 @@ export default class BattlePageComponent extends Component {
     localStorage.removeItem('userName');
     localStorage.removeItem('userIdSocket');
 
+    //this.props.updateMessagesProcess({});
+
     this.props.signOut();
     this.props.history.push(`/`);
   };
@@ -248,6 +251,7 @@ export default class BattlePageComponent extends Component {
         name: userName
       };
 
+      socket.emit('CREATE_ROOM', battleId);
       socket.emit('CREATE_MESSAGE', messageInputed);
       this.setState({ message: '' });
     }
@@ -273,7 +277,7 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
-    //console.log('my props from BattlePageComponen------------', this.props);
+    console.log('props from BattlePageComponen------------', this.props);
     //console.log('battleComp State:----------------->', this.state);
 
     return (

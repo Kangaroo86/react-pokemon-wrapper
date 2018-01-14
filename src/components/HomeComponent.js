@@ -152,7 +152,6 @@ export default class HomeComponent extends Component {
     let { userDecks } = this.props;
 
     //console.log('my props***********************', this.props);
-
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -217,28 +216,36 @@ export default class HomeComponent extends Component {
               </Menu.Item>
             </Menu> */}
 
-            <Modal
-              trigger={
-                <Button basic color="green">
-                  CREATE BATTLE
-                </Button>
-              }>
-              <Modal.Header>Select a Photo</Modal.Header>
-              <Modal.Content image>
-                <Image wrapped size="medium" src={jenny} />
-                <Modal.Description>
-                  <Header>Default Profile Image</Header>
-                  <p>
-                    We've found the following gravatar image associated with
-                    your e-mail address.
-                  </p>
-                  <p>Is it okay to use this photo?</p>
-                </Modal.Description>
-                <Button basic color="green" onClick={this.handle_createBattle}>
-                  CREATE BATTLE
-                </Button>
-              </Modal.Content>
-            </Modal>
+            {/* {ternary operator, when a user have no deck} */}
+            {this.props.userDecks.length <= 0
+              ? <div style={{ color: 'red', fontSize: 20 }}>
+                  Please create a deck
+                </div>
+              : <Modal
+                  trigger={
+                    <Button basic color="green">
+                      CREATE BATTLE
+                    </Button>
+                  }>
+                  <Modal.Header>Select a Photo</Modal.Header>
+                  <Modal.Content image>
+                    <Image wrapped size="medium" src={jenny} />
+                    <Modal.Description>
+                      <Header>Default Profile Image</Header>
+                      <p>
+                        We've found the following gravatar image associated with
+                        your e-mail address.
+                      </p>
+                      <p>Is it okay to use this photo?</p>
+                    </Modal.Description>
+                    <Button
+                      basic
+                      color="green"
+                      onClick={this.handle_createBattle}>
+                      CREATE BATTLE
+                    </Button>
+                  </Modal.Content>
+                </Modal>}
 
             <Grid centered padded columns={4}>
               <Grid.Row>

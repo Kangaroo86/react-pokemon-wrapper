@@ -33,6 +33,7 @@ export default function rootReducer(
       return { ...currentState, requestBattleObj: action.requestBattleObj };
 
     case 'GET_ALL_MESSAGES':
+      console.log('current Messages---------', currentState);
       let combinedMessages = currentState.messages.concat(action.messages);
 
       while (combinedMessages.length > 8) {
