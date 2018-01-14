@@ -38,7 +38,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
     //init_socket: () => dispatch(socketProcess()),
-    create_Battle: () => dispatch(createBattleProcess()),
+    create_battle: () => dispatch(createBattleProcess()),
     request_Battle: userId => dispatch(requestBattleProcess(userId)) //do i need ot hardcord userid to process?
   };
 }

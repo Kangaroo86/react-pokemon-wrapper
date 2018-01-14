@@ -34,18 +34,15 @@ export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
-    let { getBattleState } = this.props;
+    let { getBattleState, update_messages } = this.props;
 
     //initalized socket & created room
     socket.on('connect', () => {
       console.log('Socket initalized from BattleComponent ');
-      //const battleId = localStorage.getItem('currentBattleId');
-      //console.log('my battle id--------', battleId);
-      //socket.emit('CREATE_ROOM', battleId);
     });
 
     socket.on('MESSAGE_RESPONSE', messageObj => {
-      this.props.updateMessagesProcess(messageObj);
+      update_messages(messageObj);
     });
 
     this.state = {
@@ -65,7 +62,7 @@ export default class BattlePageComponent extends Component {
   //p1 select a card from deckzone to battlezone
   handle_p1_select_card = (event, data) => {
     let { p1_battle_zone, p1_deck_zone } = this.state;
-    let { set_BattleState } = this.props;
+    let { set_battleState } = this.props;
 
     if (p1_battle_zone.length < 1) {
       this.setState({ p1_battle_zone: [data] });
@@ -76,14 +73,14 @@ export default class BattlePageComponent extends Component {
 
       this.setState({ p1_deck_zone: updatedDeckZone });
 
-      set_BattleState(this.state);
+      set_battleState(this.state);
     }
   };
 
   //p1 inflicts special atks to p2  TODO add more complex battle phase
   handle_p1_specialAtk = (event, data) => {
     let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
-    let { set_BattleState } = this.props;
+    let { set_battleState } = this.props;
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
 
@@ -99,13 +96,13 @@ export default class BattlePageComponent extends Component {
     }
 
     this.setState({ p1_turn: false, p2_turn: true });
-    set_BattleState(this.state);
+    set_battleState(this.state);
   };
 
   //P1 inflicts normal atk to P2
   handle_p1_atk = (event, data) => {
     let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
-    let { set_BattleState } = this.props;
+    let { set_battleState } = this.props;
 
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
@@ -120,14 +117,14 @@ export default class BattlePageComponent extends Component {
     }
 
     this.setState({ p1_turn: false, p2_turn: true });
-    set_BattleState(this.state);
+    set_battleState(this.state);
   };
 
   // *********************** PLAYER-2 CODES: *********************** //
   //p2 select card to battle zone
   handle_p2_select_card = (event, data) => {
     let { p2_battle_zone, p2_deck_zone } = this.state;
-    let { set_BattleState } = this.props;
+    let { set_battleState } = this.props;
 
     if (p2_battle_zone.length < 1) {
       this.setState({ p2_battle_zone: [data] });
@@ -137,14 +134,14 @@ export default class BattlePageComponent extends Component {
 
       this.setState({ p2_deck_zone: updatedDeckZone });
 
-      set_BattleState(this.state);
+      set_battleState(this.state);
     }
   };
 
   //p2 atks p1 w/ special atk TODO add more complex battle phase
   handle_p2_specialAtk = (event, data) => {
     let { p2_battle_zone, p1_battle_zone, p1_grave_yard } = this.state;
-    let { set_BattleState } = this.props;
+    let { set_battleState } = this.props;
 
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
@@ -159,13 +156,13 @@ export default class BattlePageComponent extends Component {
     }
 
     this.setState({ p1_turn: true, p2_turn: false });
-    set_BattleState(this.state);
+    set_battleState(this.state);
   };
 
   //P2 inflicts normal atk to P1
   handle_p2_atk = (event, data) => {
     let { p2_battle_zone, p1_battle_zone, p1_grave_yard } = this.state;
-    let { set_BattleState } = this.props;
+    let { set_battleState } = this.props;
 
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
@@ -180,12 +177,12 @@ export default class BattlePageComponent extends Component {
     }
 
     this.setState({ p1_turn: true, p2_turn: false });
-    set_BattleState(this.state);
+    set_battleState(this.state);
   };
 
   handle_ready = (event, data) => {
-    let { listen_For_Updates } = this.props;
-    listen_For_Updates();
+    let { listen_for_updates } = this.props;
+    listen_for_updates();
   };
 
   // *********************** CSS ANIMATION CODES: *********************** //
@@ -215,7 +212,7 @@ export default class BattlePageComponent extends Component {
     localStorage.removeItem('userName');
     localStorage.removeItem('userIdSocket');
 
-    //this.props.updateMessagesProcess({});
+    this.props.clear_currentStates_Process();
 
     this.props.signOut();
     this.props.history.push(`/`);

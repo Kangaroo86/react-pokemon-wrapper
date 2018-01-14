@@ -1,11 +1,11 @@
 //import getBattleState from '../../api/getBattleState';
-import { socket } from '../../components/BattlePageComponent';
-
-export default function listenForMessageUpdateProcess(messageObj) {
-  return (dispatch, getState) => {
-    socket.emit('MESSAGE_CREATE', messageObj);
-  };
-}
+// import { socket } from '../../components/BattlePageComponent';
+//
+// export default function listenForMessageUpdateProcess(messageObj) {
+//   return (dispatch, getState) => {
+//     socket.emit('MESSAGE_CREATE', messageObj);
+//   };
+// }
 
 /*
 

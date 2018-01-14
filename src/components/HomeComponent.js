@@ -84,8 +84,8 @@ export default class HomeComponent extends Component {
   };
 
   handle_createBattle = (event, data) => {
-    const { create_Battle } = this.props;
-    create_Battle();
+    const { create_battle } = this.props;
+    create_battle();
 
     let deckId = localStorage.getItem('deckSelected');
     //localStorage.setItem('deckSelected', data.value.id);

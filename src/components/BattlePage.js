@@ -2,51 +2,51 @@ import React from 'react';
 import BattlePageComponent from './BattlePageComponent';
 
 export default function IndexPage({
-  create_Battle,
   createBattleObj,
+  clear_currentStates_Process,
   delete_Battle_state,
   defaultPokemonArray,
   getBattleState,
-  get_BattleState,
+  get_battleState,
   history,
   location,
-  listen_For_Updates,
-  listen_For_Message_Update,
+  listen_for_updates,
+  //listen_For_Message_Update,
   match,
   messages,
   onPokemonObj,
   pokemonArray,
   setBattleState,
-  set_BattleState,
+  set_battleState,
   signOut,
   socket,
   userDecks,
   userSignIn,
-  updateMessagesProcess
+  update_messages
 }) {
   return (
     <BattlePageComponent
-      create_Battle={create_Battle}
       createBattleObj={createBattleObj}
+      clear_currentStates_Process={clear_currentStates_Process}
       delete_Battle_state={delete_Battle_state}
       defaultPokemonArray={defaultPokemonArray}
       getBattleState={getBattleState}
-      get_BattleState={get_BattleState}
+      get_battleState={get_battleState}
       history={history}
       location={location}
-      listen_For_Updates={listen_For_Updates}
-      listen_For_Message_Update={listen_For_Message_Update}
+      listen_for_updates={listen_for_updates}
+      //listen_For_Message_Update={listen_For_Message_Update}
       match={match}
       messages={messages}
       onPokemonObj={onPokemonObj}
       pokemonArray={pokemonArray}
       setBattleState={setBattleState}
-      set_BattleState={set_BattleState}
+      set_battleState={set_battleState}
       signOut={signOut}
       socket={socket}
       userDecks={userDecks}
       userSignIn={userSignIn}
-      updateMessagesProcess={updateMessagesProcess}
+      update_messages={update_messages}
     />
   );
 }

@@ -35,14 +35,14 @@ export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
-    let { userDecks, socket, get_BattleState } = this.props;
+    let { userDecks, socket, get_battleState } = this.props;
 
     let playerCards = [];
 
     //let battleId = Number(localStorage.getItem('currentBattleId'));
     let playerNum = Number(localStorage.getItem('playerNum'));
 
-    get_BattleState(28).then(battleState => {
+    get_battleState(28).then(battleState => {
       let processDeck = false;
 
       if (battleState === null) {

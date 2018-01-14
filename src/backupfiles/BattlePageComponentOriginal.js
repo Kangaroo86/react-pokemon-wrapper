@@ -31,11 +31,11 @@ export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
-    let { userDecks, socket, userSignIn, get_BattleState } = this.props;
+    let { userDecks, socket, userSignIn, get_battleState } = this.props;
     let p1_cards = [];
     let p2_cards = [];
 
-    get_BattleState();
+    get_battleState();
     userDecks.filter(deck => {
       if (deck.id === Number(this.props.match.params.deckId)) {
         p1_cards = deck.cards.map((pokeObj, i) => {
@@ -265,7 +265,7 @@ export default class BattlePageComponent extends Component {
   };
 
   // componentDidMount() {
-  //   this.props.get_BattleState();
+  //   this.props.get_battleState();
   // }
 
   render() {

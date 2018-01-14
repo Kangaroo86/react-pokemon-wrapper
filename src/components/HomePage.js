@@ -17,7 +17,7 @@ export default function SignInPage({
   match,
   socket,
   socketID, //wip, currently not using
-  create_Battle,
+  create_battle,
   request_Battle,
   connectedPlayers,
   location
@@ -27,7 +27,7 @@ export default function SignInPage({
       <HomeComponent
         createBattleObj={createBattleObj}
         request_Battle={request_Battle}
-        create_Battle={create_Battle}
+        create_battle={create_battle}
         connectedPlayers={connectedPlayers}
         userSignIn={userSignIn}
         socket={socket}
