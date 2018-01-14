@@ -5,7 +5,6 @@ import IndexPage from '../../components/IndexPage';
 import SignInProcess from '../thunks/SignInProcess';
 import signUpProcess from '../thunks/signUpProcess';
 import getRegisteredUsersObjProcess from '../thunks/getRegisteredUsersObjProcess';
-//import socketProcess from '../thunks/socketProcess';
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -26,14 +25,12 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch(signUpProcess(attribute));
     },
     get_user: () => dispatch(getRegisteredUsersObjProcess())
-    //init_socket: () => dispatch(socketProcess())
   };
 }
 
 const withlifecycle = lifecycle({
   componentDidMount() {
     this.props.get_user();
-    //this.props.init_socket();
   }
 });
 

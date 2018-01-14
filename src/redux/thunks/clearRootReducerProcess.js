@@ -1,4 +1,4 @@
-export default function clearCurrentStatesProcess() {
+export default function clearRootReducerProcess() {
   return (dispatch, getState, socket) => {
     dispatch({
       type: 'CLEAR_CURRENT_STATES',

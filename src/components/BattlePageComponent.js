@@ -198,11 +198,11 @@ export default class BattlePageComponent extends Component {
 
   handle_signOut = (event, { name }) => {
     event.preventDefault();
-    let { delete_Battle_state } = this.props;
+    let { delete_battleState } = this.props;
     let battleId = localStorage.getItem('currentBattleId');
 
     this.setState({ activeItem: name });
-    delete_Battle_state(battleId);
+    delete_battleState(battleId);
 
     localStorage.removeItem('currentBattleId');
     localStorage.removeItem('deckSelected');
@@ -212,7 +212,7 @@ export default class BattlePageComponent extends Component {
     localStorage.removeItem('userName');
     localStorage.removeItem('userIdSocket');
 
-    this.props.clear_currentStates_Process();
+    this.props.clear_rootReducer();
 
     this.props.signOut();
     this.props.history.push(`/`);

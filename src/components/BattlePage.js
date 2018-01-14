@@ -3,15 +3,14 @@ import BattlePageComponent from './BattlePageComponent';
 
 export default function IndexPage({
   createBattleObj,
-  clear_currentStates_Process,
-  delete_Battle_state,
+  clear_rootReducer,
+  delete_battleState,
   defaultPokemonArray,
   getBattleState,
   get_battleState,
   history,
   location,
   listen_for_updates,
-  //listen_For_Message_Update,
   match,
   messages,
   onPokemonObj,
@@ -27,15 +26,14 @@ export default function IndexPage({
   return (
     <BattlePageComponent
       createBattleObj={createBattleObj}
-      clear_currentStates_Process={clear_currentStates_Process}
-      delete_Battle_state={delete_Battle_state}
+      clear_rootReducer={clear_rootReducer}
+      delete_battleState={delete_battleState}
       defaultPokemonArray={defaultPokemonArray}
       getBattleState={getBattleState}
       get_battleState={get_battleState}
       history={history}
       location={location}
       listen_for_updates={listen_for_updates}
-      //listen_For_Message_Update={listen_For_Message_Update}
       match={match}
       messages={messages}
       onPokemonObj={onPokemonObj}

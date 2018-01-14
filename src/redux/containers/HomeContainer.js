@@ -5,11 +5,8 @@ import HomePage from '../../components/HomePage';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import deleteDecksProcess from '../thunks/deleteDecksProcess';
-import updateDecksProcess from '../thunks/updateDecksProcess';
-//import socketProcess from '../thunks/socketProcess';
-import createBattleProcess from '../thunks/createBattleProcess'; //wip
-import requestBattleProcess from '../thunks/requestBattleProcess';
-//import { USER_CONNECTED } from '../serverChat/Events';
+import createBattleProcess from '../thunks/createBattleProcess';
+//import requestBattleProcess from '../thunks/requestBattleProcess'; NOT USED IN PRODUCTION
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -18,8 +15,6 @@ function mapStateToProps(state, ownProps) {
     defaultPokemonArray: state.defaultPokemonArray,
     userDecks: state.userDecks,
     userSignIn: state.userSignIn,
-    socket: state.socket,
-    //socketID: state.socketID,
     createBattleObj: state.createBattleObj
   };
 }
@@ -33,25 +28,16 @@ function mapDispatchToProps(dispatch, ownProps) {
     delete_decks: deckId => {
       dispatch(deleteDecksProcess(deckId));
     },
-    update_Decks: (id, deckName, pokemonIds) => {
-      dispatch(updateDecksProcess(id, deckName, pokemonIds));
-    },
     signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
-    //init_socket: () => dispatch(socketProcess()),
-    create_battle: () => dispatch(createBattleProcess()),
-    request_Battle: userId => dispatch(requestBattleProcess(userId)) //do i need ot hardcord userid to process?
+    create_battle: () => dispatch(createBattleProcess())
+    //request_Battle: userId => dispatch(requestBattleProcess(userId)) NOT USED IN PRODUCTION
   };
 }
 
 const withlifecycle = lifecycle({
   componentDidMount(prevProps, prevState) {
     this.props.get_userDecks();
-    //this.props.init_socket();
   }
-  // componentDidCatch(error, info) {
-  //   console.log('error--------', error);
-  //   console.log('info--------', info);
-  // }
 });
 
 const connectToStore = connect(mapStateToProps, mapDispatchToProps);
