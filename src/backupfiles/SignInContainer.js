@@ -2,7 +2,7 @@ import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SignInPage from '../../components/SignInPage';
-import SignInProcess from '../thunks/SignInProcess';
+import signInProcess from '../thunks/signInProcess';
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -14,7 +14,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     signIn_user: attribute => {
-      dispatch(SignInProcess(attribute));
+      dispatch(signInProcess(attribute));
     }
   };
 }

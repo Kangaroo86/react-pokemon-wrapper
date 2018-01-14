@@ -18,7 +18,6 @@ export default function IndexPage({
   setBattleState,
   set_battleState,
   signOut,
-  socket,
   userDecks,
   userSignIn,
   update_messages
@@ -41,7 +40,6 @@ export default function IndexPage({
       setBattleState={setBattleState}
       set_battleState={set_battleState}
       signOut={signOut}
-      socket={socket}
       userDecks={userDecks}
       userSignIn={userSignIn}
       update_messages={update_messages}

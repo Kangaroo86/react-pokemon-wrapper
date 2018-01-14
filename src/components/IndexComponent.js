@@ -82,7 +82,7 @@ export default class IndexComponent extends Component {
   handle_signup = (event, data) => {
     event.preventDefault();
     let { signUp_name, signUp_password } = this.state;
-    let { user_signup, history } = this.props;
+    let { signUp, history } = this.props;
 
     let name = signUp_name.trim();
     let password = signUp_password.trim();
@@ -91,7 +91,7 @@ export default class IndexComponent extends Component {
     if (errorPass !== true) {
       this.setState(errorPass);
     } else {
-      user_signup({ name: name, password: password });
+      signUp({ name: name, password: password });
       this.setState({
         signupStatus: true,
         signUp_name: '',
@@ -141,7 +141,7 @@ export default class IndexComponent extends Component {
 
     if (failedValidation) {
     } else {
-      this.props.signIn_user({ name, password });
+      this.props.signIn({ name, password });
     }
   };
 

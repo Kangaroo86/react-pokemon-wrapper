@@ -2,26 +2,24 @@ import React from 'react';
 import IndexComponent from './IndexComponent';
 
 export default function SignInPage({
-  signIn_user,
+  signIn,
   userSignIn,
   errorMessage,
   history,
   userSignup,
-  user_signup,
-  users,
-  socket
+  signUp,
+  users
 }) {
   return (
     <div>
       <IndexComponent
-        signIn_user={signIn_user}
+        signIn={signIn}
         history={history}
         userSignIn={userSignIn}
         errorMessage={errorMessage}
         userSignup={userSignup}
-        user_signup={user_signup}
+        signUp={signUp}
         users={users}
-        socket={socket}
       />
     </div>
   );

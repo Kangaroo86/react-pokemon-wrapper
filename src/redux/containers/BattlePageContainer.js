@@ -22,7 +22,6 @@ function mapStateToProps(state, ownProps) {
     pokemonArray: state.pokemonArray,
     userSignIn: state.userSignIn,
     userDecks: state.userDecks,
-    socket: state.socket,
     setBattleState: state.setBattleState
   };
 }
