@@ -1,5 +1,6 @@
 export default function listenForUpdatesProcess(obj) {
   return (dispatch, getState) => {
+    console.log('listenForUpdate-----', obj);
     dispatch({
       type: 'GET_BATTLE_STATE',
       getBattleState: obj
