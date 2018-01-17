@@ -34,7 +34,7 @@ export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
-    let { getBattleState, update_messages } = this.props;
+    let { getBattleState, update_messages, listen_for_updates } = this.props;
 
     //initalized socket & created room
     socket.on('connect', () => {
@@ -42,8 +42,12 @@ export default class BattlePageComponent extends Component {
     });
 
     socket.on('MESSAGE_RESPONSE', messageObj => {
-      console.log('messageObj++++++++', messageObj);
       update_messages(messageObj);
+    });
+
+    socket.on('UPDATED_BATTLE_STATE', obj => {
+      console.log('backend result-----------', obj);
+      listen_for_updates(obj);
     });
 
     this.state = {
@@ -65,7 +69,6 @@ export default class BattlePageComponent extends Component {
   handle_ready = (event, data) => {
     let { listen_for_updates, set_battleState } = this.props;
 
-    console.log('myState-------', this.state);
     set_battleState(this.state);
     //listen_for_updates();
   };
@@ -85,7 +88,7 @@ export default class BattlePageComponent extends Component {
       this.setState({ p1_deck_zone: updatedDeckZone });
     }
     // console.log('myState-------', this.state);
-    // set_battleState(this.state);
+    //set_battleState(this.state);
   };
 
   //p1 inflicts special atks to p2  TODO add more complex battle phase
@@ -280,7 +283,10 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
-    //console.log('props from BattlePageComponen------------', this.props);
+    console.log(
+      'this.props.getBattleState------------',
+      this.props.getBattleState
+    );
     console.log('battleComp State:----------------->', this.state);
     //console.log('socket----', socket);
 

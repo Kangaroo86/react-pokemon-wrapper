@@ -47,7 +47,6 @@ export default function rootReducer(
       return { ...currentState, requestBattleObj: action.requestBattleObj };
 
     case 'UPDATE_MESSAGES':
-      console.log('current Messages---------', currentState);
       let combinedMessages = currentState.messages.concat(action.messages);
 
       while (combinedMessages.length > 8) {

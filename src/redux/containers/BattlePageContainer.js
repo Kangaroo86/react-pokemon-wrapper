@@ -34,9 +34,11 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     get_userDecks: () => dispatch(getUserDecksProcess()),
     get_battleState: socket => dispatch(getBattleStateProcess(socket)),
-    listen_for_updates: () => dispatch(listenForUpdatesProcess()),
+    listen_for_updates: obj => dispatch(listenForUpdatesProcess(obj)),
     onPokemonObj: pokemonId => dispatch(getPokemonObjProcess(pokemonId)),
-    set_battleState: stateObj => dispatch(setBattleStateProcess(stateObj)),
+    set_battleState: (stateObj, battleId) => {
+      return dispatch(setBattleStateProcess(stateObj, battleId));
+    },
     signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
     update_messages: messageObj => dispatch(updateMessagesProcess(messageObj))
   };
@@ -49,6 +51,7 @@ const withlifecycle = lifecycle({
     this.props.get_userDecks().then(() => {
       this.props.get_battleState(socket);
     });
+    //this.props.listen_for_updates();
   }
 });
 

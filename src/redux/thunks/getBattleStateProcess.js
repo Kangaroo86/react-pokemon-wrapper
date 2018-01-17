@@ -12,7 +12,9 @@ export default function getBattleStateProcess(socket) {
         let playerCards = [];
         let playerNum = Number(localStorage.getItem('playerNum'));
         let deckId = Number(localStorage.getItem('deckSelected'));
+        let battleId = Number(localStorage.getItem('currentBattleId'));
 
+        //console.log('myBattle Id---------', battleId);
         //initialize deck when battleState is undefine
         if (!battleState) {
           processDeck = true;
@@ -73,13 +75,14 @@ export default function getBattleStateProcess(socket) {
         //when battleState is undefine, set it to default
         if (!battleState) {
           battleState = {
-            activeItem: '', //animation
-            message: '', //socet io
-            receivedMessages: [], //socket io
+            //activeItem: '', //animation
+            //message: '', //socet io
+            //receivedMessages: [], //socket io
 
             // p1_animation: 'shake', //animation
             // p1_duration: 500, //animation
             // p1_visible: true, //animation
+            battle_id: battleId,
             p1_battle_zone: [],
             p1_deck_zone: [],
             p1_grave_yard: [],
@@ -116,12 +119,14 @@ export default function getBattleStateProcess(socket) {
 
         scope.battleState = battleState; //store battleState to reference later
         scope.processDeck = processDeck; //to reference processDeck is True
-        return processDeck ? setBattleState(battleState) : {};
+        //return processDeck ? setBattleState(battleState) : {};
+        return {};
       })
       .then(() => {
         //Emiting to B/E that the state was updated
+        console.log('scope.battleState-----', scope.battleState);
         if (scope.processDeck === true) {
-          socket.emit('STATE_UPDATED');
+          socket.emit('STATE_UPDATED', scope.battleState);
         }
         const battleState = scope.battleState;
         //console.log('battleState From thunk after----', battleState);
