@@ -10,12 +10,14 @@ export default function getBattleStateProcess(socket) {
 
         let processDeck = false;
         let playerCards = [];
+
         let playerNum = Number(localStorage.getItem('playerNum'));
         let deckId = Number(localStorage.getItem('deckSelected'));
         let battleId = Number(localStorage.getItem('currentBattleId'));
 
         //Initialize deck when battleState is undefine.
-        //BattleState is always null on first render for Player_1
+        //BattleState is always null on first render for Player_1.
+        //Qs What about Player_2? his battle will not be Null.
         if (!battleState) {
           processDeck = true;
         } else {

@@ -52,7 +52,8 @@ export default function rootReducer(
       while (combinedMessages.length > 8) {
         combinedMessages.splice(0, 1);
       }
-
+      //console.log('currentState-------------------', currentState.messages);
+      //console.log('combinedMessages-------------------', combinedMessages);
       return {
         ...currentState,
         messages: combinedMessages

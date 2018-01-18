@@ -21,7 +21,7 @@
 
 
 Cycle
-  F/E [ BattlePageContainer emit the inital battleState ] ----->
+  F/E [ BattlePageContainer emit the initial battleState ] BEGINS----->
   B/E [ socket.on('STATE_UPDATED') receives the obj and make updates to the database ] ----->
   B/E [ socket.emit('UPDATED_BATTLE_STATE') emits the updated to the F/E to be stored in Redux Store ] ----->
-  F/E [ socket.on('UPDATED_BATTLE_STATE')] dispatch the updated obj to the Redux Store ]
+  F/E [ socket.on('UPDATED_BATTLE_STATE')] dispatch the updated obj to the Redux Store ] -----ENDS

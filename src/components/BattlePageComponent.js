@@ -29,12 +29,14 @@ const socketUrl = `${env.API_BASE_URL}`; //socket-io
 export const socket = io(socketUrl); //exported to battlePageContainer
 
 let colors = ['red', 'violet', 'blue', 'pink', 'green'];
+//const battleId = localStorage.getItem('currentBattleId');
 
 export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
     let { getBattleState, update_messages, listen_for_updates } = this.props;
+    //const battleId = localStorage.getItem('currentBattleId');
 
     //initalized socket & created room
     socket.on('connect', () => {
@@ -42,8 +44,12 @@ export default class BattlePageComponent extends Component {
     });
 
     socket.on('MESSAGE_RESPONSE', messageObj => {
+      console.log('am i receing messages-------------', messageObj);
       update_messages(messageObj);
     });
+
+    // console.log('battleId+++++++++++++++++', battleId);
+    // socket.emit('CREATE_ROOM', battleId);
 
     socket.on('UPDATED_BATTLE_STATE', obj => {
       console.log('backend result-----------', obj);
@@ -283,10 +289,10 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
-    console.log(
-      'this.props.getBattleState------------',
-      this.props.getBattleState
-    );
+    // console.log(
+    //   'this.props.getBattleState------------',
+    //   this.props.getBattleState
+    // );
     console.log('battleComp State:----------------->', this.state);
     //console.log('socket----', socket);
 
