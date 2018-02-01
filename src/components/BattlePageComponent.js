@@ -40,11 +40,11 @@ export default class BattlePageComponent extends Component {
 
     //initalized socket & created room
     socket.on('connect', () => {
-      console.log('Socket initalized from BattleComponent ');
+      console.log('Socket initalized from BattleComponent ', socket.id);
     });
 
     socket.on('MESSAGE_RESPONSE', messageObj => {
-      console.log('am i receing messages-------------', messageObj);
+      //console.log('am i receing messages-------------', messageObj);
       update_messages(messageObj);
     });
 
@@ -294,7 +294,7 @@ export default class BattlePageComponent extends Component {
     //   this.props.getBattleState
     // );
     console.log('battleComp State:----------------->', this.state);
-    //console.log('socket----', socket);
+    console.log('socket----', socket);
 
     return (
       <Grid columns="equal">

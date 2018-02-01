@@ -34,11 +34,13 @@ export default function rootReducer(
       };
 
     case 'GET_BATTLE_STATE':
+      console.log('GET_BATTLE_STATE----------', action.getBattleState);
       return { ...currentState, getBattleState: action.getBattleState };
 
     //why do we even need this? this should be updating GET_BATTLE_STATE
-    case 'SET_BATTLE_STATE':
-      return { ...currentState, setBattleState: action.battleStateObj };
+    // case 'SET_BATTLE_STATE':
+    //   console.log('action++++++++++', action);
+    //   return { ...currentState, setBattleState: action.battleStateObj };
 
     case 'CREATE_BATTLE':
       return { ...currentState, createBattleObj: action.createBattleObj };
