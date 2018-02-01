@@ -1,5 +1,5 @@
 import getBattleState from '../../api/getBattleState';
-import setBattleState from '../../api/setBattleState';
+//import setBattleState from '../../api/setBattleState';
 
 export default function getBattleStateProcess(socket) {
   return (dispatch, getState) => {
