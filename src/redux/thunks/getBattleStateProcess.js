@@ -1,7 +1,9 @@
 import getBattleState from '../../api/getBattleState';
 //import setBattleState from '../../api/setBattleState';
+import { socket } from '../../socket.io/socketManager';
 
-export default function getBattleStateProcess(socket) {
+export default function getBattleStateProcess() {
+  //export default function getBattleStateProcess(socket) {
   return (dispatch, getState) => {
     const scope = {};
     return getBattleState()
@@ -126,12 +128,12 @@ export default function getBattleStateProcess(socket) {
       })
       .then(() => {
         //Emiting to B/E that the state was updated
-        if (scope.processDeck === true) {
-          console.log('scope.battleState-----', scope.battleState);
-          socket.emit('STATE_UPDATED', scope.battleState);
-        }
         const battleState = scope.battleState;
-        //console.log('battleState From thunk after----', battleState);
+
+        if (scope.processDeck === true) {
+          console.log('getBattleStateProcess-----', battleState);
+          socket.emit('STATE_UPDATED', battleState);
+        }
         dispatch({ type: 'GET_BATTLE_STATE', getBattleState: battleState });
       });
   };

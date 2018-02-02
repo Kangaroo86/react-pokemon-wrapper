@@ -17,44 +17,50 @@ import {
   Label,
   Image,
   Table,
-  Header,
   Button,
   Progress,
   Segment
 } from 'semantic-ui-react';
 
-import io from 'socket.io-client'; //socket-io
-import env from '../env'; //socket-io
-const socketUrl = `${env.API_BASE_URL}`; //socket-io
-export const socket = io(socketUrl); //exported to battlePageContainer
+// import io from 'socket.io-client'; //socket-io
+// import env from '../env'; //socket-io
+// const socketUrl = `${env.API_BASE_URL}`; //socket-io
+// export const socket = io(socketUrl); //exported to battlePageContainer
 
 let colors = ['red', 'violet', 'blue', 'pink', 'green'];
-//const battleId = localStorage.getItem('currentBattleId');
 
 export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
-    let { getBattleState, update_messages, listen_for_updates } = this.props;
-    //const battleId = localStorage.getItem('currentBattleId');
+    let {
+      getBattleState,
+      update_messages,
+      listen_for_updates,
+      get_battleState
+    } = this.props;
 
     //initalized socket & created room
-    socket.on('connect', () => {
-      console.log('Socket initalized from BattleComponent ', socket.id);
-    });
+    // socket.on('connect', () => {
+    //   console.log('Socket initalized: ', socket.id);
+    // });
 
-    socket.on('MESSAGE_RESPONSE', messageObj => {
-      //console.log('am i receing messages-------------', messageObj);
-      update_messages(messageObj);
-    });
+    update_messages();
+    listen_for_updates();
+    //get_battleState();
+
+    // socket.on('MESSAGE_RESPONSE', messageObj => {
+    //   //console.log('am i receing messages-------------', messageObj);
+    //   update_messages(messageObj);
+    // });
 
     // console.log('battleId+++++++++++++++++', battleId);
     // socket.emit('CREATE_ROOM', battleId);
 
-    socket.on('UPDATED_BATTLE_STATE', obj => {
-      console.log('backend result-----------', obj);
-      listen_for_updates(obj);
-    });
+    // socket.on('UPDATED_BATTLE_STATE', obj => {
+    //   console.log('backend result-----------', obj);
+    //   listen_for_updates(obj);
+    // });
 
     this.state = {
       activeItem: '', //animation
@@ -65,6 +71,7 @@ export default class BattlePageComponent extends Component {
       p2_duration: 500, //animation
       p2_visible: true, //animation
       message: '', //socet io
+      createRoom: false,
       ...getBattleState
     };
   }
@@ -75,6 +82,7 @@ export default class BattlePageComponent extends Component {
   handle_ready = (event, data) => {
     let { listen_for_updates, set_battleState } = this.props;
 
+    console.log('this.state----------------', this.state);
     set_battleState(this.state);
     //listen_for_updates();
   };
@@ -247,6 +255,13 @@ export default class BattlePageComponent extends Component {
     this.setState({ message: event.target.value });
   };
 
+  handle_createRoom = () => {
+    const battleId = localStorage.getItem('currentBattleId');
+
+    this.setState({ createRoom: true });
+    this.props.create_room(battleId);
+  };
+
   handle_submitMessage = event => {
     let { message } = this.state;
 
@@ -263,8 +278,11 @@ export default class BattlePageComponent extends Component {
         name: userName
       };
 
-      socket.emit('CREATE_ROOM', battleId);
-      socket.emit('CREATE_MESSAGE', messageInputed);
+      //socket.emit('CREATE_ROOM', battleId);
+      //socket.emit('CREATE_MESSAGE', messageInputed);
+      //this.props.create_room(battleId);
+      this.props.create_message(messageInputed);
+
       this.setState({ message: '' });
     }
   };
@@ -272,6 +290,7 @@ export default class BattlePageComponent extends Component {
   render() {
     let {
       activeItem,
+      createRoom,
       message,
       p1_animation,
       p1_duration,
@@ -289,12 +308,7 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
-    // console.log(
-    //   'this.props.getBattleState------------',
-    //   this.props.getBattleState
-    // );
-    console.log('battleComp State:----------------->', this.state);
-    console.log('socket----', socket);
+    //console.log('messages+++++++++++', this.props.messages);
 
     return (
       <Grid columns="equal">
@@ -465,7 +479,7 @@ export default class BattlePageComponent extends Component {
                               ATK
                             </Button>
                             <Button
-                              onClick={!p1_turn ? this.handle_ready : null}
+                              onClick={p1_turn ? this.handle_ready : null}
                               compact
                               size="medium"
                               inverted
@@ -480,9 +494,27 @@ export default class BattlePageComponent extends Component {
                   </Grid.Column>
 
                   <Comment.Group>
-                    <Header as="h3" dividing>
+                    {/* <Header as="h3" dividing>
                       Chat Room
-                    </Header>
+                    </Header> */}
+
+                    {!createRoom
+                      ? <Menu inverted compact onClick={this.handle_createRoom}>
+                          <Menu.Item as="a">
+                            <Icon size="big" name="users" /> CREATE ROOM
+                            <Label color="teal" floating>
+                              0
+                            </Label>
+                          </Menu.Item>
+                        </Menu>
+                      : <Menu inverted compact disabled>
+                          <Menu.Item as="a">
+                            <Icon size="big" name="users" /> CHAT ROOM
+                            <Label color="teal" floating>
+                              22
+                            </Label>
+                          </Menu.Item>
+                        </Menu>}
 
                     {messages &&
                       messages.map((message, i) => {
@@ -634,7 +666,7 @@ export default class BattlePageComponent extends Component {
                               ATK
                             </Button>
                             <Button
-                              onClick={!p2_turn ? this.handle_ready : null}
+                              onClick={p2_turn ? this.handle_ready : null}
                               compact
                               size="medium"
                               inverted

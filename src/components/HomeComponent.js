@@ -88,6 +88,9 @@ export default class HomeComponent extends Component {
     create_battle();
 
     let deckId = localStorage.getItem('deckSelected');
+    //let battleId = localStorage.getItem('currentBattleId');
+
+    //this.props.create_room(battleId);
     //localStorage.setItem('deckSelected', data.value.id);
     //this.props.history.push(`/decks/${data.value.id}/battle`);
     this.props.history.push(`/decks/${deckId}/battle`);

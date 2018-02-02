@@ -1,9 +1,12 @@
-export default function updateMessagesProcess(messageObj) {
-  return (dispatch, getState, socket) => {
-    console.log('from thunk messages received-----------------', messageObj);
-    dispatch({
-      type: 'UPDATE_MESSAGES',
-      messages: [messageObj]
+import { socket } from '../../socket.io/socketManager';
+
+export default function updateMessagesProcess() {
+  return (dispatch, getState) => {
+    socket.on('MESSAGE_RESPONSE', messageObj => {
+      dispatch({
+        type: 'UPDATE_MESSAGES',
+        messages: [messageObj]
+      });
     });
   };
 }

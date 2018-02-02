@@ -2,6 +2,7 @@ import React from 'react';
 import HomeComponent from './HomeComponent';
 
 export default function SignInPage({
+  create_room,
   pokemonObj,
   pokemonArray,
   defaultPokemonArray,
@@ -21,6 +22,7 @@ export default function SignInPage({
   return (
     <div>
       <HomeComponent
+        create_room={create_room}
         createBattleObj={createBattleObj}
         //request_Battle={request_Battle}
         create_battle={create_battle}

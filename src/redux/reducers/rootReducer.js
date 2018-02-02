@@ -34,7 +34,7 @@ export default function rootReducer(
       };
 
     case 'GET_BATTLE_STATE':
-      console.log('GET_BATTLE_STATE----------', action.getBattleState);
+      //console.log('GET_BATTLE_STATE----------', action.getBattleState);
       return { ...currentState, getBattleState: action.getBattleState };
 
     //why do we even need this? this should be updating GET_BATTLE_STATE
@@ -51,11 +51,12 @@ export default function rootReducer(
     case 'UPDATE_MESSAGES':
       let combinedMessages = currentState.messages.concat(action.messages);
 
+      //let combinedMessages = action.messages;
+      //console.log('combinedMessages-------------------', action.messages);
+
       while (combinedMessages.length > 8) {
         combinedMessages.splice(0, 1);
       }
-      //console.log('currentState-------------------', currentState.messages);
-      //console.log('combinedMessages-------------------', combinedMessages);
       return {
         ...currentState,
         messages: combinedMessages

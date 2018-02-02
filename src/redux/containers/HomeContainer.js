@@ -8,6 +8,8 @@ import deleteDecksProcess from '../thunks/deleteDecksProcess';
 import createBattleProcess from '../thunks/createBattleProcess';
 //import requestBattleProcess from '../thunks/requestBattleProcess'; NOT USED IN PRODUCTION
 
+import createRoomProcess from '../thunks/createRoomProcess';
+
 function mapStateToProps(state, ownProps) {
   return {
     pokemonObj: state.pokemonObj,
@@ -21,6 +23,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
+    create_room: battleId => dispatch(createRoomProcess(battleId)),
     onPokemonObj: pokemonId => {
       dispatch(getPokemonObjProcess(pokemonId));
     },

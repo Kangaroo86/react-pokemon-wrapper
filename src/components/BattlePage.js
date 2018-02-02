@@ -3,6 +3,8 @@ import BattlePageComponent from './BattlePageComponent';
 
 export default function IndexPage({
   createBattleObj,
+  create_message,
+  create_room,
   clear_rootReducer,
   delete_battleState,
   defaultPokemonArray,
@@ -25,6 +27,8 @@ export default function IndexPage({
   return (
     <BattlePageComponent
       createBattleObj={createBattleObj}
+      create_message={create_message}
+      create_room={create_room}
       clear_rootReducer={clear_rootReducer}
       delete_battleState={delete_battleState}
       defaultPokemonArray={defaultPokemonArray}
