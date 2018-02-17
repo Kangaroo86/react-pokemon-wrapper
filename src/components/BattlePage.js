@@ -10,6 +10,7 @@ export default function IndexPage({
   defaultPokemonArray,
   getBattleState,
   get_battleState,
+  get_userDecks,
   history,
   location,
   listen_for_updates,
@@ -34,6 +35,7 @@ export default function IndexPage({
       defaultPokemonArray={defaultPokemonArray}
       getBattleState={getBattleState}
       get_battleState={get_battleState}
+      get_userDecks={get_userDecks}
       history={history}
       location={location}
       listen_for_updates={listen_for_updates}

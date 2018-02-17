@@ -45,7 +45,7 @@ export default class BattlePageComponent extends Component {
     //   console.log('Socket initalized: ', socket.id);
     // });
 
-    update_messages();
+    //update_messages();
     listen_for_updates();
     //get_battleState();
 
@@ -83,6 +83,8 @@ export default class BattlePageComponent extends Component {
     let { listen_for_updates, set_battleState } = this.props;
 
     console.log('this.state----------------', this.state);
+    // this.setState({ p2_turn: true, p1_turn: false });
+    //this.setState({ p2_turn: true });
     set_battleState(this.state);
     //listen_for_updates();
   };
@@ -101,8 +103,8 @@ export default class BattlePageComponent extends Component {
 
       this.setState({ p1_deck_zone: updatedDeckZone });
     }
-    // console.log('myState-------', this.state);
-    //set_battleState(this.state);
+    console.log('handle_p1_select_card myState-------', this.state);
+    set_battleState(this.state);
   };
 
   //p1 inflicts special atks to p2  TODO add more complex battle phase
@@ -124,7 +126,8 @@ export default class BattlePageComponent extends Component {
     }
 
     this.setState({ p1_turn: false, p2_turn: true });
-    set_battleState(this.state);
+    console.log('myState22222-------', this.state);
+    //set_battleState(this.state);
   };
 
   //P1 inflicts normal atk to P2
@@ -249,6 +252,16 @@ export default class BattlePageComponent extends Component {
     }
   }
 
+  // componentDidMount() {
+  //   console.log('did i happen');
+  //   this.props.get_userDecks().then(() => {
+  //     console.log('A----------');
+  //     this.props.get_battleState().then(() => {
+  //       console.log('B----------');
+  //       this.handle_createRoom();
+  //     });
+  //   });
+  // }
   // ************************* SOCKET-IO CODES: ************************* //
   //send messages TO-THE backend
   handle_messageInput = event => {
@@ -308,6 +321,7 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
+    console.log('rendered this state: ------------', this.state);
     //console.log('messages+++++++++++', this.props.messages);
 
     return (
@@ -464,8 +478,8 @@ export default class BattlePageComponent extends Component {
                               size="medium"
                               inverted
                               color="teal"
-                              //onClick={this.handle_p1_specialAtk}
-                              onClick={this.player_1}>
+                              //onClick={this.player_1}
+                              onClick={this.handle_p1_specialAtk}>
                               <Icon name="lightning" />
                               SPEC ATK
                             </Button>

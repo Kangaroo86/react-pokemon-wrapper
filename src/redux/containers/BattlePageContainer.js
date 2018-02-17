@@ -15,7 +15,7 @@ import createMessageProcess from '../thunks/createMessageProcess';
 import createRoomProcess from '../thunks/createRoomProcess';
 
 //import { socket } from '../../components/BattlePageComponent';
-import { socket } from '../../socket.io/socketManager';
+//import { socket } from '../../socket.io/socketManager';
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -60,7 +60,7 @@ const withlifecycle = lifecycle({
       //this.props.listen_for_updates();
     });
 
-    //this.props.update_messages();
+    this.props.update_messages();
 
     //this.props.listen_for_updates();
   }

@@ -49,12 +49,12 @@ export default function rootReducer(
       return { ...currentState, requestBattleObj: action.requestBattleObj };
 
     case 'UPDATE_MESSAGES':
-      let combinedMessages = currentState.messages.concat(action.messages);
+      //let combinedMessages = currentState.messages.concat(action.messages);
 
-      //let combinedMessages = action.messages;
+      let combinedMessages = action.messages;
       //console.log('combinedMessages-------------------', action.messages);
 
-      while (combinedMessages.length > 8) {
+      while (combinedMessages.length > 7) {
         combinedMessages.splice(0, 1);
       }
       return {

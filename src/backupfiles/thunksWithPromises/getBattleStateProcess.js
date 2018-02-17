@@ -17,8 +17,9 @@ export default function getBattleStateProcess() {
         let deckId = Number(localStorage.getItem('deckSelected'));
         let battleId = Number(localStorage.getItem('currentBattleId'));
 
-        /*Initialize deck when battleState is null since
-        BattleState is always null on first render for Player_1.*/
+        //Initialize deck when battleState is undefine.
+        //BattleState is always null on first render for Player_1.
+        //Qs What about Player_2? his battle will not be Null.
         if (!battleState) {
           processDeck = true;
         } else {
@@ -115,7 +116,7 @@ export default function getBattleStateProcess() {
             battleState.p2_deck_zone = playerCards;
             battleState.p2_initialized = true;
             if (battleState.p1_initialized === true) {
-              battleState.p1_turn = true; //Q's shouldn't this be p2_turn instead?
+              battleState.p1_turn = true; //Q's should this be false?
             }
           }
         }

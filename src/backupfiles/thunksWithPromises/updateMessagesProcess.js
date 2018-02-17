@@ -5,8 +5,7 @@ export default function updateMessagesProcess() {
     socket.on('MESSAGE_RESPONSE', messageObj => {
       dispatch({
         type: 'UPDATE_MESSAGES',
-        //messages: [messageObj]
-        messages: messageObj
+        messages: [messageObj]
       });
     });
   };
