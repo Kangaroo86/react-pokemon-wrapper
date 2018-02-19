@@ -91,6 +91,7 @@ export default function getBattleStateProcess() {
             p1_grave_yard: [],
             p1_turn: false,
             p1_initialized: false,
+            //p1_playerNum: playerNum === 1 ? 1 : '',
 
             // p2_animation: 'shake',
             // p2_duration: 500,
@@ -100,6 +101,7 @@ export default function getBattleStateProcess() {
             p2_grave_yard: [],
             p2_turn: false,
             p2_initialized: false
+            //p2_playerNum: playerNum !== 2 ? 2 : ''
           };
         }
 

@@ -1,9 +1,13 @@
-import io from 'socket.io-client'; //socket-io
-import env from '../env'; //socket-io
+import io from 'socket.io-client';
+import env from '../env';
 const socketUrl = `${env.API_BASE_URL}`; //socket-io
 export const socket = io(socketUrl); //exported to battlePageContainer
 
 //initalized socket & created room
 socket.on('connect', () => {
   console.log('Socket initalized: ', socket.id);
+});
+
+socket.on('disconnect', () => {
+  console.log('disconnected to server');
 });

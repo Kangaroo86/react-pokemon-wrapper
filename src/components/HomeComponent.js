@@ -3,6 +3,7 @@ import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
 import bg1 from '../images/bg1.jpg';
 import jenny from '../images/jenny.jpg';
+import leann from '../images/leann.png';
 import {
   Segment,
   Button,
@@ -10,6 +11,7 @@ import {
   Image,
   Icon,
   Progress,
+  Message,
   List,
   Label,
   Grid,
@@ -45,37 +47,65 @@ export default class HomeComponent extends Component {
     super(props);
 
     this.state = {
-      user: null, //socketIo
-      room: '',
-
       activeItem: '',
-      selectedPokemon: [],
-      selectedDeckName: '',
-      selectedDeckId: [],
+      selectedPokemon: [], //currently not using
+      selectedDeck: '',
+      createBattle: false,
+      createRoom: false,
+      time: {}, //currently not using
+      seconds: 5, //currently not using
+      timer: 0, //currently not using
       redirect: false
     };
   }
 
+  // secondsToTime = secs => {
+  //   let hours = Math.floor(secs / (60 * 60));
+  //
+  //   let divisor_for_minutes = secs % (60 * 60);
+  //   let minutes = Math.floor(divisor_for_minutes / 60);
+  //
+  //   let divisor_for_seconds = divisor_for_minutes % 60;
+  //   let seconds = Math.ceil(divisor_for_seconds);
+  //
+  //   let obj = {
+  //     h: hours,
+  //     m: minutes,
+  //     s: seconds
+  //   };
+  //   return obj;
+  // };
+  //
+  // componentDidMount() {
+  //   let timeLeftVar = this.secondsToTime(this.state.seconds);
+  //   this.setState({ time: timeLeftVar });
+  // }
+  //
+  // countDown = () => {
+  //   // Remove one second, set state so a re-render happens.
+  //   let seconds = this.state.seconds - 1;
+  //   this.setState({
+  //     time: this.secondsToTime(seconds),
+  //     seconds: seconds
+  //   });
+  //
+  //   // Check if we're at zero.
+  //   if (seconds === 0) {
+  //     clearInterval(this.state.timer);
+  //   }
+  // };
+  //
+  // startTimer = () => {
+  //   let { timer } = this.state;
+  //
+  //   if (timer === 0) {
+  //     this.setState({ timer: setInterval(this.countDown(), 1000) });
+  //   }
+  // };
+
   handle_deleteDecks = data => {
     let deckId = data.target.id;
     this.props.delete_decks(deckId);
-    //this.forceUpdateHandler();
-  };
-
-  // forceUpdateHandler = () => {
-  //   this.forceUpdate();
-  // };
-
-  onChange_selectedPokemon = data => {
-    this.setState({ selectedPokemon: data.target.value });
-  };
-
-  onChange_selectedDeckName = data => {
-    this.setState({ selectedDeckName: data.target.value });
-  };
-
-  onChange_selectedDeckId = data => {
-    this.setState({ selectedDeckId: data.target.id });
   };
 
   handle_updateDeck = (event, data, deckName, pokemonIds) => {
@@ -85,19 +115,29 @@ export default class HomeComponent extends Component {
 
   handle_createBattle = (event, data) => {
     const { create_battle } = this.props;
+
     create_battle();
+    this.setState({ createBattle: true });
 
-    let deckId = localStorage.getItem('deckSelected');
-    //let battleId = localStorage.getItem('currentBattleId');
-
-    //this.props.create_room(battleId);
-    //localStorage.setItem('deckSelected', data.value.id);
     //this.props.history.push(`/decks/${data.value.id}/battle`);
-    this.props.history.push(`/decks/${deckId}/battle`);
+    //this.props.history.push(`/decks/${deckId}/battle`);
+  };
+
+  //TODO wip
+  handle_createRoom = () => {
+    const battleId = localStorage.getItem('currentBattleId');
+    let deckId = localStorage.getItem('deckSelected');
+    let { create_room, history } = this.props;
+
+    this.setState({ createRoom: true });
+    create_room(battleId);
+
+    history.push(`/decks/${deckId}/battle`);
   };
 
   handle_selectDeck = (event, data) => {
     localStorage.setItem('deckSelected', data.value.id);
+    this.setState({ selectedDeck: data.value });
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -118,29 +158,29 @@ export default class HomeComponent extends Component {
     this.props.history.push(`/`);
   };
 
-  handle_Modal = () => {
-    return (
-      <Modal
-        trigger={
-          <Button basic color="green" onClick={this.handle_createBattle}>
-            CREATE BATTLE
-          </Button>
-        }>
-        <Modal.Header>Select a Photo</Modal.Header>
-        <Modal.Content image>
-          <Image wrapped size="medium" src={jenny} />
-          <Modal.Description>
-            <Header>Default Profile Image</Header>
-            <p>
-              We've found the following gravatar image associated with your
-              e-mail address.
-            </p>
-            <p>Is it okay to use this photo?</p>
-          </Modal.Description>
-        </Modal.Content>
-      </Modal>
-    );
-  };
+  // handle_Modal = () => {
+  //   return (
+  //     <Modal
+  //       trigger={
+  //         <Button basic color="green" onClick={this.handle_createBattle}>
+  //           CREATE BATTLE
+  //         </Button>
+  //       }>
+  //       <Modal.Header>Select a Photo</Modal.Header>
+  //       <Modal.Content image>
+  //         <Image wrapped size="medium" src={jenny} />
+  //         <Modal.Description>
+  //           <Header>Default Profile Image</Header>
+  //           <p>
+  //             We've found the following gravatar image associated with your
+  //             e-mail address.
+  //           </p>
+  //           <p>Is it okay to use this photo?</p>
+  //         </Modal.Description>
+  //       </Modal.Content>
+  //     </Modal>
+  //   );
+  // };
   // componentWillReceiveProps(nextProps) {
   //   console.log('nextProps********insde Props', nextProps);
   //   if (nextProps.userDecks !== this.props.userDecks) {
@@ -151,10 +191,11 @@ export default class HomeComponent extends Component {
   // ************************* SOCKET-IO CODES: ************************* //
 
   render() {
-    let { activeItem } = this.state;
+    let { activeItem, createBattle, createRoom, selectedDeck } = this.state;
     let { userDecks } = this.props;
 
     //console.log('my props***********************', this.props);
+
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -220,35 +261,67 @@ export default class HomeComponent extends Component {
             </Menu> */}
 
             {/* {ternary operator, when a user have no deck} */}
-            {this.props.userDecks.length <= 0
-              ? <div style={{ color: 'red', fontSize: 20 }}>
-                  Please create a deck
-                </div>
-              : <Modal
+            {userDecks.length <= 0
+              ? <Message compact color="red">
+                  please create a deck
+                </Message>
+              : !selectedDeck.id
+                ? <Message compact color="red">
+                    please select a deck for battle
+                  </Message>
+                : <Message compact color="blue">
+                    {selectedDeck.deckname + ' was selected'}
+                  </Message>}
+
+            <br />
+            {selectedDeck
+              ? <Modal
+                  size={'mini'}
                   trigger={
                     <Button basic color="green">
-                      CREATE BATTLE
+                      READY
                     </Button>
                   }>
-                  <Modal.Header>Select a Photo</Modal.Header>
                   <Modal.Content image>
-                    <Image wrapped size="medium" src={jenny} />
+                    <Image wrapped size="small" src={jenny} />
                     <Modal.Description>
-                      <Header>Default Profile Image</Header>
-                      <p>
-                        We've found the following gravatar image associated with
-                        your e-mail address.
-                      </p>
-                      <p>Is it okay to use this photo?</p>
+                      <Header textAlign="center">
+                        {selectedDeck.deckname}
+                      </Header>
+                      {!createBattle
+                        ? <Label basic color="red" pointing="left">
+                            please create battle
+                          </Label>
+                        : <Label basic color="green" pointing="left">
+                            battle was created!
+                          </Label>}
+
+                      {!createRoom
+                        ? <Label basic color="red" pointing="left">
+                            please create a chat-room
+                          </Label>
+                        : <Label basic color="red" pointing="left">
+                            chat-room was created
+                          </Label>}
                     </Modal.Description>
-                    <Button
-                      basic
-                      color="green"
-                      onClick={this.handle_createBattle}>
-                      CREATE BATTLE
-                    </Button>
                   </Modal.Content>
-                </Modal>}
+                  <Modal.Actions>
+                    {!createBattle
+                      ? <Button
+                          basic
+                          color="green"
+                          onClick={this.handle_createBattle}>
+                          CREATE BATTLE
+                        </Button>
+                      : <Button
+                          basic
+                          color="blue"
+                          onClick={this.handle_createRoom}>
+                          CREATE ROOM
+                        </Button>}
+                  </Modal.Actions>
+                </Modal>
+              : ''}
 
             <Grid centered padded columns={4}>
               <Grid.Row>

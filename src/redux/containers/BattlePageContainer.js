@@ -57,12 +57,14 @@ const withlifecycle = lifecycle({
   componentDidMount() {
     this.props.get_userDecks().then(() => {
       this.props.get_battleState();
-      //this.props.listen_for_updates();
+      this.props.update_messages();
     });
+    //this.props.get_userDecks();
+    //this.props.get_battleState();
 
-    this.props.update_messages();
+    // this.props.update_messages();
 
-    //this.props.listen_for_updates();
+    this.props.listen_for_updates();
   }
 });
 

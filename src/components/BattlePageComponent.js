@@ -11,6 +11,7 @@ import {
   Container,
   List,
   Menu,
+  Message,
   Transition,
   Input,
   Icon,
@@ -26,6 +27,7 @@ import {
 // import env from '../env'; //socket-io
 // const socketUrl = `${env.API_BASE_URL}`; //socket-io
 // export const socket = io(socketUrl); //exported to battlePageContainer
+// import { socket } from '../socket.io/socketManager';
 
 let colors = ['red', 'violet', 'blue', 'pink', 'green'];
 
@@ -40,27 +42,9 @@ export default class BattlePageComponent extends Component {
       get_battleState
     } = this.props;
 
-    //initalized socket & created room
-    // socket.on('connect', () => {
-    //   console.log('Socket initalized: ', socket.id);
-    // });
-
-    //update_messages();
-    listen_for_updates();
+    update_messages();
+    //listen_for_updates();
     //get_battleState();
-
-    // socket.on('MESSAGE_RESPONSE', messageObj => {
-    //   //console.log('am i receing messages-------------', messageObj);
-    //   update_messages(messageObj);
-    // });
-
-    // console.log('battleId+++++++++++++++++', battleId);
-    // socket.emit('CREATE_ROOM', battleId);
-
-    // socket.on('UPDATED_BATTLE_STATE', obj => {
-    //   console.log('backend result-----------', obj);
-    //   listen_for_updates(obj);
-    // });
 
     this.state = {
       activeItem: '', //animation
@@ -72,17 +56,17 @@ export default class BattlePageComponent extends Component {
       p2_visible: true, //animation
       message: '', //socet io
       createRoom: false,
+      // p1_playerNum: '',
+      // p2_playerNum: '',
       ...getBattleState
     };
   }
 
   // *********************** PLAYER-1 CODES: *********************** //
 
-  //
   handle_ready = (event, data) => {
     let { listen_for_updates, set_battleState } = this.props;
 
-    console.log('this.state----------------', this.state);
     // this.setState({ p2_turn: true, p1_turn: false });
     //this.setState({ p2_turn: true });
     set_battleState(this.state);
@@ -126,7 +110,6 @@ export default class BattlePageComponent extends Component {
     }
 
     this.setState({ p1_turn: false, p2_turn: true });
-    console.log('myState22222-------', this.state);
     //set_battleState(this.state);
   };
 
@@ -220,7 +203,14 @@ export default class BattlePageComponent extends Component {
   p2_toggleVisibility = () =>
     this.setState({ p2_visible: !this.state.p2_visible });
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = (e, { name }) => {
+    this.setState({ activeItem: name });
+
+    //when player re-route, clear out battle info
+    localStorage.removeItem('currentBattleId');
+    localStorage.removeItem('deckSelected');
+    localStorage.removeItem('playerNum');
+  };
 
   handle_signOut = (event, { name }) => {
     event.preventDefault();
@@ -250,6 +240,7 @@ export default class BattlePageComponent extends Component {
         ...nextProps.getBattleState
       });
     }
+    console.log('nextProps-----------', nextProps);
   }
 
   // componentDidMount() {
@@ -277,6 +268,7 @@ export default class BattlePageComponent extends Component {
 
   handle_submitMessage = event => {
     let { message } = this.state;
+    let { create_message } = this.props;
 
     if (event.which === 13) {
       event.preventDefault();
@@ -291,11 +283,7 @@ export default class BattlePageComponent extends Component {
         name: userName
       };
 
-      //socket.emit('CREATE_ROOM', battleId);
-      //socket.emit('CREATE_MESSAGE', messageInputed);
-      //this.props.create_room(battleId);
-      this.props.create_message(messageInputed);
-
+      create_message(messageInputed);
       this.setState({ message: '' });
     }
   };
@@ -321,7 +309,7 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
-    console.log('rendered this state: ------------', this.state);
+    //console.log('rendered this state: ------------', this.state);
     //console.log('messages+++++++++++', this.props.messages);
 
     return (
@@ -508,47 +496,47 @@ export default class BattlePageComponent extends Component {
                   </Grid.Column>
 
                   <Comment.Group>
-                    {/* <Header as="h3" dividing>
-                      Chat Room
-                    </Header> */}
-
-                    {!createRoom
-                      ? <Menu inverted compact onClick={this.handle_createRoom}>
-                          <Menu.Item as="a">
-                            <Icon size="big" name="users" /> CREATE ROOM
-                            <Label color="teal" floating>
-                              0
-                            </Label>
-                          </Menu.Item>
-                        </Menu>
-                      : <Menu inverted compact disabled>
-                          <Menu.Item as="a">
-                            <Icon size="big" name="users" /> CHAT ROOM
-                            <Label color="teal" floating>
-                              22
-                            </Label>
-                          </Menu.Item>
-                        </Menu>}
+                    <Menu inverted compact disabled>
+                      <Menu.Item as="a">
+                        <Icon size="big" name="users" /> CHAT ROOM
+                        <Label color="teal" floating>
+                          22
+                        </Label>
+                      </Menu.Item>
+                    </Menu>
 
                     {messages &&
                       messages.map((message, i) => {
                         return (
                           <Comment key={i}>
                             <Comment.Content>
-                              <Comment.Avatar src={jenny} />
-                              <Comment.Author as="a">
+                              {/* <Comment.Avatar src={jenny} /> */}
+                              {/* <Comment.Author as="a">
                                 {message && message.name
                                   ? message.name
                                   : 'Anonymous'}
                               </Comment.Author>
                               <Comment.Text>
                                 {message && message.text}
-                              </Comment.Text>
+                              </Comment.Text> */}
+
+                              <Message size="mini" color="green" info>
+                                <Comment.Avatar src={jenny} />
+                                <Comment.Author as="a">
+                                  <Message.Header>
+                                    {message && message.name
+                                      ? message.name
+                                      : 'Anonymous'}
+                                  </Message.Header>
+                                </Comment.Author>
+                                <Comment.Text>
+                                  {message && message.text}
+                                </Comment.Text>
+                              </Message>
                             </Comment.Content>
                           </Comment>
                         );
                       })}
-
                     {/* <Form>
                       <Form.Field
                         control={TextArea}
