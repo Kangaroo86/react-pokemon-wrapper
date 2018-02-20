@@ -87,7 +87,7 @@ export default class BattlePageComponent extends Component {
 
       this.setState({ p1_deck_zone: updatedDeckZone });
     }
-    console.log('handle_p1_select_card myState-------', this.state);
+    //console.log('handle_p1_select_card myState-------', this.state);
     set_battleState(this.state);
   };
 
@@ -203,13 +203,16 @@ export default class BattlePageComponent extends Component {
   p2_toggleVisibility = () =>
     this.setState({ p2_visible: !this.state.p2_visible });
 
-  handleItemClick = (e, { name }) => {
+  //when player re-route, clear out battle info
+  handle_reRoute = (e, { name }) => {
     this.setState({ activeItem: name });
+    let { delete_battleState } = this.props;
+    let battleId = localStorage.getItem('currentBattleId');
 
-    //when player re-route, clear out battle info
     localStorage.removeItem('currentBattleId');
     localStorage.removeItem('deckSelected');
     localStorage.removeItem('playerNum');
+    delete_battleState(battleId);
   };
 
   handle_signOut = (event, { name }) => {
@@ -240,7 +243,7 @@ export default class BattlePageComponent extends Component {
         ...nextProps.getBattleState
       });
     }
-    console.log('nextProps-----------', nextProps);
+    //console.log('nextProps-----------', nextProps);
   }
 
   // componentDidMount() {
@@ -310,7 +313,7 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
-    console.log('this state: ------------', this.state);
+    //console.log('this state: ------------', this.state);
 
     return (
       <Grid columns="equal">
@@ -326,7 +329,7 @@ export default class BattlePageComponent extends Component {
                   fitted="vertically"
                   name="home"
                   active={activeItem === 'home'}
-                  onClick={this.handleItemClick}>
+                  onClick={this.handle_reRoute}>
                   <Image
                     size="mini"
                     src={pokeball2}
@@ -338,7 +341,7 @@ export default class BattlePageComponent extends Component {
                   fitted="vertically"
                   name="Create Deck"
                   active={activeItem === 'Create Deck'}
-                  onClick={this.handleItemClick}>
+                  onClick={this.handle_reRoute}>
                   <Link to="/createdeck">Create Deck</Link>
                 </Menu.Item>
                 <Menu.Item
