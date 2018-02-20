@@ -6,7 +6,6 @@ import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import deleteDecksProcess from '../thunks/deleteDecksProcess';
 import createBattleProcess from '../thunks/createBattleProcess';
-//import requestBattleProcess from '../thunks/requestBattleProcess'; NOT USED IN PRODUCTION
 
 import createRoomProcess from '../thunks/createRoomProcess';
 
@@ -33,7 +32,6 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     signOut: () => dispatch({ type: 'USER_SIGNIN', userSignIn: null }),
     create_battle: () => dispatch(createBattleProcess())
-    //request_Battle: userId => dispatch(requestBattleProcess(userId)) NOT USED IN PRODUCTION
   };
 }
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import Countdown from 'react-countdown-now';
 import pokeball2 from '../images/pokeball2.png';
 import { Link } from 'react-router-dom';
 import bg1 from '../images/bg1.jpg';
 import jenny from '../images/jenny.jpg';
-import leann from '../images/leann.png';
 import {
   Segment,
   Button,
@@ -12,6 +12,7 @@ import {
   Icon,
   Progress,
   Message,
+  Statistic,
   List,
   Label,
   Grid,
@@ -48,60 +49,29 @@ export default class HomeComponent extends Component {
 
     this.state = {
       activeItem: '',
-      selectedPokemon: [], //currently not using
       selectedDeck: '',
       createBattle: false,
       createRoom: false,
-      time: {}, //currently not using
-      seconds: 5, //currently not using
-      timer: 0, //currently not using
-      redirect: false
+      ready: false
+      //redirect: false
     };
   }
 
-  // secondsToTime = secs => {
-  //   let hours = Math.floor(secs / (60 * 60));
-  //
-  //   let divisor_for_minutes = secs % (60 * 60);
-  //   let minutes = Math.floor(divisor_for_minutes / 60);
-  //
-  //   let divisor_for_seconds = divisor_for_minutes % 60;
-  //   let seconds = Math.ceil(divisor_for_seconds);
-  //
-  //   let obj = {
-  //     h: hours,
-  //     m: minutes,
-  //     s: seconds
-  //   };
-  //   return obj;
-  // };
-  //
-  // componentDidMount() {
-  //   let timeLeftVar = this.secondsToTime(this.state.seconds);
-  //   this.setState({ time: timeLeftVar });
-  // }
-  //
-  // countDown = () => {
-  //   // Remove one second, set state so a re-render happens.
-  //   let seconds = this.state.seconds - 1;
-  //   this.setState({
-  //     time: this.secondsToTime(seconds),
-  //     seconds: seconds
-  //   });
-  //
-  //   // Check if we're at zero.
-  //   if (seconds === 0) {
-  //     clearInterval(this.state.timer);
-  //   }
-  // };
-  //
-  // startTimer = () => {
-  //   let { timer } = this.state;
-  //
-  //   if (timer === 0) {
-  //     this.setState({ timer: setInterval(this.countDown(), 1000) });
-  //   }
-  // };
+  handle_countDown = ({ hours, minutes, seconds, completed }) => {
+    let deckId = localStorage.getItem('deckSelected');
+    let { history } = this.props;
+    if (completed) {
+      history.push(`/decks/${deckId}/battle`);
+    } else {
+      return (
+        <Statistic color="olive" inverted size="tiny">
+          <Statistic.Value>
+            {seconds}'
+          </Statistic.Value>
+        </Statistic>
+      );
+    }
+  };
 
   handle_deleteDecks = data => {
     let deckId = data.target.id;
@@ -110,7 +80,7 @@ export default class HomeComponent extends Component {
 
   handle_updateDeck = (event, data, deckName, pokemonIds) => {
     this.props.history.push(`/decks/${data.value.id}/update`);
-    this.setState({ redirect: true }); //current this is not doing anything
+    //this.setState({ redirect: true }); //current this is not doing anything
   };
 
   handle_createBattle = (event, data) => {
@@ -118,21 +88,17 @@ export default class HomeComponent extends Component {
 
     create_battle();
     this.setState({ createBattle: true });
-
-    //this.props.history.push(`/decks/${data.value.id}/battle`);
-    //this.props.history.push(`/decks/${deckId}/battle`);
   };
 
-  //TODO wip
   handle_createRoom = () => {
     const battleId = localStorage.getItem('currentBattleId');
-    let deckId = localStorage.getItem('deckSelected');
-    let { create_room, history } = this.props;
+    let { create_room } = this.props;
 
     this.setState({ createRoom: true });
     create_room(battleId);
 
-    history.push(`/decks/${deckId}/battle`);
+    this.setState({ ready: true });
+    //history.push(`/decks/${deckId}/battle`);
   };
 
   handle_selectDeck = (event, data) => {
@@ -158,29 +124,6 @@ export default class HomeComponent extends Component {
     this.props.history.push(`/`);
   };
 
-  // handle_Modal = () => {
-  //   return (
-  //     <Modal
-  //       trigger={
-  //         <Button basic color="green" onClick={this.handle_createBattle}>
-  //           CREATE BATTLE
-  //         </Button>
-  //       }>
-  //       <Modal.Header>Select a Photo</Modal.Header>
-  //       <Modal.Content image>
-  //         <Image wrapped size="medium" src={jenny} />
-  //         <Modal.Description>
-  //           <Header>Default Profile Image</Header>
-  //           <p>
-  //             We've found the following gravatar image associated with your
-  //             e-mail address.
-  //           </p>
-  //           <p>Is it okay to use this photo?</p>
-  //         </Modal.Description>
-  //       </Modal.Content>
-  //     </Modal>
-  //   );
-  // };
   // componentWillReceiveProps(nextProps) {
   //   console.log('nextProps********insde Props', nextProps);
   //   if (nextProps.userDecks !== this.props.userDecks) {
@@ -191,10 +134,16 @@ export default class HomeComponent extends Component {
   // ************************* SOCKET-IO CODES: ************************* //
 
   render() {
-    let { activeItem, createBattle, createRoom, selectedDeck } = this.state;
+    let {
+      activeItem,
+      createBattle,
+      createRoom,
+      selectedDeck,
+      ready
+    } = this.state;
     let { userDecks } = this.props;
 
-    //console.log('my props***********************', this.props);
+    console.log('props-----------', this.props);
 
     return (
       <Grid columns="equal">
@@ -260,7 +209,7 @@ export default class HomeComponent extends Component {
               </Menu.Item>
             </Menu> */}
 
-            {/* {ternary operator, when a user have no deck} */}
+            {/* ternary operator, when a user have no deck */}
             {userDecks.length <= 0
               ? <Message compact color="red">
                   please create a deck
@@ -274,6 +223,7 @@ export default class HomeComponent extends Component {
                   </Message>}
 
             <br />
+
             {selectedDeck
               ? <Modal
                   size={'mini'}
@@ -282,44 +232,110 @@ export default class HomeComponent extends Component {
                       READY
                     </Button>
                   }>
+                  <Segment inverted>
+                    <Header
+                      textAlign="center"
+                      size="large"
+                      inverted
+                      color="grey">
+                      {selectedDeck.deckname}
+                    </Header>
+                  </Segment>
                   <Modal.Content image>
-                    <Image wrapped size="small" src={jenny} />
-                    <Modal.Description>
-                      <Header textAlign="center">
-                        {selectedDeck.deckname}
-                      </Header>
-                      {!createBattle
-                        ? <Label basic color="red" pointing="left">
-                            please create battle
-                          </Label>
-                        : <Label basic color="green" pointing="left">
-                            battle was created!
-                          </Label>}
+                    <Image wrapped size="tiny" src={jenny} />
 
-                      {!createRoom
-                        ? <Label basic color="red" pointing="left">
-                            please create a chat-room
-                          </Label>
-                        : <Label basic color="red" pointing="left">
-                            chat-room was created
-                          </Label>}
+                    <Modal.Description>
+                      <List divided relaxed>
+                        <List.Item>
+                          {!createBattle
+                            ? <List.Icon
+                                name="close"
+                                size="large"
+                                verticalAlign="middle"
+                              />
+                            : <List.Icon
+                                color="green"
+                                name="check"
+                                size="large"
+                                verticalAlign="middle"
+                              />}
+                          <List.Content>
+                            {!createBattle
+                              ? <List.Header as="a">
+                                  create a battle
+                                </List.Header>
+                              : <List.Header as="a">
+                                  battle was created!
+                                </List.Header>}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          {!createRoom
+                            ? <List.Icon
+                                name="close"
+                                size="large"
+                                verticalAlign="middle"
+                              />
+                            : <List.Icon
+                                color="green"
+                                name="check"
+                                size="large"
+                                verticalAlign="middle"
+                              />}
+                          <List.Content>
+                            {!createRoom
+                              ? <List.Header as="a">
+                                  create a chat-room
+                                </List.Header>
+                              : <List.Header as="a">
+                                  chat-room was created!
+                                </List.Header>}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          {!createRoom || !createBattle
+                            ? <List.Icon
+                                name="close"
+                                size="large"
+                                verticalAlign="middle"
+                              />
+                            : <List.Icon
+                                color="green"
+                                name="check"
+                                size="large"
+                                verticalAlign="middle"
+                              />}
+                          <List.Content>
+                            {!ready
+                              ? <List.Header as="a">PENDING...</List.Header>
+                              : <List.Header as="a">SUCCESSFUL</List.Header>}
+                          </List.Content>
+                        </List.Item>
+                      </List>
                     </Modal.Description>
                   </Modal.Content>
-                  <Modal.Actions>
-                    {!createBattle
-                      ? <Button
-                          basic
-                          color="green"
-                          onClick={this.handle_createBattle}>
-                          CREATE BATTLE
-                        </Button>
-                      : <Button
-                          basic
-                          color="blue"
-                          onClick={this.handle_createRoom}>
-                          CREATE ROOM
-                        </Button>}
-                  </Modal.Actions>
+                  {!ready
+                    ? <Segment size="tiny" inverted textAlign="right">
+                        {!createBattle
+                          ? <Button
+                              basic
+                              color="green"
+                              onClick={this.handle_createBattle}>
+                              CREATE BATTLE
+                            </Button>
+                          : <Button
+                              basic
+                              color="blue"
+                              onClick={this.handle_createRoom}>
+                              CREATE ROOM
+                            </Button>}
+                      </Segment>
+                    : <Segment size="tiny" inverted textAlign="right">
+                        <Countdown
+                          date={Date.now() + 5000}
+                          renderer={this.handle_countDown}
+                        />
+                      </Segment>}
                 </Modal>
               : ''}
 
@@ -345,6 +361,7 @@ export default class HomeComponent extends Component {
                           <Icon
                             id={deck.id}
                             name="delete"
+                            size="large"
                             onClick={this.handle_deleteDecks}
                           />
                           <Card.Content>

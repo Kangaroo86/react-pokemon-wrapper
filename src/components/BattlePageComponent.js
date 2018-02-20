@@ -291,7 +291,6 @@ export default class BattlePageComponent extends Component {
   render() {
     let {
       activeItem,
-      createRoom,
       message,
       p1_animation,
       p1_duration,
@@ -299,18 +298,19 @@ export default class BattlePageComponent extends Component {
       p1_battle_zone,
       p1_deck_zone,
       p1_turn,
+      p1_userName,
       p2_animation,
       p2_duration,
       p2_visible,
       p2_battle_zone,
       p2_deck_zone,
-      p2_turn
+      p2_turn,
+      p2_userName
     } = this.state;
 
     let { messages } = this.props;
 
-    //console.log('rendered this state: ------------', this.state);
-    //console.log('messages+++++++++++', this.props.messages);
+    console.log('this state: ------------', this.state);
 
     return (
       <Grid columns="equal">
@@ -495,12 +495,15 @@ export default class BattlePageComponent extends Component {
                     </Segment>
                   </Grid.Column>
 
+                  {/***************CHAT_ROOM***************/}
                   <Comment.Group>
                     <Menu inverted compact disabled>
                       <Menu.Item as="a">
                         <Icon size="big" name="users" /> CHAT ROOM
                         <Label color="teal" floating>
-                          22
+                          {p1_userName && !p2_userName
+                            ? p1_userName
+                            : p1_userName + ' & ' + p2_userName}
                         </Label>
                       </Menu.Item>
                     </Menu>

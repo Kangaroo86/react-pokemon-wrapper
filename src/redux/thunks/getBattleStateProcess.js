@@ -1,5 +1,4 @@
 import getBattleState from '../../api/getBattleState';
-//import setBattleState from '../../api/setBattleState';
 import { socket } from '../../socket.io/socketManager';
 
 export default function getBattleStateProcess() {
@@ -14,6 +13,7 @@ export default function getBattleStateProcess() {
         let playerCards = [];
 
         let playerNum = Number(localStorage.getItem('playerNum'));
+        let playerName = localStorage.getItem('userName');
         let deckId = Number(localStorage.getItem('deckSelected'));
         let battleId = Number(localStorage.getItem('currentBattleId'));
 
@@ -78,30 +78,20 @@ export default function getBattleStateProcess() {
         //when battleState is undefine, set it to default
         if (!battleState) {
           battleState = {
-            //activeItem: '', //animation
-            //message: '', //socet io
-            //receivedMessages: [], //socket io
-
-            // p1_animation: 'shake', //animation
-            // p1_duration: 500, //animation
-            // p1_visible: true, //animation
             battle_id: battleId,
             p1_battle_zone: [],
             p1_deck_zone: [],
             p1_grave_yard: [],
             p1_turn: false,
             p1_initialized: false,
-            //p1_playerNum: playerNum === 1 ? 1 : '',
+            p1_userName: '',
 
-            // p2_animation: 'shake',
-            // p2_duration: 500,
-            // p2_visible: true,
             p2_battle_zone: [],
             p2_deck_zone: [],
             p2_grave_yard: [],
             p2_turn: false,
-            p2_initialized: false
-            //p2_playerNum: playerNum !== 2 ? 2 : ''
+            p2_initialized: false,
+            p2_userName: ''
           };
         }
 
@@ -110,12 +100,14 @@ export default function getBattleStateProcess() {
           if (playerNum === 1) {
             battleState.p1_deck_zone = playerCards;
             battleState.p1_initialized = true;
+            battleState.p1_userName = playerName;
             if (battleState.p2_initialized === true) {
               battleState.p1_turn = true;
             }
           } else {
             battleState.p2_deck_zone = playerCards;
             battleState.p2_initialized = true;
+            battleState.p2_userName = playerName;
             if (battleState.p1_initialized === true) {
               battleState.p1_turn = true; //Q's shouldn't this be p2_turn instead?
             }

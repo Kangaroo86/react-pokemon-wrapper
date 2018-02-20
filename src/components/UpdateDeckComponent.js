@@ -204,7 +204,7 @@ export default class CreateDeckComponent extends Component {
             </Segment>
             <br />
             <Grid textAlign="center">
-              <Header style={{ fontSize: '2em' }}>Update your Deck</Header>
+              <Header style={{ fontSize: '2em' }}>Update Your Deck</Header>
               <br />
               <Card.Group itemsPerRow={9}>
                 {pokemonArray &&
