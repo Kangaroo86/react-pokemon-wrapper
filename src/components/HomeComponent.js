@@ -106,7 +106,11 @@ export default class HomeComponent extends Component {
     this.setState({ selectedDeck: data.value });
   };
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handle_itemClick = (e, { name }) => this.setState({ activeItem: name });
+
+  handle_ready = () => {
+    console.log('***************************');
+  };
 
   handle_signOut = (event, { name }) => {
     event.preventDefault();
@@ -159,7 +163,7 @@ export default class HomeComponent extends Component {
                   fitted="vertically"
                   name="home"
                   active={activeItem === 'home'}
-                  onClick={this.handleItemClick}>
+                  onClick={this.handle_itemClick}>
                   <Image
                     size="mini"
                     src={pokeball2}
@@ -171,7 +175,7 @@ export default class HomeComponent extends Component {
                   fitted="vertically"
                   name="Create Deck"
                   active={activeItem === 'Create Deck'}
-                  onClick={this.handleItemClick}>
+                  onClick={this.handle_itemClick}>
                   <Link to="/createdeck">Create Deck</Link>
                 </Menu.Item>
                 <Menu.Item
@@ -228,7 +232,7 @@ export default class HomeComponent extends Component {
               ? <Modal
                   size={'mini'}
                   trigger={
-                    <Button basic color="green">
+                    <Button basic color="green" onClick={this.handle_ready}>
                       READY
                     </Button>
                   }>

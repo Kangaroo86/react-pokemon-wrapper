@@ -64,7 +64,7 @@ export default class IndexComponent extends Component {
       errors.signUp_errorName = 'Username need at least 4 characters';
     } else if (duplicateName === true) {
       isThereError = true;
-      errors.signUp_errorName = 'Username has already taken';
+      errors.signUp_errorName = 'Username is already taken';
     } else if (duplicateName === false) {
       isThereError = false;
     }
