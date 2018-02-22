@@ -60,15 +60,18 @@ export default class HomeComponent extends Component {
   handle_countDown = ({ hours, minutes, seconds, completed }) => {
     let deckId = localStorage.getItem('deckSelected');
     let { history } = this.props;
+
     if (completed) {
       history.push(`/decks/${deckId}/battle`);
     } else {
       return (
-        <Statistic color="olive" inverted size="tiny">
-          <Statistic.Value>
-            {seconds}'
-          </Statistic.Value>
-        </Statistic>
+        <Segment inverted>
+          <Statistic color="olive" size="small">
+            <Statistic.Value>
+              {seconds}'
+            </Statistic.Value>
+          </Statistic>
+        </Segment>
       );
     }
   };
@@ -83,7 +86,7 @@ export default class HomeComponent extends Component {
     //this.setState({ redirect: true }); //current this is not doing anything
   };
 
-  handle_createBattle = (event, data) => {
+  handle_createBattle = () => {
     const { create_battle } = this.props;
 
     create_battle();
@@ -94,11 +97,9 @@ export default class HomeComponent extends Component {
     const battleId = localStorage.getItem('currentBattleId');
     let { create_room } = this.props;
 
-    this.setState({ createRoom: true });
     create_room(battleId);
-
+    this.setState({ createRoom: true });
     this.setState({ ready: true });
-    //history.push(`/decks/${deckId}/battle`);
   };
 
   handle_selectDeck = (event, data) => {
@@ -106,11 +107,12 @@ export default class HomeComponent extends Component {
     this.setState({ selectedDeck: data.value });
   };
 
-  handle_itemClick = (e, { name }) => this.setState({ activeItem: name });
-
   handle_ready = () => {
-    console.log('***************************');
+    setTimeout(this.handle_createBattle, 1000);
+    setTimeout(this.handle_createRoom, 2000);
   };
+
+  handle_itemClick = (e, { name }) => this.setState({ activeItem: name });
 
   handle_signOut = (event, { name }) => {
     event.preventDefault();
@@ -239,107 +241,71 @@ export default class HomeComponent extends Component {
                   <Segment inverted>
                     <Header
                       textAlign="center"
-                      size="large"
+                      size="medium"
                       inverted
                       color="grey">
                       {selectedDeck.deckname}
                     </Header>
                   </Segment>
-                  <Modal.Content image>
-                    <Image wrapped size="tiny" src={jenny} />
 
-                    <Modal.Description>
-                      <List divided relaxed>
-                        <List.Item>
-                          {!createBattle
-                            ? <List.Icon
-                                name="close"
-                                size="large"
-                                verticalAlign="middle"
-                              />
-                            : <List.Icon
-                                color="green"
-                                name="check"
-                                size="large"
-                                verticalAlign="middle"
-                              />}
-                          <List.Content>
-                            {!createBattle
-                              ? <List.Header as="a">
-                                  create a battle
-                                </List.Header>
-                              : <List.Header as="a">
-                                  battle was created!
-                                </List.Header>}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          {!createRoom
-                            ? <List.Icon
-                                name="close"
-                                size="large"
-                                verticalAlign="middle"
-                              />
-                            : <List.Icon
-                                color="green"
-                                name="check"
-                                size="large"
-                                verticalAlign="middle"
-                              />}
-                          <List.Content>
-                            {!createRoom
-                              ? <List.Header as="a">
-                                  create a chat-room
-                                </List.Header>
-                              : <List.Header as="a">
-                                  chat-room was created!
-                                </List.Header>}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          {!createRoom || !createBattle
-                            ? <List.Icon
-                                name="close"
-                                size="large"
-                                verticalAlign="middle"
-                              />
-                            : <List.Icon
-                                color="green"
-                                name="check"
-                                size="large"
-                                verticalAlign="middle"
-                              />}
-                          <List.Content>
-                            {!ready
-                              ? <List.Header as="a">PENDING...</List.Header>
-                              : <List.Header as="a">SUCCESSFUL</List.Header>}
-                          </List.Content>
-                        </List.Item>
-                      </List>
-                    </Modal.Description>
-                  </Modal.Content>
-                  {!ready
-                    ? <Segment size="tiny" inverted textAlign="right">
-                        {!createBattle
-                          ? <Button
-                              basic
-                              color="green"
-                              onClick={this.handle_createBattle}>
-                              CREATE BATTLE
-                            </Button>
-                          : <Button
-                              basic
-                              color="blue"
-                              onClick={this.handle_createRoom}>
-                              CREATE ROOM
-                            </Button>}
-                      </Segment>
-                    : <Segment size="tiny" inverted textAlign="right">
-                        <Countdown
-                          date={Date.now() + 5000}
+                  <Message icon inverted>
+                    {!ready
+                      ? <Icon name="circle notched" loading />
+                      : <Countdown
+                          date={Date.now() + 4000}
                           renderer={this.handle_countDown}
-                        />
-                      </Segment>}
+                        />}
+
+                    <Message.Content>
+                      <Segment>
+                        <List>
+                          <List.Item>
+                            {!createBattle
+                              ? <List.Icon
+                                  color="red"
+                                  name="minus"
+                                  size="large"
+                                  verticalAlign="middle"
+                                />
+                              : <List.Icon
+                                  color="green"
+                                  name="check"
+                                  size="large"
+                                  verticalAlign="middle"
+                                />}
+                            creating battle
+                          </List.Item>
+                          <List.Item>
+                            {!createRoom
+                              ? <List.Icon
+                                  color="red"
+                                  name="minus"
+                                  size="large"
+                                  verticalAlign="middle"
+                                />
+                              : <List.Icon
+                                  color="green"
+                                  name="check"
+                                  size="large"
+                                  verticalAlign="middle"
+                                />}
+                            creating chat-room
+                          </List.Item>
+                          {createRoom && createBattle
+                            ? <List.Item>
+                                <List.Icon
+                                  color="green"
+                                  name="check"
+                                  size="large"
+                                  verticalAlign="middle"
+                                />
+                                successful!!
+                              </List.Item>
+                            : null}
+                        </List>
+                      </Segment>
+                    </Message.Content>
+                  </Message>
                 </Modal>
               : ''}
 
