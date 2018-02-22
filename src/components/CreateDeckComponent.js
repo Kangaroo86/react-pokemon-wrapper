@@ -11,6 +11,7 @@ import {
   Card,
   Header,
   Divider,
+  Message,
   Grid,
   Container,
   List,
@@ -54,14 +55,49 @@ export default class CreateDeckComponent extends Component {
 
       selectedPokemon: [],
       selectedDeckName: '',
+      deckCreated: false,
       redirect: false
     };
   }
+
+  handle_deckCreated = () => {
+    this.setState({ deckCreated: false });
+  };
+
+  handle_routeToHome = () => {
+    let { history } = this.props;
+    let { deckCreated } = this.state;
+
+    if (deckCreated) {
+      history.push(`/home`);
+    }
+  };
+
+  handle_messageBoard = () => {
+    let { deckCreated, selectedPokemon } = this.state;
+
+    if (!deckCreated && selectedPokemon.length <= 0) {
+      return <Message.Header>please select your pokemon</Message.Header>;
+    }
+
+    if (selectedPokemon.length >= 1) {
+      return (
+        <Message.Header>
+          {selectedPokemon.slice().pop().name + ' was selected'}
+        </Message.Header>
+      );
+    }
+
+    if (deckCreated) {
+      return <Message.Header>your deck was created!!</Message.Header>;
+    }
+  };
 
   //**setState select pokemon**//
   handle_selectedPokemon = (event, data) => {
     let { selectedPokemon } = this.state;
     let duplicate = false;
+
     selectedPokemon.forEach(pokeArray => {
       if (pokeArray.id === data.id) {
         duplicate = true;
@@ -108,10 +144,16 @@ export default class CreateDeckComponent extends Component {
       this.setState({ redirect: true });
       this.setState({ selectedPokemon: [] });
       this.setState({ selectedDeckName: '' });
+      this.setState({ deckCreated: true });
     }
 
     //this.props.history.push(`/home`); //this is causing the homeComp not to re-render
   };
+
+  // handle_ready = () => {
+  //   setTimeout(this.handle_createDeck, 1000);
+  //   setTimeout(this.handle_createRoom, 2000);
+  // };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -175,7 +217,12 @@ export default class CreateDeckComponent extends Component {
   };
 
   render() {
-    let { activeItem, selectedPokemon, selectedDeckName } = this.state;
+    let {
+      activeItem,
+      selectedPokemon,
+      selectedDeckName,
+      deckCreated
+    } = this.state;
     let { pokemonArray } = this.props;
 
     return (
@@ -230,13 +277,19 @@ export default class CreateDeckComponent extends Component {
                       key={i}
                       id={character.id}
                       color={colors[i]}
+                      name={character.name}
                       image={character.sprites.front_default}
                       onClick={this.handle_selectedPokemon}
                     />
                   );
                 })}
             </Card.Group>
-            <Divider section />
+            {/* <Divider section /> */}
+
+            <Message info>
+              {this.handle_messageBoard()}
+            </Message>
+
             <Segment style={{ padding: '5em 0em' }} vertical>
               <Grid container stackable verticalAlign="middle" columns="equal">
                 <Grid.Row>
@@ -256,22 +309,37 @@ export default class CreateDeckComponent extends Component {
                   </Grid.Column>
                   <Grid.Column width={5}>
                     <Segment inverted>
-                      <Form inverted>
-                        <Form.Group widths="equal">
-                          <Form.Input
-                            label="Deck Name"
-                            type="text"
-                            value={selectedDeckName}
-                            onChange={this.handle_selectedDeckName}
-                            placeholder="Deck Name"
-                            width={2}
-                          />
-                        </Form.Group>
-                        <Form.Checkbox label="I agree to use pokemon for good, not evil" />
-                        <Button type="button" onClick={this.handle_createDeck}>
-                          CREATE
-                        </Button>
-                      </Form>
+                      {!deckCreated
+                        ? <Form inverted>
+                            <Form.Group widths="equal">
+                              <Form.Input
+                                label="Deck Name"
+                                type="text"
+                                value={selectedDeckName}
+                                onChange={this.handle_selectedDeckName}
+                                placeholder="Deck Name"
+                                width={2}
+                              />
+                            </Form.Group>
+                            <Form.Checkbox label="I agree to use pokemon for good, not evil" />
+                            <Button positive onClick={this.handle_createDeck}>
+                              CREATE
+                            </Button>
+                          </Form>
+                        : <Form inverted>
+                            <p>Do you want to create more deck?</p>
+                            <Button.Group size="large">
+                              <Button
+                                positive
+                                onClick={this.handle_deckCreated}>
+                                YES
+                              </Button>
+                              <Button.Or />
+                              <Button onClick={this.handle_routeToHome}>
+                                NO
+                              </Button>
+                            </Button.Group>
+                          </Form>}
                     </Segment>
                   </Grid.Column>
                   <Grid.Column floated="right">

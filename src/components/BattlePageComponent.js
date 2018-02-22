@@ -501,7 +501,7 @@ export default class BattlePageComponent extends Component {
                   {/***************CHAT_ROOM***************/}
                   <Comment.Group>
                     <Menu inverted compact disabled>
-                      <Menu.Item as="a">
+                      <Menu.Item>
                         <Icon size="big" name="users" /> CHAT ROOM
                         <Label color="teal" floating>
                           {p1_userName && !p2_userName

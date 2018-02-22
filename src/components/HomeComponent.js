@@ -217,15 +217,32 @@ export default class HomeComponent extends Component {
 
             {/* ternary operator, when a user have no deck */}
             {userDecks.length <= 0
-              ? <Message compact color="red">
-                  please create a deck
-                </Message>
-              : !selectedDeck.id
-                ? <Message compact color="red">
-                    please select a deck for battle
+              ? <Segment>
+                  <Message info>
+                    <Message.Header color="red">
+                      please create a deck
+                    </Message.Header>
                   </Message>
-                : <Message compact color="blue">
-                    {selectedDeck.deckname + ' was selected'}
+                  <br />
+                  <Menu inverted compact onClick={this.handle_room}>
+                    <Link to="/createdeck">
+                      <Menu.Item as="a" active="createBattle" color={'black'}>
+                        <Icon size="big" name="settings" color={'teal'} />{' '}
+                        CREATE DECK
+                      </Menu.Item>
+                    </Link>
+                  </Menu>
+                </Segment>
+              : !selectedDeck.id
+                ? <Message info>
+                    <Message.Header color="red">
+                      please select a deck for battle
+                    </Message.Header>
+                  </Message>
+                : <Message info>
+                    <Message.Header color="red">
+                      {selectedDeck.deckname + ' was selected'}
+                    </Message.Header>
                   </Message>}
 
             <br />
@@ -234,9 +251,11 @@ export default class HomeComponent extends Component {
               ? <Modal
                   size={'mini'}
                   trigger={
-                    <Button basic color="green" onClick={this.handle_ready}>
-                      READY
-                    </Button>
+                    <Menu inverted compact onClick={this.handle_ready}>
+                      <Menu.Item as="a" active="createBattle" color={'black'}>
+                        <Icon size="big" name="gamepad" color={'teal'} /> READY
+                      </Menu.Item>
+                    </Menu>
                   }>
                   <Segment inverted>
                     <Header
@@ -246,18 +265,16 @@ export default class HomeComponent extends Component {
                       color="grey">
                       {selectedDeck.deckname}
                     </Header>
-                  </Segment>
 
-                  <Message icon inverted>
-                    {!ready
-                      ? <Icon name="circle notched" loading />
-                      : <Countdown
-                          date={Date.now() + 4000}
-                          renderer={this.handle_countDown}
-                        />}
+                    <Message icon inverted>
+                      {!ready
+                        ? <Icon name="circle notched" loading />
+                        : <Countdown
+                            date={Date.now() + 4000}
+                            renderer={this.handle_countDown}
+                          />}
 
-                    <Message.Content>
-                      <Segment>
+                      <Message.Content>
                         <List>
                           <List.Item>
                             {!createBattle
@@ -303,9 +320,9 @@ export default class HomeComponent extends Component {
                               </List.Item>
                             : null}
                         </List>
-                      </Segment>
-                    </Message.Content>
-                  </Message>
+                      </Message.Content>
+                    </Message>
+                  </Segment>
                 </Modal>
               : ''}
 

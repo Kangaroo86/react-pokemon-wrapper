@@ -251,13 +251,6 @@ export default class CreateDeckComponent extends Component {
                           </List>
                         </Card.Content>
                         <Card.Content extra>
-                          {/* <Button
-                            value={userObj}
-                            basic
-                            color="green"
-                            onClick={this.handle_battlePage}>
-                            READY
-                          </Button> */}
                           <Link to="/home">
                             <Button
                               basic
@@ -296,7 +289,6 @@ export default class CreateDeckComponent extends Component {
                             {selectedPokemon.map((pokemonObj, i) =>
                               <Card
                                 key={i}
-                                //characterId={pokemonObj.characterId}
                                 color={colors[i]}
                                 image={pokemonObj.image}
                                 id={pokemonObj.id}
