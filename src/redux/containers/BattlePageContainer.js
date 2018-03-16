@@ -8,7 +8,7 @@ import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getBattleStateProcess from '../thunks/getBattleStateProcess';
 import setBattleStateProcess from '../thunks/setBattleStateProcess';
-import listenForUpdatesProcess from '../thunks/listenForUpdatesProcess';
+import updateBattleStateProcess from '../thunks/updateBattleStateProcess';
 import updateMessagesProcess from '../thunks/updateMessagesProcess';
 
 import createMessageProcess from '../thunks/createMessageProcess';
@@ -41,7 +41,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     get_userDecks: () => dispatch(getUserDecksProcess()),
     //get_battleState: socket => dispatch(getBattleStateProcess(socket)),
     get_battleState: () => dispatch(getBattleStateProcess()),
-    listen_for_updates: () => dispatch(listenForUpdatesProcess()),
+    update_battleState: () => dispatch(updateBattleStateProcess()),
     onPokemonObj: pokemonId => dispatch(getPokemonObjProcess(pokemonId)),
     set_battleState: stateObj => {
       return dispatch(setBattleStateProcess(stateObj));
@@ -59,12 +59,7 @@ const withlifecycle = lifecycle({
       this.props.get_battleState();
       this.props.update_messages();
     });
-    //this.props.get_userDecks();
-    //this.props.get_battleState();
-
-    // this.props.update_messages();
-
-    this.props.listen_for_updates();
+    this.props.update_battleState();
   }
 });
 

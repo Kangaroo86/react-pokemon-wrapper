@@ -13,7 +13,6 @@ export default function IndexPage({
   get_userDecks,
   history,
   location,
-  listen_for_updates,
   match,
   messages,
   onPokemonObj,
@@ -23,6 +22,7 @@ export default function IndexPage({
   signOut,
   userDecks,
   userSignIn,
+  update_battleState,
   update_messages
 }) {
   return (
@@ -38,7 +38,6 @@ export default function IndexPage({
       get_userDecks={get_userDecks}
       history={history}
       location={location}
-      listen_for_updates={listen_for_updates}
       match={match}
       messages={messages}
       onPokemonObj={onPokemonObj}
@@ -48,6 +47,7 @@ export default function IndexPage({
       signOut={signOut}
       userDecks={userDecks}
       userSignIn={userSignIn}
+      update_battleState={update_battleState}
       update_messages={update_messages}
     />
   );

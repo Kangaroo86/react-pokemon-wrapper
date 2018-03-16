@@ -36,14 +36,14 @@ export default class BattlePageComponent extends Component {
     super(props);
 
     let {
-      getBattleState,
-      update_messages,
-      listen_for_updates,
-      get_battleState
+      getBattleState
+      // update_messages,
+      // update_battleState,
+      // get_battleState
     } = this.props;
 
-    update_messages();
-    //listen_for_updates();
+    //update_messages();
+    //update_battleState();
     //get_battleState();
 
     this.state = {
@@ -64,13 +64,13 @@ export default class BattlePageComponent extends Component {
 
   // *********************** PLAYER-1 CODES: *********************** //
 
+  //NOTE Took out boolean p1_turn & p2_turn for now. Need to figure out how to do this since
+  //it is causing a asyncouse err
   handle_ready = (event, data) => {
-    let { listen_for_updates, set_battleState } = this.props;
+    let { update_battleState, set_battleState } = this.props;
+    this.setState({ p2_turn: true, p1_turn: false });
 
-    // this.setState({ p2_turn: true, p1_turn: false });
-    //this.setState({ p2_turn: true });
     set_battleState(this.state);
-    //listen_for_updates();
   };
 
   //p1 select a card from deckzone to battlezone
@@ -84,11 +84,10 @@ export default class BattlePageComponent extends Component {
       let updatedDeckZone = p1_deck_zone.filter(
         pokeObj => pokeObj.id !== data.id
       );
-
       this.setState({ p1_deck_zone: updatedDeckZone });
     }
-    //console.log('handle_p1_select_card myState-------', this.state);
-    set_battleState(this.state);
+    //initial render will cause asyncouse err, created separated fun. handle_ready
+    //set_battleState(this.state);
   };
 
   //p1 inflicts special atks to p2  TODO add more complex battle phase
@@ -138,7 +137,6 @@ export default class BattlePageComponent extends Component {
   //p2 select card to battle zone
   handle_p2_select_card = (event, data) => {
     let { p2_battle_zone, p2_deck_zone } = this.state;
-    let { set_battleState } = this.props;
 
     if (p2_battle_zone.length < 1) {
       this.setState({ p2_battle_zone: [data] });
@@ -147,8 +145,6 @@ export default class BattlePageComponent extends Component {
       );
 
       this.setState({ p2_deck_zone: updatedDeckZone });
-
-      set_battleState(this.state);
     }
   };
 
@@ -170,7 +166,7 @@ export default class BattlePageComponent extends Component {
     }
 
     this.setState({ p1_turn: true, p2_turn: false });
-    set_battleState(this.state);
+    //set_battleState(this.state);
   };
 
   //P2 inflicts normal atk to P1
@@ -313,7 +309,7 @@ export default class BattlePageComponent extends Component {
 
     let { messages } = this.props;
 
-    //console.log('this state: ------------', this.state);
+    console.log('this state: ------------', this.state);
 
     return (
       <Grid columns="equal">
@@ -484,7 +480,8 @@ export default class BattlePageComponent extends Component {
                               ATK
                             </Button>
                             <Button
-                              onClick={p1_turn ? this.handle_ready : null}
+                              // onClick={p1_turn ? this.handle_ready : null}
+                              onClick={this.handle_ready}
                               compact
                               size="medium"
                               inverted
@@ -516,16 +513,6 @@ export default class BattlePageComponent extends Component {
                         return (
                           <Comment key={i}>
                             <Comment.Content>
-                              {/* <Comment.Avatar src={jenny} /> */}
-                              {/* <Comment.Author as="a">
-                                {message && message.name
-                                  ? message.name
-                                  : 'Anonymous'}
-                              </Comment.Author>
-                              <Comment.Text>
-                                {message && message.text}
-                              </Comment.Text> */}
-
                               <Message size="mini" color="green" info>
                                 <Comment.Avatar src={jenny} />
                                 <Comment.Author as="a">
@@ -659,8 +646,7 @@ export default class BattlePageComponent extends Component {
                               size="medium"
                               inverted
                               color="teal"
-                              //onClick={this.handle_p2_specialAtk}
-                              onClick={this.player_2}>
+                              onClick={this.handle_p2_specialAtk}>
                               <Icon name="lightning" />
                               SPEC ATK
                             </Button>
@@ -674,7 +660,8 @@ export default class BattlePageComponent extends Component {
                               ATK
                             </Button>
                             <Button
-                              onClick={p2_turn ? this.handle_ready : null}
+                              // onClick={p2_turn ? this.handle_ready : null}
+                              onClick={this.handle_ready}
                               compact
                               size="medium"
                               inverted
@@ -698,6 +685,8 @@ export default class BattlePageComponent extends Component {
                               color={colors[i]}
                               name={pokeObj.name}
                               id={pokeObj.id}
+                              moves={pokeObj.moves}
+                              stats={pokeObj.stats}
                               types={pokeObj.types}
                               image={pokeObj.image}
                               onClick={this.handle_p2_select_card}

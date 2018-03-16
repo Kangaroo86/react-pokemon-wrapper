@@ -10,7 +10,6 @@ import {
   Segment,
   Card,
   Header,
-  Divider,
   Message,
   Grid,
   Container,

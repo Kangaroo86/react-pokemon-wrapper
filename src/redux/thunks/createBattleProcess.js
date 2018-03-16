@@ -6,7 +6,6 @@ export default function createBattleProcess() {
       .then(createBattleObj => {
         localStorage.setItem('playerNum', createBattleObj.playerNum);
         localStorage.setItem('currentBattleId', createBattleObj.battleId);
-
         dispatch({ type: 'CREATE_BATTLE', createBattleObj: createBattleObj });
       })
       .catch(error => {

@@ -199,8 +199,6 @@ export default class HomeComponent extends Component {
 
             <br />
 
-            <Button onClick={this.handleTEST}>CLICK ME</Button>
-
             {/* <Menu inverted compact onClick={this.handle_room}>
               <Menu.Item as="a" active="createBattle" color={'teal'}>
                 <Icon size="big" name="game" color={'black'} /> CREATE BATTLE
@@ -228,7 +226,7 @@ export default class HomeComponent extends Component {
                   <br />
                   <Menu inverted compact onClick={this.handle_room}>
                     <Link to="/createdeck">
-                      <Menu.Item as="a" active="createBattle" color={'black'}>
+                      <Menu.Item as="a" color={'black'}>
                         <Icon size="big" name="settings" color={'teal'} />{' '}
                         CREATE DECK
                       </Menu.Item>
@@ -254,7 +252,7 @@ export default class HomeComponent extends Component {
                   size={'mini'}
                   trigger={
                     <Menu inverted compact onClick={this.handle_ready}>
-                      <Menu.Item as="a" active="createBattle" color={'black'}>
+                      <Menu.Item as="a" color={'black'}>
                         <Icon size="big" name="gamepad" color={'teal'} /> READY
                       </Menu.Item>
                     </Menu>
@@ -268,7 +266,7 @@ export default class HomeComponent extends Component {
                       {selectedDeck.deckname}
                     </Header>
 
-                    <Message icon inverted>
+                    <Message icon>
                       {!ready
                         ? <Icon name="circle notched" loading />
                         : <Countdown

@@ -124,7 +124,10 @@ export default function getBattleStateProcess() {
         const battleState = scope.battleState;
 
         if (scope.processDeck === true) {
-          console.log('getBattleStateProcess-----', battleState);
+          console.log(
+            'getBattleStateProcess------------------------',
+            battleState
+          );
           socket.emit('STATE_UPDATED', battleState);
         }
         dispatch({ type: 'GET_BATTLE_STATE', getBattleState: battleState });
