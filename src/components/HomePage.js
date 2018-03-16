@@ -17,11 +17,13 @@ export default function SignInPage({
   match,
   create_battle,
   //request_Battle,
-  location
+  location,
+  deleteMe
 }) {
   return (
     <div>
       <HomeComponent
+        deleteMe={deleteMe}
         create_room={create_room}
         createBattleObj={createBattleObj}
         //request_Battle={request_Battle}

@@ -199,6 +199,8 @@ export default class HomeComponent extends Component {
 
             <br />
 
+            <Button onClick={this.handleTEST}>CLICK ME</Button>
+
             {/* <Menu inverted compact onClick={this.handle_room}>
               <Menu.Item as="a" active="createBattle" color={'teal'}>
                 <Icon size="big" name="game" color={'black'} /> CREATE BATTLE
@@ -270,7 +272,7 @@ export default class HomeComponent extends Component {
                       {!ready
                         ? <Icon name="circle notched" loading />
                         : <Countdown
-                            date={Date.now() + 4000}
+                            date={Date.now() + 1000}
                             renderer={this.handle_countDown}
                           />}
 

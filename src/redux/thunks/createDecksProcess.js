@@ -21,7 +21,6 @@ export default function createUserDeckProcess(
       scope.userDeck = newDeck;
       const promises = [];
 
-      console.log('newDeck+++++++++++++++', newDeck);
       let newUserDeck = newDeck.map(userDeck => {
         userDeck.cards = userDeck.cards.split(',').map(ids => {
           return Number(ids);
@@ -29,7 +28,6 @@ export default function createUserDeckProcess(
         return userDeck;
       });
 
-      console.log('newUserDeck+++++++++++++++', newUserDeck);
       newUserDeck.forEach(userDeck => {
         const ids = userDeck.cards;
         userDeck.cards = ids;
@@ -40,13 +38,11 @@ export default function createUserDeckProcess(
 
       let characters = await Promise.all(promises);
 
-      console.log('characters+++++++++++++++', characters);
       scope.userDeck.forEach(decks => {
         decks.cards = decks.cards.map(id =>
           characters.find(character => character.id === id)
         );
       });
-      console.log('scope.userDeck-----------', scope.userDeck);
 
       dispatch({ type: 'CREATE_USER_DECK', userDecks: scope.userDeck[0] });
     } catch (err) {

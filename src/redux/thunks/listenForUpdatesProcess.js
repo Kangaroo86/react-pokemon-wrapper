@@ -3,7 +3,6 @@ import { socket } from '../../socket.io/socketManager';
 export default function listenForUpdatesProcess() {
   return (dispatch, getState) => {
     socket.on('UPDATED_BATTLE_STATE', obj => {
-      console.log('listenForUpdate-------------', obj);
       dispatch({
         type: 'GET_BATTLE_STATE',
         getBattleState: obj

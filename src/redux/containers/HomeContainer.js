@@ -9,6 +9,8 @@ import createBattleProcess from '../thunks/createBattleProcess';
 
 import createRoomProcess from '../thunks/createRoomProcess';
 
+//import parsingTextMiddleWare from '../thunks/parsingTextMiddleWare';
+
 function mapStateToProps(state, ownProps) {
   return {
     pokemonObj: state.pokemonObj,

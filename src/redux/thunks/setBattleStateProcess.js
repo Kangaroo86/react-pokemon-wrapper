@@ -3,7 +3,6 @@ import { socket } from '../../socket.io/socketManager';
 
 export default function setBattleStateProcess(stateObj) {
   return (dispatch, getState) => {
-    console.log('setBattleState--------', stateObj);
     socket.emit('STATE_UPDATED', stateObj);
 
     // socket.on('UPDATED_BATTLE_STATE', obj => {
