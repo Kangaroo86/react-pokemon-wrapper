@@ -35,16 +35,7 @@ export default class BattlePageComponent extends Component {
   constructor(props) {
     super(props);
 
-    let {
-      getBattleState
-      // update_messages,
-      // update_battleState,
-      // get_battleState
-    } = this.props;
-
-    //update_messages();
-    //update_battleState();
-    //get_battleState();
+    let { getBattleState } = this.props;
 
     this.state = {
       activeItem: '', //animation
@@ -56,6 +47,7 @@ export default class BattlePageComponent extends Component {
       p2_visible: true, //animation
       message: '', //socet io
       createRoom: false,
+      loading: false,
       // p1_playerNum: '',
       // p2_playerNum: '',
       ...getBattleState
@@ -64,19 +56,14 @@ export default class BattlePageComponent extends Component {
 
   // *********************** PLAYER-1 CODES: *********************** //
 
-  //NOTE Took out boolean p1_turn & p2_turn for now. Need to figure out how to do this since
-  //it is causing a asyncouse err
-  handle_ready = (event, data) => {
-    let { update_battleState, set_battleState } = this.props;
-    this.setState({ p2_turn: true, p1_turn: false });
-
-    set_battleState(this.state);
+  //need to update the B/E whenever a player attk, def, or select a pokemon
+  handle_setBattleState = (event, data) => {
+    this.props.set_battleState(this.state);
   };
 
-  //p1 select a card from deckzone to battlezone
-  handle_p1_select_card = (event, data) => {
+  //p1 selects a card from deckzone to battlezone
+  handle_p1_selectCard = (event, data) => {
     let { p1_battle_zone, p1_deck_zone } = this.state;
-    let { set_battleState } = this.props;
 
     if (p1_battle_zone.length < 1) {
       this.setState({ p1_battle_zone: [data] });
@@ -84,110 +71,145 @@ export default class BattlePageComponent extends Component {
       let updatedDeckZone = p1_deck_zone.filter(
         pokeObj => pokeObj.id !== data.id
       );
-      this.setState({ p1_deck_zone: updatedDeckZone });
+      this.setState(
+        { p1_deck_zone: updatedDeckZone },
+        this.handle_setBattleState
+      );
     }
-    //initial render will cause asyncouse err, created separated fun. handle_ready
-    //set_battleState(this.state);
   };
 
   //p1 inflicts special atks to p2  TODO add more complex battle phase
   handle_p1_specialAtk = (event, data) => {
     let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
-    let { set_battleState } = this.props;
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
 
     p2_stats.hp = p2_stats.hp - p1_stats.spec_atk;
-
     this.p2_toggleVisibility();
 
     if (p2_stats.hp <= 0) {
-      this.setState({ p2_grave_yard: [...p2_grave_yard, p2_battle_zone[0]] });
-      this.setState({ p2_battle_zone: [] });
+      this.setState(
+        {
+          p2_grave_yard: [...p2_grave_yard, p2_battle_zone[0]],
+          p2_battle_zone: [],
+          p1_turn: false,
+          p2_turn: true
+        },
+        this.handle_setBattleState
+      );
     } else {
-      this.setState({ p2_battle_zone: p2_battle_zone });
+      this.setState(
+        { p2_battle_zone: p2_battle_zone, p1_turn: false, p2_turn: true },
+        this.handle_setBattleState
+      );
     }
-
-    this.setState({ p1_turn: false, p2_turn: true });
-    //set_battleState(this.state);
   };
 
-  //P1 inflicts normal atk to P2
-  handle_p1_atk = (event, data) => {
+  //p1 inflicts normal atk to p2
+  handle_p1_normalAtk = (event, data) => {
     let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
-    let { set_battleState } = this.props;
-
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
 
     p2_stats.hp = p2_stats.hp - p1_stats.atk;
+    this.p2_toggleVisibility();
 
     if (p2_stats.hp <= 0) {
-      this.setState({ p2_grave_yard: [...p2_grave_yard, p2_battle_zone] });
-      this.setState({ p2_battle_zone: [] });
+      this.setState(
+        {
+          p2_grave_yard: [...p2_grave_yard, p2_battle_zone],
+          p2_battle_zone: [],
+          p1_turn: false,
+          p2_turn: true
+        },
+        this.handle_setBattleState
+      );
     } else {
-      this.setState({ p2_battle_zone: p2_battle_zone });
+      this.setState(
+        {
+          p2_battle_zone: p2_battle_zone,
+          p1_turn: false,
+          p2_turn: true
+        },
+        this.handle_setBattleState
+      );
     }
-
-    this.setState({ p1_turn: false, p2_turn: true });
-    set_battleState(this.state);
   };
 
   // *********************** PLAYER-2 CODES: *********************** //
   //p2 select card to battle zone
-  handle_p2_select_card = (event, data) => {
+  handle_p2_selectCard = (event, data) => {
     let { p2_battle_zone, p2_deck_zone } = this.state;
 
     if (p2_battle_zone.length < 1) {
       this.setState({ p2_battle_zone: [data] });
+
       let updatedDeckZone = p2_deck_zone.filter(
         pokeObj => pokeObj.id !== data.id
       );
-
-      this.setState({ p2_deck_zone: updatedDeckZone });
+      this.setState(
+        { p2_deck_zone: updatedDeckZone },
+        this.handle_setBattleState
+      );
     }
   };
 
   //p2 atks p1 w/ special atk TODO add more complex battle phase
   handle_p2_specialAtk = (event, data) => {
     let { p2_battle_zone, p1_battle_zone, p1_grave_yard } = this.state;
-    let { set_battleState } = this.props;
-
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
 
     p1_stats.hp = p1_stats.hp - p2_stats.spec_atk;
+    this.p1_toggleVisibility();
 
     if (p1_stats.hp <= 0) {
-      this.setState({ p1_grave_yard: [...p1_grave_yard, p1_battle_zone[0]] });
-      this.setState({ p1_battle_zone: [] });
+      this.setState(
+        {
+          p1_grave_yard: [...p1_grave_yard, p1_battle_zone[0]],
+          p1_battle_zone: [],
+          p1_turn: true,
+          p2_turn: false
+        },
+        this.handle_setBattleState
+      );
     } else {
-      this.setState({ p1_battle_zone: p1_battle_zone });
+      this.setState(
+        { p1_battle_zone: p1_battle_zone, p1_turn: true, p2_turn: false },
+        this.handle_setBattleState
+      );
     }
-
-    this.setState({ p1_turn: true, p2_turn: false });
-    //set_battleState(this.state);
   };
 
-  //P2 inflicts normal atk to P1
-  handle_p2_atk = (event, data) => {
+  //p2 inflicts normal atk to p1
+  handle_p2_noramlAtk = (event, data) => {
     let { p2_battle_zone, p1_battle_zone, p1_grave_yard } = this.state;
-    let { set_battleState } = this.props;
-
     let p1_stats = p1_battle_zone[0].stats;
     let p2_stats = p2_battle_zone[0].stats;
 
     p1_stats.hp = p1_stats.hp - p2_stats.atk;
+    this.p1_toggleVisibility();
 
     if (p1_stats.hp <= 0) {
-      this.setState({ p1_grave_yard: [...p1_grave_yard, p1_battle_zone[0]] });
-      this.setState({ p1_battle_zone: [] });
+      this.setState(
+        {
+          p1_grave_yard: [...p1_grave_yard, p1_battle_zone[0]],
+          p1_battle_zone: [],
+          p1_turn: true,
+          p2_turn: false
+        },
+        this.handle_setBattleState
+      );
     } else {
-      this.setState({ p1_battle_zone: p1_battle_zone });
+      this.setState(
+        {
+          p1_battle_zone: p1_battle_zone,
+          p1_turn: true,
+          p2_turn: false
+        },
+        this.handle_setBattleState
+      );
     }
-
-    this.setState({ p1_turn: true, p2_turn: false });
-    set_battleState(this.state);
   };
 
   // *********************** CSS ANIMATION CODES: *********************** //
@@ -211,6 +233,7 @@ export default class BattlePageComponent extends Component {
     delete_battleState(battleId);
   };
 
+  //signout and clear all localStorage data
   handle_signOut = (event, { name }) => {
     event.preventDefault();
     let { delete_battleState } = this.props;
@@ -228,7 +251,6 @@ export default class BattlePageComponent extends Component {
     localStorage.removeItem('userIdSocket');
 
     this.props.clear_rootReducer();
-
     this.props.signOut();
     this.props.history.push(`/`);
   };
@@ -242,29 +264,14 @@ export default class BattlePageComponent extends Component {
     //console.log('nextProps-----------', nextProps);
   }
 
-  // componentDidMount() {
-  //   console.log('did i happen');
-  //   this.props.get_userDecks().then(() => {
-  //     console.log('A----------');
-  //     this.props.get_battleState().then(() => {
-  //       console.log('B----------');
-  //       this.handle_createRoom();
-  //     });
-  //   });
-  // }
   // ************************* SOCKET-IO CODES: ************************* //
-  //send messages TO-THE backend
+
+  //messages input to the state
   handle_messageInput = event => {
     this.setState({ message: event.target.value });
   };
 
-  handle_createRoom = () => {
-    const battleId = localStorage.getItem('currentBattleId');
-
-    this.setState({ createRoom: true });
-    this.props.create_room(battleId);
-  };
-
+  //create messages and send to the B/E
   handle_submitMessage = event => {
     let { message } = this.state;
     let { create_message } = this.props;
@@ -285,6 +292,13 @@ export default class BattlePageComponent extends Component {
       create_message(messageInputed);
       this.setState({ message: '' });
     }
+  };
+
+  //roomId will enable two parties to battle in the same room
+  handle_createRoom = () => {
+    const battleId = localStorage.getItem('currentBattleId');
+    this.setState({ createRoom: true });
+    this.props.create_room(battleId);
   };
 
   render() {
@@ -369,7 +383,7 @@ export default class BattlePageComponent extends Component {
                 </Grid.Column>
               </Grid>
 
-              {/* PLAYER-1 */}
+              {/********************PLAYER-1********************/}
               <Grid centered columns={5}>
                 <Grid.Row>
                   <Grid.Column floated="left" width={2}>
@@ -386,7 +400,7 @@ export default class BattlePageComponent extends Component {
                               stats={pokeObj.stats}
                               types={pokeObj.types}
                               image={pokeObj.image}
-                              onClick={this.handle_p1_select_card}
+                              onClick={this.handle_p1_selectCard}
                             />
                           );
                         })}
@@ -475,13 +489,13 @@ export default class BattlePageComponent extends Component {
                               size="medium"
                               inverted
                               color="violet"
-                              onClick={this.handle_p1_atk}>
+                              onClick={this.handle_p1_normalAtk}>
                               <Icon name="bomb" />
                               ATK
                             </Button>
                             <Button
-                              // onClick={p1_turn ? this.handle_ready : null}
-                              onClick={this.handle_ready}
+                              // onClick={p1_turn ? this.handle_setBattleState : null}
+                              onClick={this.handle_setBattleState}
                               compact
                               size="medium"
                               inverted
@@ -495,7 +509,7 @@ export default class BattlePageComponent extends Component {
                     </Segment>
                   </Grid.Column>
 
-                  {/***************CHAT_ROOM***************/}
+                  {/********************CHAT_ROOM********************/}
                   <Comment.Group>
                     <Menu inverted compact disabled>
                       <Menu.Item>
@@ -571,7 +585,7 @@ export default class BattlePageComponent extends Component {
                     </div>
                   </Comment.Group>
 
-                  {/* 2nd Player */}
+                  {/********************PLAYER-2********************/}
                   <Grid.Column floated="right">
                     <Segment inverted color="black">
                       <Label size="large" as="a" color="olive" ribbon="right">
@@ -655,13 +669,13 @@ export default class BattlePageComponent extends Component {
                               size="medium"
                               inverted
                               color="violet"
-                              onClick={this.handle_p2_atk}>
+                              onClick={this.handle_p2_noramlAtk}>
                               <Icon name="bomb" />
                               ATK
                             </Button>
                             <Button
-                              // onClick={p2_turn ? this.handle_ready : null}
-                              onClick={this.handle_ready}
+                              // onClick={p2_turn ? this.handle_setBattleState : null}
+                              onClick={this.handle_setBattleState}
                               compact
                               size="medium"
                               inverted
@@ -689,7 +703,7 @@ export default class BattlePageComponent extends Component {
                               stats={pokeObj.stats}
                               types={pokeObj.types}
                               image={pokeObj.image}
-                              onClick={this.handle_p2_select_card}
+                              onClick={this.handle_p2_selectCard}
                             />
                           );
                         })}
