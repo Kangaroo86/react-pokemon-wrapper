@@ -56,23 +56,23 @@ export default class BattlePageComponent extends Component {
 
   // *********************** PLAYER-1 CODES: *********************** //
 
-  //need to update the B/E whenever a player attk, def, or select a pokemon
+  //update B/E whenever a player attk, def, or select a pokemon
   handle_setBattleState = (event, data) => {
     this.props.set_battleState(this.state);
   };
 
   //p1 selects a card from deckzone to battlezone
   handle_p1_selectCard = (event, data) => {
-    let { p1_battle_zone, p1_deck_zone } = this.state;
+    let { p1_battleZone, p1_deckZone } = this.state;
 
-    if (p1_battle_zone.length < 1) {
-      this.setState({ p1_battle_zone: [data] });
+    if (p1_battleZone.length < 1) {
+      this.setState({ p1_battleZone: [data] });
 
-      let updatedDeckZone = p1_deck_zone.filter(
+      let updatedDeckZone = p1_deckZone.filter(
         pokeObj => pokeObj.id !== data.id
       );
       this.setState(
-        { p1_deck_zone: updatedDeckZone },
+        { p1_deckZone: updatedDeckZone },
         this.handle_setBattleState
       );
     }
@@ -80,9 +80,9 @@ export default class BattlePageComponent extends Component {
 
   //p1 inflicts special atks to p2  TODO add more complex battle phase
   handle_p1_specialAtk = (event, data) => {
-    let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
-    let p1_stats = p1_battle_zone[0].stats;
-    let p2_stats = p2_battle_zone[0].stats;
+    let { p1_battleZone, p2_battleZone, p2_graveYard } = this.state;
+    let p1_stats = p1_battleZone[0].stats;
+    let p2_stats = p2_battleZone[0].stats;
 
     p2_stats.hp = p2_stats.hp - p1_stats.spec_atk;
     this.p2_toggleVisibility();
@@ -90,8 +90,8 @@ export default class BattlePageComponent extends Component {
     if (p2_stats.hp <= 0) {
       this.setState(
         {
-          p2_grave_yard: [...p2_grave_yard, p2_battle_zone[0]],
-          p2_battle_zone: [],
+          p2_graveYard: [...p2_graveYard, p2_battleZone[0]],
+          p2_battleZone: [],
           p1_turn: false,
           p2_turn: true
         },
@@ -99,7 +99,7 @@ export default class BattlePageComponent extends Component {
       );
     } else {
       this.setState(
-        { p2_battle_zone: p2_battle_zone, p1_turn: false, p2_turn: true },
+        { p2_battleZone: p2_battleZone, p1_turn: false, p2_turn: true },
         this.handle_setBattleState
       );
     }
@@ -107,9 +107,9 @@ export default class BattlePageComponent extends Component {
 
   //p1 inflicts normal atk to p2
   handle_p1_normalAtk = (event, data) => {
-    let { p1_battle_zone, p2_battle_zone, p2_grave_yard } = this.state;
-    let p1_stats = p1_battle_zone[0].stats;
-    let p2_stats = p2_battle_zone[0].stats;
+    let { p1_battleZone, p2_battleZone, p2_graveYard } = this.state;
+    let p1_stats = p1_battleZone[0].stats;
+    let p2_stats = p2_battleZone[0].stats;
 
     p2_stats.hp = p2_stats.hp - p1_stats.atk;
     this.p2_toggleVisibility();
@@ -117,8 +117,8 @@ export default class BattlePageComponent extends Component {
     if (p2_stats.hp <= 0) {
       this.setState(
         {
-          p2_grave_yard: [...p2_grave_yard, p2_battle_zone],
-          p2_battle_zone: [],
+          p2_graveYard: [...p2_graveYard, p2_battleZone],
+          p2_battleZone: [],
           p1_turn: false,
           p2_turn: true
         },
@@ -127,7 +127,7 @@ export default class BattlePageComponent extends Component {
     } else {
       this.setState(
         {
-          p2_battle_zone: p2_battle_zone,
+          p2_battleZone: p2_battleZone,
           p1_turn: false,
           p2_turn: true
         },
@@ -139,16 +139,16 @@ export default class BattlePageComponent extends Component {
   // *********************** PLAYER-2 CODES: *********************** //
   //p2 select card to battle zone
   handle_p2_selectCard = (event, data) => {
-    let { p2_battle_zone, p2_deck_zone } = this.state;
+    let { p2_battleZone, p2_deckZone } = this.state;
 
-    if (p2_battle_zone.length < 1) {
-      this.setState({ p2_battle_zone: [data] });
+    if (p2_battleZone.length < 1) {
+      this.setState({ p2_battleZone: [data] });
 
-      let updatedDeckZone = p2_deck_zone.filter(
+      let updatedDeckZone = p2_deckZone.filter(
         pokeObj => pokeObj.id !== data.id
       );
       this.setState(
-        { p2_deck_zone: updatedDeckZone },
+        { p2_deckZone: updatedDeckZone },
         this.handle_setBattleState
       );
     }
@@ -156,9 +156,9 @@ export default class BattlePageComponent extends Component {
 
   //p2 atks p1 w/ special atk TODO add more complex battle phase
   handle_p2_specialAtk = (event, data) => {
-    let { p2_battle_zone, p1_battle_zone, p1_grave_yard } = this.state;
-    let p1_stats = p1_battle_zone[0].stats;
-    let p2_stats = p2_battle_zone[0].stats;
+    let { p2_battleZone, p1_battleZone, p1_graveYard } = this.state;
+    let p1_stats = p1_battleZone[0].stats;
+    let p2_stats = p2_battleZone[0].stats;
 
     p1_stats.hp = p1_stats.hp - p2_stats.spec_atk;
     this.p1_toggleVisibility();
@@ -166,8 +166,8 @@ export default class BattlePageComponent extends Component {
     if (p1_stats.hp <= 0) {
       this.setState(
         {
-          p1_grave_yard: [...p1_grave_yard, p1_battle_zone[0]],
-          p1_battle_zone: [],
+          p1_graveYard: [...p1_graveYard, p1_battleZone[0]],
+          p1_battleZone: [],
           p1_turn: true,
           p2_turn: false
         },
@@ -175,7 +175,7 @@ export default class BattlePageComponent extends Component {
       );
     } else {
       this.setState(
-        { p1_battle_zone: p1_battle_zone, p1_turn: true, p2_turn: false },
+        { p1_battleZone: p1_battleZone, p1_turn: true, p2_turn: false },
         this.handle_setBattleState
       );
     }
@@ -183,9 +183,9 @@ export default class BattlePageComponent extends Component {
 
   //p2 inflicts normal atk to p1
   handle_p2_noramlAtk = (event, data) => {
-    let { p2_battle_zone, p1_battle_zone, p1_grave_yard } = this.state;
-    let p1_stats = p1_battle_zone[0].stats;
-    let p2_stats = p2_battle_zone[0].stats;
+    let { p2_battleZone, p1_battleZone, p1_graveYard } = this.state;
+    let p1_stats = p1_battleZone[0].stats;
+    let p2_stats = p2_battleZone[0].stats;
 
     p1_stats.hp = p1_stats.hp - p2_stats.atk;
     this.p1_toggleVisibility();
@@ -193,8 +193,8 @@ export default class BattlePageComponent extends Component {
     if (p1_stats.hp <= 0) {
       this.setState(
         {
-          p1_grave_yard: [...p1_grave_yard, p1_battle_zone[0]],
-          p1_battle_zone: [],
+          p1_graveYard: [...p1_graveYard, p1_battleZone[0]],
+          p1_battleZone: [],
           p1_turn: true,
           p2_turn: false
         },
@@ -203,7 +203,7 @@ export default class BattlePageComponent extends Component {
     } else {
       this.setState(
         {
-          p1_battle_zone: p1_battle_zone,
+          p1_battleZone: p1_battleZone,
           p1_turn: true,
           p2_turn: false
         },
@@ -308,15 +308,15 @@ export default class BattlePageComponent extends Component {
       p1_animation,
       p1_duration,
       p1_visible,
-      p1_battle_zone,
-      p1_deck_zone,
+      p1_battleZone,
+      p1_deckZone,
       p1_turn,
       p1_userName,
       p2_animation,
       p2_duration,
       p2_visible,
-      p2_battle_zone,
-      p2_deck_zone,
+      p2_battleZone,
+      p2_deckZone,
       p2_turn,
       p2_userName
     } = this.state;
@@ -388,8 +388,8 @@ export default class BattlePageComponent extends Component {
                 <Grid.Row>
                   <Grid.Column floated="left" width={2}>
                     <Card.Group itemsPerRow={1}>
-                      {p1_deck_zone &&
-                        p1_deck_zone.map((pokeObj, i) => {
+                      {p1_deckZone &&
+                        p1_deckZone.map((pokeObj, i) => {
                           return (
                             <Card
                               key={i}
@@ -409,8 +409,8 @@ export default class BattlePageComponent extends Component {
                   <Grid.Column floated="left">
                     <Segment inverted color="black">
                       <Label size="large" as="a" color="olive" ribbon="right">
-                        {p1_battle_zone && p1_battle_zone[0]
-                          ? p1_battle_zone[0].name
+                        {p1_battleZone && p1_battleZone[0]
+                          ? p1_battleZone[0].name
                           : ''}
                       </Label>
                       <br />
@@ -436,13 +436,13 @@ export default class BattlePageComponent extends Component {
                                     size="large"
                                     progress="ratio"
                                     value={
-                                      p1_battle_zone && p1_battle_zone[0]
-                                        ? p1_battle_zone[0].stats.hp
+                                      p1_battleZone && p1_battleZone[0]
+                                        ? p1_battleZone[0].stats.hp
                                         : 0
                                     }
                                     total={
-                                      p1_battle_zone && p1_battle_zone[0]
-                                        ? p1_battle_zone[0].stats.total_hp
+                                      p1_battleZone && p1_battleZone[0]
+                                        ? p1_battleZone[0].stats.total_hp
                                         : 0
                                     }
                                   />
@@ -461,9 +461,9 @@ export default class BattlePageComponent extends Component {
                           <Image
                             bordered
                             src={
-                              p1_battle_zone &&
-                              p1_battle_zone[0] &&
-                              p1_battle_zone[0].image
+                              p1_battleZone &&
+                              p1_battleZone[0] &&
+                              p1_battleZone[0].image
                             }
                             centered
                             size="small"
@@ -589,8 +589,8 @@ export default class BattlePageComponent extends Component {
                   <Grid.Column floated="right">
                     <Segment inverted color="black">
                       <Label size="large" as="a" color="olive" ribbon="right">
-                        {p2_battle_zone && p2_battle_zone[0]
-                          ? p2_battle_zone[0].name
+                        {p2_battleZone && p2_battleZone[0]
+                          ? p2_battleZone[0].name
                           : ''}
                       </Label>
                       <br />
@@ -617,13 +617,13 @@ export default class BattlePageComponent extends Component {
                                     size="large"
                                     progress="ratio"
                                     value={
-                                      p2_battle_zone && p2_battle_zone[0]
-                                        ? p2_battle_zone[0].stats.hp
+                                      p2_battleZone && p2_battleZone[0]
+                                        ? p2_battleZone[0].stats.hp
                                         : 0
                                     }
                                     total={
-                                      p2_battle_zone && p2_battle_zone[0]
-                                        ? p2_battle_zone[0].stats.total_hp
+                                      p2_battleZone && p2_battleZone[0]
+                                        ? p2_battleZone[0].stats.total_hp
                                         : 0
                                     }
                                   />
@@ -642,9 +642,9 @@ export default class BattlePageComponent extends Component {
                           <Image
                             bordered
                             src={
-                              p2_battle_zone &&
-                              p2_battle_zone[0] &&
-                              p2_battle_zone[0].image
+                              p2_battleZone &&
+                              p2_battleZone[0] &&
+                              p2_battleZone[0].image
                             }
                             centered
                             size="small"
@@ -691,8 +691,8 @@ export default class BattlePageComponent extends Component {
 
                   <Grid.Column floated="right" width={2}>
                     <Card.Group itemsPerRow={1}>
-                      {p2_deck_zone &&
-                        p2_deck_zone.map((pokeObj, i) => {
+                      {p2_deckZone &&
+                        p2_deckZone.map((pokeObj, i) => {
                           return (
                             <Card
                               key={i}

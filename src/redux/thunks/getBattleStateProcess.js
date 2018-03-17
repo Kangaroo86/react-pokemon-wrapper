@@ -79,16 +79,16 @@ export default function getBattleStateProcess() {
         if (!battleState) {
           battleState = {
             battle_id: battleId,
-            p1_battle_zone: [],
-            p1_deck_zone: [],
-            p1_grave_yard: [],
+            p1_battleZone: [],
+            p1_deckZone: [],
+            p1_graveYard: [],
             p1_turn: false,
             p1_initialized: false,
             p1_userName: '',
 
-            p2_battle_zone: [],
-            p2_deck_zone: [],
-            p2_grave_yard: [],
+            p2_battleZone: [],
+            p2_deckZone: [],
+            p2_graveYard: [],
             p2_turn: false,
             p2_initialized: false,
             p2_userName: ''
@@ -98,14 +98,14 @@ export default function getBattleStateProcess() {
         //initialize P1 & P2 deck to the default battleState above
         if (processDeck) {
           if (playerNum === 1) {
-            battleState.p1_deck_zone = playerCards;
+            battleState.p1_deckZone = playerCards;
             battleState.p1_initialized = true;
             battleState.p1_userName = playerName;
             if (battleState.p2_initialized === true) {
               battleState.p1_turn = true;
             }
           } else {
-            battleState.p2_deck_zone = playerCards;
+            battleState.p2_deckZone = playerCards;
             battleState.p2_initialized = true;
             battleState.p2_userName = playerName;
             if (battleState.p1_initialized === true) {
@@ -124,10 +124,6 @@ export default function getBattleStateProcess() {
         const battleState = scope.battleState;
 
         if (scope.processDeck === true) {
-          console.log(
-            'getBattleStateProcess------------------------',
-            battleState
-          );
           socket.emit('STATE_UPDATED', battleState);
         }
         dispatch({ type: 'GET_BATTLE_STATE', getBattleState: battleState });
