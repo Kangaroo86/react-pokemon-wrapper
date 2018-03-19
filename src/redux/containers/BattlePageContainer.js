@@ -5,6 +5,7 @@ import BattlePage from '../../components/BattlePage';
 import clearRootReducerProcess from '../thunks/clearRootReducerProcess';
 import deleteBattleStateProcess from '../thunks/deleteBattleStateProcess';
 import getPokemonObjProcess from '../thunks/getPokemonObjProcess';
+import getPokemonMoveProcess from '../thunks/getPokemonMoveProcess';
 import getUserDecksProcess from '../thunks/getUserDecksProcess';
 import getBattleStateProcess from '../thunks/getBattleStateProcess';
 import setBattleStateProcess from '../thunks/setBattleStateProcess';
@@ -39,10 +40,10 @@ function mapDispatchToProps(dispatch, ownProps) {
       return dispatch(deleteBattleStateProcess(battleId)); //when a user logouts, the battleState will be deleted
     },
     get_userDecks: () => dispatch(getUserDecksProcess()),
-    //get_battleState: socket => dispatch(getBattleStateProcess(socket)),
     get_battleState: () => dispatch(getBattleStateProcess()),
     update_battleState: () => dispatch(updateBattleStateProcess()),
     onPokemonObj: pokemonId => dispatch(getPokemonObjProcess(pokemonId)),
+    onPokemonMove: moveName => dispatch(getPokemonMoveProcess(moveName)),
     set_battleState: stateObj => {
       return dispatch(setBattleStateProcess(stateObj));
     },

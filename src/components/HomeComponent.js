@@ -149,7 +149,7 @@ export default class HomeComponent extends Component {
     } = this.state;
     let { userDecks } = this.props;
 
-    //console.log('props-----------', this.props);
+    console.log('userDecks -----------', userDecks);
 
     return (
       <Grid columns="equal">

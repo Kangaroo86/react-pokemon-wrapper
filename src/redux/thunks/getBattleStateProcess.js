@@ -38,6 +38,7 @@ export default function getBattleStateProcess() {
           const deck = userDecks.find(deck => deck.id === deckId);
 
           playerCards = deck.cards.map((pokeObj, i) => {
+            console.log('pokeObj----------------', pokeObj);
             let updatedStats = {};
             pokeObj.stats.forEach(statObj => {
               switch (statObj.stat.name) {
@@ -47,7 +48,6 @@ export default function getBattleStateProcess() {
                   break;
                 case 'special-defense':
                   updatedStats.spec_def = statObj.base_stat;
-                  updatedStats.total_hp = statObj.base_stat;
                   break;
                 case 'special-attack':
                   updatedStats.spec_atk = statObj.base_stat;
@@ -69,6 +69,8 @@ export default function getBattleStateProcess() {
             return {
               id: pokeObj.id,
               name: pokeObj.name,
+              types: pokeObj.types.slice().map(obj => obj.type.name),
+              moves: pokeObj.moves.slice().map(obj => obj.move.name),
               image: pokeObj.sprites.front_default,
               stats: updatedStats
             };

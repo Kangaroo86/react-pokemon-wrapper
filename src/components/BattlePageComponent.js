@@ -6,6 +6,7 @@ import jenny from '../images/jenny.jpg';
 import {
   Card,
   Grid,
+  Header,
   Divider,
   Comment,
   Container,
@@ -54,6 +55,27 @@ export default class BattlePageComponent extends Component {
     };
   }
 
+  //deleteMe after
+  handle_test = () => {
+    this.props.onPokemonMove('pound');
+  };
+
+  //allows chatBot to announce messages
+  handle_chatBot = message => {
+    let { p2_battleZone } = this.state;
+
+    if (p2_battleZone.length < 1) {
+      const battleId = localStorage.getItem('currentBattleId');
+      let messageInputed = {
+        userId: 1,
+        battleId: battleId,
+        text: 'waiting on Player-2 to logon',
+        name: 'COMPUTER'
+      };
+      this.props.create_message(messageInputed);
+    }
+  };
+
   // *********************** PLAYER-1 CODES: *********************** //
 
   //update B/E whenever a player attk, def, or select a pokemon
@@ -78,63 +100,160 @@ export default class BattlePageComponent extends Component {
     }
   };
 
-  //p1 inflicts special atks to p2  TODO add more complex battle phase
+  handle_chatBot = message => {
+    let { p2_battleZone } = this.state;
+
+    if (p2_battleZone.length < 1) {
+      const battleId = localStorage.getItem('currentBattleId');
+      let messageInputed = {
+        userId: 1,
+        battleId: battleId,
+        text: 'waiting on Player-2 to logon',
+        name: 'COMPUTER'
+      };
+      this.props.create_message(messageInputed);
+    }
+  };
+
+  //deleteMe after uploading to AWS
   handle_p1_specialAtk = (event, data) => {
     let { p1_battleZone, p2_battleZone, p2_graveYard } = this.state;
-    let p1_stats = p1_battleZone[0].stats;
-    let p2_stats = p2_battleZone[0].stats;
 
-    p2_stats.hp = p2_stats.hp - p1_stats.spec_atk;
-    this.p2_toggleVisibility();
-
-    if (p2_stats.hp <= 0) {
-      this.setState(
-        {
-          p2_graveYard: [...p2_graveYard, p2_battleZone[0]],
-          p2_battleZone: [],
-          p1_turn: false,
-          p2_turn: true
-        },
-        this.handle_setBattleState
-      );
+    if (p2_battleZone.length < 1) {
+      const battleId = localStorage.getItem('currentBattleId');
+      let messageInputed = {
+        userId: 1,
+        battleId: battleId,
+        text: 'waiting on Player-2 to logon',
+        name: 'COMPUTER'
+      };
+      this.props.create_message(messageInputed);
     } else {
-      this.setState(
-        { p2_battleZone: p2_battleZone, p1_turn: false, p2_turn: true },
-        this.handle_setBattleState
-      );
+      let p1_stats = p1_battleZone[0].stats;
+      let p2_stats = p2_battleZone[0].stats;
+
+      p2_stats.hp = p2_stats.hp - p1_stats.spec_atk;
+      this.p2_toggleVisibility();
+
+      if (p2_stats.hp <= 0) {
+        this.setState(
+          {
+            p2_graveYard: [...p2_graveYard, p2_battleZone[0]],
+            p2_battleZone: [],
+            p1_turn: false,
+            p2_turn: true
+          },
+          this.handle_setBattleState
+        );
+      } else {
+        this.setState(
+          { p2_battleZone: p2_battleZone, p1_turn: false, p2_turn: true },
+          this.handle_setBattleState
+        );
+      }
     }
   };
 
-  //p1 inflicts normal atk to p2
+  //deleteMe after uploading to AWS
   handle_p1_normalAtk = (event, data) => {
     let { p1_battleZone, p2_battleZone, p2_graveYard } = this.state;
-    let p1_stats = p1_battleZone[0].stats;
-    let p2_stats = p2_battleZone[0].stats;
 
-    p2_stats.hp = p2_stats.hp - p1_stats.atk;
-    this.p2_toggleVisibility();
-
-    if (p2_stats.hp <= 0) {
-      this.setState(
-        {
-          p2_graveYard: [...p2_graveYard, p2_battleZone],
-          p2_battleZone: [],
-          p1_turn: false,
-          p2_turn: true
-        },
-        this.handle_setBattleState
-      );
+    if (p2_battleZone.length < 1) {
+      const battleId = localStorage.getItem('currentBattleId');
+      let messageInputed = {
+        userId: 1,
+        battleId: battleId,
+        text: 'waiting on Player-2 to logon',
+        name: 'COMPUTER'
+      };
+      this.props.create_message(messageInputed);
     } else {
-      this.setState(
-        {
-          p2_battleZone: p2_battleZone,
-          p1_turn: false,
-          p2_turn: true
-        },
-        this.handle_setBattleState
-      );
+      let p1_stats = p1_battleZone[0].stats;
+      let p2_stats = p2_battleZone[0].stats;
+
+      p2_stats.hp = p2_stats.hp - p1_stats.atk;
+      this.p2_toggleVisibility();
+
+      if (p2_stats.hp <= 0) {
+        this.setState(
+          {
+            p2_graveYard: [...p2_graveYard, p2_battleZone],
+            p2_battleZone: [],
+            p1_turn: false,
+            p2_turn: true
+          },
+          this.handle_setBattleState
+        );
+      } else {
+        this.setState(
+          {
+            p2_battleZone: p2_battleZone,
+            p1_turn: false,
+            p2_turn: true
+          },
+          this.handle_setBattleState
+        );
+      }
     }
   };
+
+  //p1 inflicts special atks to p2  TODO add more complex battle phase
+  // handle_p1_specialAtk = (event, data) => {
+  //   let { p1_battleZone, p2_battleZone, p2_graveYard } = this.state;
+  //   let p1_stats = p1_battleZone[0].stats;
+  //   let p2_stats = p2_battleZone[0].stats;
+  //
+  //   p2_stats.hp = p2_stats.hp - p1_stats.spec_atk;
+  //   this.p2_toggleVisibility();
+  //
+  //   if (p2_stats.hp <= 0) {
+  //     this.setState(
+  //       {
+  //         p2_graveYard: [...p2_graveYard, p2_battleZone[0]],
+  //         p2_battleZone: [],
+  //         p1_turn: false,
+  //         p2_turn: true
+  //       },
+  //       this.handle_setBattleState
+  //     );
+  //   } else {
+  //     this.setState(
+  //       { p2_battleZone: p2_battleZone, p1_turn: false, p2_turn: true },
+  //       this.handle_setBattleState
+  //     );
+  //   }
+  // };
+
+  //p1 inflicts normal atk to p2
+  // handle_p1_normalAtk = (event, data) => {
+  //   let { p1_battleZone, p2_battleZone, p2_graveYard } = this.state;
+  //   let p1_stats = p1_battleZone[0].stats;
+  //   let p2_stats = p2_battleZone[0].stats;
+  //
+  //   p2_stats.hp = p2_stats.hp - p1_stats.atk;
+  //   this.p2_toggleVisibility();
+  //
+  //   if (p2_stats.hp <= 0) {
+  //     this.setState(
+  //       {
+  //         p2_graveYard: [...p2_graveYard, p2_battleZone],
+  //         p2_battleZone: [],
+  //         p1_turn: false,
+  //         p2_turn: true
+  //       },
+  //       this.handle_setBattleState
+  //     );
+  //   } else {
+  //     this.setState(
+  //       {
+  //         p2_battleZone: p2_battleZone,
+  //         p1_turn: false,
+  //         p2_turn: true
+  //       },
+  //       this.handle_setBattleState
+  //     );
+  //   }
+  // };
 
   // *********************** PLAYER-2 CODES: *********************** //
   //p2 select card to battle zone
@@ -213,6 +332,7 @@ export default class BattlePageComponent extends Component {
   };
 
   // *********************** CSS ANIMATION CODES: *********************** //
+
   //image toggle when p1 get atked
   p1_toggleVisibility = () =>
     this.setState({ p1_visible: !this.state.p1_visible });
@@ -370,24 +490,25 @@ export default class BattlePageComponent extends Component {
                 <Grid.Column floated="left" width={6}>
                   <Segment inverted>
                     <Divider fitted horizontal inverted>
-                      Player - 1
+                      {/* Player - 1 */}
+                      {p1_userName}
                     </Divider>
                   </Segment>
                 </Grid.Column>
                 <Grid.Column floated="right" width={6}>
                   <Segment inverted>
                     <Divider fitted horizontal inverted>
-                      Player - 2
+                      {/* Player - 2 */}
+                      {p2_userName}
                     </Divider>
                   </Segment>
                 </Grid.Column>
               </Grid>
-
               {/********************PLAYER-1********************/}
               <Grid centered columns={5}>
                 <Grid.Row>
                   <Grid.Column floated="left" width={2}>
-                    <Card.Group itemsPerRow={1}>
+                    <Card.Group className="flip-h" itemsPerRow={1}>
                       {p1_deckZone &&
                         p1_deckZone.map((pokeObj, i) => {
                           return (
@@ -408,10 +529,12 @@ export default class BattlePageComponent extends Component {
                   </Grid.Column>
                   <Grid.Column floated="left">
                     <Segment inverted color="black">
-                      <Label size="large" as="a" color="olive" ribbon="right">
-                        {p1_battleZone && p1_battleZone[0]
-                          ? p1_battleZone[0].name
-                          : ''}
+                      <Label size="large" color="olive" ribbon="right">
+                        <Header size="small">
+                          {p1_battleZone && p1_battleZone[0]
+                            ? p1_battleZone[0].name
+                            : ''}
+                        </Header>
                       </Label>
                       <br />
                       <br />
@@ -467,6 +590,7 @@ export default class BattlePageComponent extends Component {
                             }
                             centered
                             size="small"
+                            className="flip-h"
                           />
                         </Transition>
                       </Segment>
@@ -479,7 +603,6 @@ export default class BattlePageComponent extends Component {
                               size="medium"
                               inverted
                               color="teal"
-                              //onClick={this.player_1}
                               onClick={this.handle_p1_specialAtk}>
                               <Icon name="lightning" />
                               SPEC ATK
@@ -493,16 +616,17 @@ export default class BattlePageComponent extends Component {
                               <Icon name="bomb" />
                               ATK
                             </Button>
-                            <Button
-                              // onClick={p1_turn ? this.handle_setBattleState : null}
-                              onClick={this.handle_setBattleState}
+                            {/* <Button
+                              onClick={
+                                p1_turn ? this.handle_setBattleState : null
+                              }
                               compact
                               size="medium"
                               inverted
                               color="brown">
                               <Icon name="shield" />
                               READY
-                            </Button>
+                            </Button> */}
                           </Button.Group>
                         </Segment>
                       </Grid>
@@ -514,11 +638,13 @@ export default class BattlePageComponent extends Component {
                     <Menu inverted compact disabled>
                       <Menu.Item>
                         <Icon size="big" name="users" /> CHAT ROOM
-                        <Label color="teal" floating>
-                          {p1_userName && !p2_userName
-                            ? p1_userName
-                            : p1_userName + ' & ' + p2_userName}
-                        </Label>
+                        {/* <Label color="teal" floating>
+                          <Header size="small">
+                            {p1_userName && !p2_userName
+                              ? p1_userName
+                              : p1_userName + ' & ' + p2_userName}
+                          </Header>
+                        </Label> */}
                       </Menu.Item>
                     </Menu>
 
@@ -589,9 +715,11 @@ export default class BattlePageComponent extends Component {
                   <Grid.Column floated="right">
                     <Segment inverted color="black">
                       <Label size="large" as="a" color="olive" ribbon="right">
-                        {p2_battleZone && p2_battleZone[0]
-                          ? p2_battleZone[0].name
-                          : ''}
+                        <Header size="small">
+                          {p2_battleZone && p2_battleZone[0]
+                            ? p2_battleZone[0].name
+                            : ''}
+                        </Header>
                       </Label>
                       <br />
                       <br />
@@ -673,16 +801,17 @@ export default class BattlePageComponent extends Component {
                               <Icon name="bomb" />
                               ATK
                             </Button>
-                            <Button
-                              // onClick={p2_turn ? this.handle_setBattleState : null}
-                              onClick={this.handle_setBattleState}
+                            {/* <Button
+                              onClick={
+                                p2_turn ? this.handle_setBattleState : null
+                              }
                               compact
                               size="medium"
                               inverted
                               color="brown">
                               <Icon name="shield" />
                               READY
-                            </Button>
+                            </Button> */}
                           </Button.Group>
                         </Segment>
                       </Grid>

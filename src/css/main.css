@@ -189,3 +189,13 @@ h1 + h1 {
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }*/
+
+/*to flip image around */
+.flip-h {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}

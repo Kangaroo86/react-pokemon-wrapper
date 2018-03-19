@@ -16,6 +16,7 @@ export default function IndexPage({
   match,
   messages,
   onPokemonObj,
+  onPokemonMove,
   pokemonArray,
   setBattleState,
   set_battleState,
@@ -41,6 +42,7 @@ export default function IndexPage({
       match={match}
       messages={messages}
       onPokemonObj={onPokemonObj}
+      onPokemonMove={onPokemonMove}
       pokemonArray={pokemonArray}
       setBattleState={setBattleState}
       set_battleState={set_battleState}
